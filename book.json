@@ -7,12 +7,29 @@
     "splitter",
     "-lunr",
     "-search",
-    "search-pro"
+    "search-pro",
+    "popup",
+    "-sharing",
+    "sharing-plus"
   ],
   "pluginsConfig": {
     "hide-element": {
       "elements": [
         ".gitbook-link"
+      ]
+    },
+    "sharing": {
+      "douban": true,
+      "facebook": false,
+      "google": false,
+      "pocket": false,
+      "qq": true,
+      "qzone": true,
+      "twitter": false,
+      "weibo": true,
+      "all": [
+        "douban", "facebook", "google", "instapaper", "linkedin","twitter", "weibo",
+        "messenger","qq", "qzone","viber","whatsapp"
       ]
     }
   }
