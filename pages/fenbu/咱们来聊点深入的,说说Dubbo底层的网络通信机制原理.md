@@ -1,29 +1,25 @@
 #### 基本信息
-    (1) 连接个数: 单连接
-    (2) 连接方式: 长连接
-    (3) 传输协议: TCP
-    (4) 传输方式: NIO异步传输
-    (5) 序列化: Hessian二进制序列化
-    (6) 适用范围： 传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。
-    (7) 适用场景: 常规远程服务方法调用
+&emsp;&emsp;(1) 连接个数: 单连接<br/>
+&emsp;&emsp;(2) 连接方式: 长连接<br/>
+&emsp;&emsp;(3) 传输协议: TCP<br/>
+&emsp;&emsp;(4) 传输方式: NIO异步传输<br/>
+&emsp;&emsp;(5) 序列化: Hessian二进制序列化<br/>
+&emsp;&emsp;(6) 适用范围： 传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。<br/>
+&emsp;&emsp;(7) 适用场景: 常规远程服务方法调用<br/>
     
 #### 同步远程调用
-    (1) 客户端线程调用远程接口，向服务端发送请求，同时当前线程应该处于“暂停“状态，即线程不能向后执行了，必需要拿到服务端给自己的结果后才能向后执行
-    (2) 服务端接到客户端请求后，处理请求，将结果给客户端
-    (3) 客户端收到结果，然后当前线程继续往后执行
+&emsp;&emsp;(1) 客户端线程调用远程接口，向服务端发送请求，同时当前线程应该处于“暂停“状态，即线程不能向后执行了，必需要拿到服务端给自己的结果后才能向后执行<br/>
+&emsp;&emsp;(2) 服务端接到客户端请求后，处理请求，将结果给客户端<br/>
+&emsp;&emsp;(3) 客户端收到结果，然后当前线程继续往后执行<br/>
     
 #### 基本原理
-    (1) client一个线程调用远程接口，生成一个唯一的ID（比如一段随机字符串，UUID等），Dubbo是使用AtomicLong从0开始累计数字的
-    (2) 将打包的方法调用信息（如调用的接口名称，方法名称，参数值列表等），和处理结果的回调对象callback，全部封装在一起，组成一个对象object
-    (3) 向专门存放调用信息的全局ConcurrentHashMap里面put(ID, object)
-    (4) 将ID和打包的方法调用信息封装成一对象connRequest，使用IoSession.write(connRequest)异步发送出去
-    (5) 当前线程再使用callback的get()方法试图获取远程返回的结果，在get()内部，则使用synchronized获取回调对象callback的锁， 再先检
-    测是否已经获取到结果，如果没有，然后调用callback的wait()方法，释放callback上的锁，让当前线程处于等待状态。   
-    (6) 服务端接收到请求并处理后，将结果（此结果中包含了前面的ID，即回传）发送给客户端，客户端socket连接上专门监听消息的线程收到消息，
-    分析结果，取到ID，再从前面的ConcurrentHashMap里面get(ID)，从而找到callback，将方法调用结果设置到callback对象里。
-    (7) 监听线程接着使用synchronized获取回调对象callback的锁（因为前面调用过wait()，那个线程已释放callback的锁了），再notifyAll()，
-    唤醒前面处于等待状态的线程继续执行（callback的get()方法继续执行就能拿到调用结果了,这里的callback对象是每次调用产生一个新的，不能共享，
-    否则会有问题；另外ID必需至少保证在一个Socket连接里面是唯一的。），至此，整个过程结束。
+&emsp;&emsp;(1) client一个线程调用远程接口，生成一个唯一的ID（比如一段随机字符串，UUID等），Dubbo是使用AtomicLong从0开始累计数字的<br/>
+&emsp;&emsp;(2) 将打包的方法调用信息（如调用的接口名称，方法名称，参数值列表等），和处理结果的回调对象callback，全部封装在一起，组成一个对象object<br/>
+&emsp;&emsp;(3) 向专门存放调用信息的全局ConcurrentHashMap里面put(ID, object)<br/>
+&emsp;&emsp;(4) 将ID和打包的方法调用信息封装成一对象connRequest，使用IoSession.write(connRequest)异步发送出去<br/>
+&emsp;&emsp;(5) 当前线程再使用callback的get()方法试图获取远程返回的结果，在get()内部，则使用synchronized获取回调对象callback的锁， 再先检测是否已经获取到结果，如果没有，然后调用callback的wait()方法，释放callback上的锁，让当前线程处于等待状态。<br/>
+&emsp;&emsp;(6) 服务端接收到请求并处理后，将结果（此结果中包含了前面的ID，即回传）发送给客户端，客户端socket连接上专门监听消息的线程收到消息，分析结果，取到ID，再从前面的ConcurrentHashMap里面get(ID)，从而找到callback，将方法调用结果设置到callback对象里。<br/>
+&emsp;&emsp;(7) 监听线程接着使用synchronized获取回调对象callback的锁（因为前面调用过wait()，那个线程已释放callback的锁了），再notifyAll()，唤醒前面处于等待状态的线程继续执行（callback的get()方法继续执行就能拿到调用结果了,这里的callback对象是每次调用产生一个新的，不能共享，否则会有问题；另外ID必需至少保证在一个Socket连接里面是唯一的。），至此，整个过程结束。<br/>
 
 #### 当前线程怎么让它“暂停”,等结果回来后,再向后执行?
 &emsp;&emsp;答: 先生成一个对象obj，在一个全局map里put(ID,obj)存放起来，再用synchronized获取obj锁，再调用obj.wait()让当前线程处于等待状态，然
