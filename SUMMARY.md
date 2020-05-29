@@ -32,6 +32,27 @@
    * [你知道指令重排以及happens-before原则是什么吗?](/pages/Java/advance/1266003513297600516.md)
    <!-- * [volatile底层是如何基于内存屏障保证可见性和有序性的?]() -->
  * [高级](/pages/Java/senior/README.md)
+   * [JVM中有哪几块内存区域?Java8之后对内存做了什么改进?](/pages/Java/senior/1266003515533164602.md)
+   * [你知道JVM是如何运行起来的吗?我们的对象是如何分配的?](/pages/Java/senior/1266003515960983567.md)
+   * [说说JVM在哪些情况下会触发垃圾回收可以吗?](/pages/Java/senior/1266003516292333626.md)
+   * [说说JVM的年轻代垃圾回收算法?对象什么时候转移到老年代?](/pages/Java/senior/1266003516485271593.md)
+   * [说说老年代的垃圾回收算法?常用的垃圾回收器都有什么?](/pages/Java/senior/1266003516749512749.md)
+   * [你们生产环境中的Tomcat是如何设置JVM参数的?如何检查JVM运行情况?](/pages/Java/senior/1266003516866953280.md)
+   * [你在实际项目中是否做过JVM GC优化,怎么做的?](/pages/Java/senior/1266003516984393818.md)
+   * [你知道发生OOM之后,应该如何排查和处理线上系统的OO...](/pages/Java/senior/1266003517114417182.md)
+   
+---
+
+* [Spring](/pages/Spring/README.md)
+ * [说说你对Spring的IOC机制的理解可以吗?](/pages/Spring/1266003513490538513.md)
+ * [说说你对Spring的AOP机制的理解可以吗?](/pages/Spring/1266003513670893618.md)
+ * [了解过cglib动态代理吗?他和jdk动态代理的区别什么?](/pages/Spring/1266003513821888530.md)
+ * [能说说Spring中的Bean是线程安全的吗?](/pages/Spring/1266003513964494868.md)
+ * [Spring的事务实现原理是什么?能聊聊你对事物传播机制的...](/pages/Spring/1266003514161627157.md)
+ * [能画一张图说说Spring Boot的核心架构吗?](/pages/Spring/1266003514312622174.md)
+ * [能画一张图说说Spring的核心架构吗?](/pages/Spring/1266003514547503179.md)
+ * [能说说Spring中都使用了哪些设计模式吗?](/pages/Spring/1266003514706886713.md)
+ * [能画一张图说说Spring Web MVC的核心架构吗?](/pages/Spring/1266003514803355688.md)
  
 ---
 
@@ -43,6 +64,7 @@
  * [咱们来聊点深入的,说说Dubbo底层的网络通信机制原理?](/pages/SpringCloud/1266003504359538773.md)
  * [Dubbo框架从架构设计角度,是怎么保证极高的可扩展性?](/pages/SpringCloud/1266003504476979219.md)
  * [如果让你设计一个RPC框架,网络通信 代理机制 负载均衡?](/pages/SpringCloud/1266003504686694408.md)
+ * [能画一张图说说Spring Cloud的核心架构吗?](/pages/SpringCloud/1266003504686694508.md)
  * [平时除了使用外,有研究过Spring Cloud的底层架构原理吗?](/pages/SpringCloud/1266003504770580518.md)
  * [从底层实现原理的角度,对比一下Dubbo和Spring Cloud的区别?](/pages/SpringCloud/1266003505043210273.md)
  * [你们的服务注册中心进行过选型调研吗?对比一Eureka和Zookeeper?](/pages/SpringCloud/1266003505391337531.md)
