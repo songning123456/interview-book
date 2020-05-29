@@ -2,16 +2,24 @@
 
  * [interview of sonin](README.md)
 
----
+----
 
-### Java
- 
-### Mysql
+* [Java](/pages/Java/README.md)
+ * [基础](/pages/Java/base/README.md)
+   * [为什么在Java面试中一定会深入考察HashMap?](/pages/Java/base/1266003510067986476.md)
+   * [你知道HashMap底层的数据结构是什么吗?](/pages/Java/base/1266003510239952957.md)
+   * [JDK1.8中对hash算法和寻址算法是如何优化的?](/pages/Java/base/1266003510374170667.md)
+   * [你知道HashMap是如何解决hash碰撞问题的吗?](/pages/Java/base/1266003510550331466.md)
+   * [说说HashMap是如何进行扩容的可以吗?](/pages/Java/base/1266003510697132063.md)
+   * [HashMap默认的初始长度是多少?为什么这么规定?](/pages/Java/base/1266003510818766945.md)
+   * [高并发情况下,HashMap会出现死锁吗?](/pages/Java/base/1266003510948790365.md)
+   * [BAT面试官为什么都喜欢问并发编程的问题?]()
+ * [进阶](/pages/Java/advance/README.md)
+   * [说说synchronized的关键字的底层原理是什么?](/pages/Java/advance/1266003511150116913.md)
+ * [高级](/pages/Java/senior/README.md)
+----
 
-### Spring
-
-### Spring Cloud
-
+* [Spring Cloud](/pages/SpringCloud/README.md)
  * [你们公司用的Dubbo?那你再额外说说Spring Cloud的核...]()
  * [基于Dubbo和Spring Cloud分别搭建一个电商系统来快速体...]()
  * [你们的系统使用了哪种服务框架?为什么要这样技术选型?](/pages/SpringCloud/1266003503914942509.md)
