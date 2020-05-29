@@ -31,6 +31,9 @@
         "douban", "facebook", "google", "instapaper", "linkedin","twitter", "weibo",
         "messenger","qq", "qzone","viber","whatsapp"
       ]
-    }
+    },
+    "title": "interview",
+    "description": "interview of sonin",
+    "author": "sonin"
   }
 }
