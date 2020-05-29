@@ -31,11 +31,6 @@
    <!-- * [深入讲解volatile关键字的说明]() -->
    * [你知道指令重排以及happens-before原则是什么吗?](/pages/Java/advance/1266003513297600516.md)
    <!-- * [volatile底层是如何基于内存屏障保证可见性和有序性的?]() -->
-   * [](/pages/Java/advance/)
-   * [](/pages/Java/advance/)
-   * [](/pages/Java/advance/)
-   * [](/pages/Java/advance/)
-   * [](/pages/Java/advance/)
  * [高级](/pages/Java/senior/README.md)
  
 ---
