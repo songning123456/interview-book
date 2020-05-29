@@ -1,0 +1,1321 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>你知道如果线程池的队列满了之后,会发生什么事情吗? · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="1266003512655872046.html" />
+    
+    
+    <link rel="prev" href="1266003512362270766.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    interview of sonin
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Java
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../base/">
+            
+                <a href="../base/">
+            
+                    
+                    基础
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1.1" data-path="../base/1266003510067986476.html">
+            
+                <a href="../base/1266003510067986476.html">
+            
+                    
+                    为什么在Java面试中一定会深入考察HashMap?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.2" data-path="../base/1266003510239952957.html">
+            
+                <a href="../base/1266003510239952957.html">
+            
+                    
+                    你知道HashMap底层的数据结构是什么吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.3" data-path="../base/1266003510374170667.html">
+            
+                <a href="../base/1266003510374170667.html">
+            
+                    
+                    JDK1.8中对hash算法和寻址算法是如何优化的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.4" data-path="../base/1266003510550331466.html">
+            
+                <a href="../base/1266003510550331466.html">
+            
+                    
+                    你知道HashMap是如何解决hash碰撞问题的吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.5" data-path="../base/1266003510697132063.html">
+            
+                <a href="../base/1266003510697132063.html">
+            
+                    
+                    说说HashMap是如何进行扩容的可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.6" data-path="../base/1266003510818766945.html">
+            
+                <a href="../base/1266003510818766945.html">
+            
+                    
+                    HashMap默认的初始长度是多少?为什么这么规定?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.7" data-path="../base/1266003510948790365.html">
+            
+                <a href="../base/1266003510948790365.html">
+            
+                    
+                    高并发情况下,HashMap会出现死锁吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.8" data-path="../base/1266003511787651113.html">
+            
+                <a href="../base/1266003511787651113.html">
+            
+                    
+                    ConcurrentHashMap实现线程安全的底层原理到底是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.9" >
+            
+                <span>
+            
+                    
+                    BAT面试官为什么都喜欢问并发编程的问题?
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    进阶
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.2.1" data-path="1266003511150116913.html">
+            
+                <a href="1266003511150116913.html">
+            
+                    
+                    说说synchronized的关键字的底层原理是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.2" >
+            
+                <span>
+            
+                    
+                    深入讲解synchronized,CAS的说明(深入到硬核级别)
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.3" data-path="1266003511292723238.html">
+            
+                <a href="1266003511292723238.html">
+            
+                    
+                    能聊聊你对CAS的理解以及其底层原理可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.4" data-path="1266003511913480288.html">
+            
+                <a href="1266003511913480288.html">
+            
+                    
+                    你对JDK中的AQS理解吗?AQS的实现原理是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5" data-path="1266003512047697966.html">
+            
+                <a href="1266003512047697966.html">
+            
+                    
+                    说说线程池的底层工作原理可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.6" data-path="1266003512169332821.html">
+            
+                <a href="1266003512169332821.html">
+            
+                    
+                    那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.7" data-path="1266003512362270766.html">
+            
+                <a href="1266003512362270766.html">
+            
+                    
+                    如果在线程中使用无界阻塞队列会发生什么问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.2.8" data-path="1266003512504877152.html">
+            
+                <a href="1266003512504877152.html">
+            
+                    
+                    你知道如果线程池的队列满了之后,会发生什么事情吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.9" data-path="1266003512655872046.html">
+            
+                <a href="1266003512655872046.html">
+            
+                    
+                    如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../senior/">
+            
+                <a href="../senior/">
+            
+                    
+                    高级
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../SpringCloud/">
+            
+                <a href="../../SpringCloud/">
+            
+                    
+                    Spring Cloud
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" >
+            
+                <span>
+            
+                    
+                    你们公司用的Dubbo?那你再额外说说Spring Cloud的核...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" >
+            
+                <span>
+            
+                    
+                    基于Dubbo和Spring Cloud分别搭建一个电商系统来快速体...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../../SpringCloud/1266003503914942509.html">
+            
+                <a href="../../SpringCloud/1266003503914942509.html">
+            
+                    
+                    你们的系统使用了哪种服务框架?为什么要这样技术选型?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../../SpringCloud/1266003504225320982.html">
+            
+                <a href="../../SpringCloud/1266003504225320982.html">
+            
+                    
+                    看过Dubbo源码吗?说说Dubbo的底层架构原理?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../../SpringCloud/1266003504359538773.html">
+            
+                <a href="../../SpringCloud/1266003504359538773.html">
+            
+                    
+                    咱们来聊点深入的,说说Dubbo底层的网络通信机制原理?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../../SpringCloud/1266003504476979219.html">
+            
+                <a href="../../SpringCloud/1266003504476979219.html">
+            
+                    
+                    Dubbo框架从架构设计角度,是怎么保证极高的可扩展性?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../../SpringCloud/1266003504686694408.html">
+            
+                <a href="../../SpringCloud/1266003504686694408.html">
+            
+                    
+                    如果让你设计一个RPC框架,网络通信 代理机制 负载均衡?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../../SpringCloud/1266003504770580518.html">
+            
+                <a href="../../SpringCloud/1266003504770580518.html">
+            
+                    
+                    平时除了使用外,有研究过Spring Cloud的底层架构原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../../SpringCloud/1266003505043210273.html">
+            
+                <a href="../../SpringCloud/1266003505043210273.html">
+            
+                    
+                    从底层实现原理的角度,对比一下Dubbo和Spring Cloud的区别?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../../SpringCloud/1266003505391337531.html">
+            
+                <a href="../../SpringCloud/1266003505391337531.html">
+            
+                    
+                    你们的服务注册中心进行过选型调研吗?对比一Eureka和Zookeeper?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.11" data-path="../../SpringCloud/1266003505634607158.html">
+            
+                <a href="../../SpringCloud/1266003505634607158.html">
+            
+                    
+                    画图阐述一下你们的服务注册中心部署架构,生产环境下怎么保证高可用?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.12" data-path="../../SpringCloud/1266003505915625504.html">
+            
+                <a href="../../SpringCloud/1266003505915625504.html">
+            
+                    
+                    你们系统遇到过服务发现过慢的问题吗?怎么优化和解决的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.13" data-path="../../SpringCloud/1266003506066620430.html">
+            
+                <a href="../../SpringCloud/1266003506066620430.html">
+            
+                    
+                    说一下自己公司的服务注册中心怎么技术选型的?生产环境中应该怎么优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.14" data-path="../../SpringCloud/1266003506205032504.html">
+            
+                <a href="../../SpringCloud/1266003506205032504.html">
+            
+                    
+                    你们对网关的技术选型是怎么考虑的?能对比一下各种网关的优劣吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.15" data-path="../../SpringCloud/1266003506511216704.html">
+            
+                <a href="../../SpringCloud/1266003506511216704.html">
+            
+                    
+                    说说生产环境下,你们是怎么实现网关对服务的动态路由的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.16" data-path="../../SpringCloud/1266003506809012225.html">
+            
+                <a href="../../SpringCloud/1266003506809012225.html">
+            
+                    
+                    如果网关需要抗每秒10万的高并发访问,你应该怎么对网关进行生产优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.17" data-path="../../SpringCloud/1266003506968395844.html">
+            
+                <a href="../../SpringCloud/1266003506968395844.html">
+            
+                    
+                    你们公司的网关是怎么技术选型的,假设有高并发场景?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.18" data-path="../../SpringCloud/1266003507165528135.html">
+            
+                <a href="../../SpringCloud/1266003507165528135.html">
+            
+                    
+                    如果需要部署上万服务实例,现有的服务注册中心能否抗住?如何优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.19" data-path="../../SpringCloud/1266003507534626867.html">
+            
+                <a href="../../SpringCloud/1266003507534626867.html">
+            
+                    
+                    你们是如何基于网关实现灰度发布的?说说你们的灰度发布方案?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.20" data-path="../../SpringCloud/1266003507681427533.html">
+            
+                <a href="../../SpringCloud/1266003507681427533.html">
+            
+                    
+                    说说你们一个服务从开发到上线,服务注册 网关路由 服务调用的流程?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.21" >
+            
+                <span>
+            
+                    
+                    看看你们公司的服务注册中心能否支撑上万服务实例...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.22" data-path="../../SpringCloud/1266003507773702201.html">
+            
+                <a href="../../SpringCloud/1266003507773702201.html">
+            
+                    
+                    画一下你们系统架构的整体架构图?说说各个服务在生产环境怎么部署的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.23" data-path="../../SpringCloud/1266003507886948414.html">
+            
+                <a href="../../SpringCloud/1266003507886948414.html">
+            
+                    
+                    你们系统每天有多大的访问量?每个服务高峰QPS多少?压测过服务最大QPS吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.24" data-path="../../SpringCloud/1266003508033749072.html">
+            
+                <a href="../../SpringCloud/1266003508033749072.html">
+            
+                    
+                    如果系统访问量比现在增加10倍,你们考虑过系统的扩容方案吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.25" >
+            
+                <span>
+            
+                    
+                    独立画出自己系统的生产环境部署架构图,梳理系统和服务...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.26" data-path="../../SpringCloud/1266003508155383820.html">
+            
+                <a href="../../SpringCloud/1266003508155383820.html">
+            
+                    
+                    你们生产环境的服务是怎么配置超时和重试参数的?为什么要这样配置?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.27" data-path="../../SpringCloud/1266003508289601556.html">
+            
+                <a href="../../SpringCloud/1266003508289601556.html">
+            
+                    
+                    如果出现服务请求重试,会不会出现类似重复下单的问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.28" data-path="../../SpringCloud/1266003508415430739.html">
+            
+                <a href="../../SpringCloud/1266003508415430739.html">
+            
+                    
+                    对于核心接口的防重幂等性,你们是怎么设计的?怎么防止重复下单问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.29" >
+            
+                <span>
+            
+                    
+                    看看自己系统的接口有没有设计幂等性方案?如...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.30" data-path="../../SpringCloud/1266003508566425662.html">
+            
+                <a href="../../SpringCloud/1266003508566425662.html">
+            
+                    
+                    画一下你们电商系统的核心交易链路图,说说分布式架构下存在什么问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.31" data-path="../../SpringCloud/1266003508725809155.html">
+            
+                <a href="../../SpringCloud/1266003508725809155.html">
+            
+                    
+                    针对电商核心交易链路,你们是怎么设计分布式事务技术方案的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.32" data-path="../../SpringCloud/1266003508860026894.html">
+            
+                <a href="../../SpringCloud/1266003508860026894.html">
+            
+                    
+                    对于TCC事务,最终一致性事务的技术选型,你们是怎么做的?如何调研的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.33" >
+            
+                <span>
+            
+                    
+                    你们公司的核心链路是否有事务问题?分布式事务方...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.34" data-path="../../SpringCloud/1266003509036187661.html">
+            
+                <a href="../../SpringCloud/1266003509036187661.html">
+            
+                    
+                    在搭建的电商系统里,落地开发对交易链路的TCC分布式事务方案?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.35" data-path="../../SpringCloud/1266003509468201025.html">
+            
+                <a href="../../SpringCloud/1266003509468201025.html">
+            
+                    
+                    你能说说一个TCC分布式事务框架的核心架构原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.36" data-path="../../SpringCloud/1266003509602418771.html">
+            
+                <a href="../../SpringCloud/1266003509602418771.html">
+            
+                    
+                    现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.37" >
+            
+                <span>
+            
+                    
+                    如果对自己的系统核心链路落地TCC事物,应该如何...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.38" data-path="../../SpringCloud/1266003509698887696.html">
+            
+                <a href="../../SpringCloud/1266003509698887696.html">
+            
+                    
+                    你了解RocketMQ对分布式事务支持的底层实现原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.39" >
+            
+                <span>
+            
+                    
+                    在搭建好的电商系统里,如何基于RocketMQ最终一致性事务?
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.40" data-path="../../SpringCloud/1266003509891825709.html">
+            
+                <a href="../../SpringCloud/1266003509891825709.html">
+            
+                    
+                    如果公司没有RocketMQ中间件,那你们如何实现最终一致性事务?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.41" >
+            
+                <span>
+            
+                    
+                    如果对自己的系统落地最终一致性事务,如何落地实...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.42" >
+            
+                <span>
+            
+                    
+                    你们生产系统中有哪个业务场景是需要使用分布式锁的?为什...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.43" >
+            
+                <span>
+            
+                    
+                    你们是用哪个开源框架实现的Redis分布式锁?说说其核...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.44" >
+            
+                <span>
+            
+                    
+                    如果Redis是集群部署的,那么集群故障时分布式锁还有效...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.45" >
+            
+                <span>
+            
+                    
+                    自己梳理出来Redis分布式锁的生产环境问题解决方案!
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.46" >
+            
+                <span>
+            
+                    
+                    如果要实现Zookeeper分布式锁,一般用哪个开源框架?核...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.47" >
+            
+                <span>
+            
+                    
+                    对于ZooKeeper的羊群效应,分布式锁实现应该如何优...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.48" >
+            
+                <span>
+            
+                    
+                    如果遇到Zookeeper脑裂问题,分布式锁应该如何保证健壮...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.49" >
+            
+                <span>
+            
+                    
+                    自己梳理出来ZooKeeper分布式锁的生产问题...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.50" >
+            
+                <span>
+            
+                    
+                    在搭建好的电商系统中,落地开发分布式保证库存数据准...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.51" >
+            
+                <span>
+            
+                    
+                    你们的分布式锁做过高并发优化吗?能扛下每秒上万并发...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.52" >
+            
+                <span>
+            
+                    
+                    淘宝和京东的库存是怎么实现的?能不能不用分布式锁实现...
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.53" >
+            
+                <span>
+            
+                    
+                    自己系统的分布式锁在高并发场景下应该如何优化?
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >你知道如果线程池的队列满了之后,会发生什么事情吗?</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h4 id="&#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x597D;&#x5904;">&#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x597D;&#x5904;</h4>
+<ul>
+<li>&#x964D;&#x4F4E;&#x8D44;&#x6E90;&#x6D88;&#x8017; &#x2014;&#x2014; &#x53EF;&#x4EE5;&#x91CD;&#x590D;&#x5229;&#x7528;&#x5DF2;&#x521B;&#x5EFA;&#x7684;&#x7EBF;&#x7A0B;&#x964D;&#x4F4E;&#x7EBF;&#x7A0B;&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;&#x9020;&#x6210;&#x7684;&#x6D88;&#x8017;&#x3002;</li>
+<li>&#x63D0;&#x9AD8;&#x54CD;&#x5E94;&#x901F;&#x5EA6; &#x2014;&#x2014; &#x5F53;&#x4EFB;&#x52A1;&#x5230;&#x8FBE;&#x65F6;&#xFF0C;&#x4EFB;&#x52A1;&#x53EF;&#x4EE5;&#x4E0D;&#x9700;&#x8981;&#x7B49;&#x5230;&#x7EBF;&#x7A0B;&#x521B;&#x5EFA;&#x5C31;&#x80FD;&#x7ACB;&#x5373;&#x6267;&#x884C;&#x3002;</li>
+<li>&#x63D0;&#x9AD8;&#x7EBF;&#x7A0B;&#x7684;&#x53EF;&#x7BA1;&#x7406;&#x6027; &#x2014;&#x2014; &#x7EBF;&#x7A0B;&#x662F;&#x7A00;&#x7F3A;&#x8D44;&#x6E90;&#xFF0C;&#x5982;&#x679C;&#x65E0;&#x9650;&#x5236;&#x5730;&#x521B;&#x5EFA;&#xFF0C;&#x4E0D;&#x4EC5;&#x4F1A;&#x6D88;&#x8017;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#xFF0C;&#x8FD8;&#x4F1A;&#x964D;&#x4F4E;&#x7CFB;&#x7EDF;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#xFF0C;&#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7EDF;&#x4E00;&#x5206;&#x914D;&#x3001;&#x8C03;&#x4F18;&#x548C;&#x76D1;&#x63A7;</li>
+</ul>
+<h4 id="&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;">&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</h4>
+<ul>
+<li>&#x7EBF;&#x7A0B;&#x6C60;&#x5224;&#x65AD;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x6C60;&#x91CC;&#x7684;&#x7EBF;&#x7A0B;&#x662F;&#x5426;&#x90FD;&#x5728;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x662F;&#xFF0C;&#x5219;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x6765;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x3002;&#x5982;&#x679C;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x6C60;&#x91CC;&#x7684;&#x7EBF;&#x7A0B;&#x90FD;&#x5728;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7B2C;&#x4E8C;&#x6B65;&#x3002;</li>
+<li>&#x7EBF;&#x7A0B;&#x6C60;&#x5224;&#x65AD;&#x5DE5;&#x4F5C;&#x961F;&#x5217;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x6EE1;&#x3002;&#x5982;&#x679C;&#x5DE5;&#x4F5C;&#x961F;&#x5217;&#x6CA1;&#x6709;&#x6EE1;&#xFF0C;&#x5219;&#x5C06;&#x65B0;&#x63D0;&#x4EA4;&#x7684;&#x4EFB;&#x52A1;&#x5B58;&#x50A8;&#x5728;&#x8FD9;&#x4E2A;&#x5DE5;&#x4F5C;&#x961F;&#x5217;&#x91CC;&#x8FDB;&#x884C;&#x7B49;&#x5F85;&#x3002;&#x5982;&#x679C;&#x5DE5;&#x4F5C;&#x961F;&#x5217;&#x6EE1;&#x4E86;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7B2C;&#x4E09;&#x6B65;</li>
+<li>&#x7EBF;&#x7A0B;&#x6C60;&#x5224;&#x65AD;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x7EBF;&#x7A0B;&#x662F;&#x5426;&#x90FD;&#x5904;&#x4E8E;&#x5DE5;&#x4F5C;&#x72B6;&#x6001;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x5219;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x6765;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x3002;&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x6EE1;&#x4E86;&#xFF0C;&#x5219;&#x4EA4;&#x7ED9;&#x9971;&#x548C;&#x7B56;&#x7565;&#x6765;&#x5904;&#x7406;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;</li>
+</ul>
+<h4 id="&#x7EBF;&#x7A0B;&#x6C60;&#x9971;&#x548C;&#x7B56;&#x7565;">&#x7EBF;&#x7A0B;&#x6C60;&#x9971;&#x548C;&#x7B56;&#x7565;</h4>
+<ul>
+<li>AbortPolicy
+&#x4E3A;Java&#x7EBF;&#x7A0B;&#x6C60;&#x9ED8;&#x8BA4;&#x7684;&#x963B;&#x585E;&#x7B56;&#x7565;&#xFF0C;&#x4E0D;&#x6267;&#x884C;&#x6B64;&#x4EFB;&#x52A1;&#xFF0C;&#x800C;&#x4E14;&#x76F4;&#x63A5;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x65F6;&#x5F02;&#x5E38;&#xFF0C;&#x5207;&#x8BB0;ThreadPoolExecutor.execute&#x9700;&#x8981;try catch&#xFF0C;&#x5426;&#x5219;&#x7A0B;&#x5E8F;&#x4F1A;&#x76F4;&#x63A5;&#x9000;&#x51FA;&#x3002;</li>
+<li>DiscardPolicy
+&#x76F4;&#x63A5;&#x629B;&#x5F03;&#xFF0C;&#x4EFB;&#x52A1;&#x4E0D;&#x6267;&#x884C;&#xFF0C;&#x7A7A;&#x65B9;&#x6CD5;&#x3002;</li>
+<li>DiscardOldestPolicy
+&#x4ECE;&#x961F;&#x5217;&#x91CC;&#x9762;&#x629B;&#x5F03;head&#x7684;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#xFF0C;&#x5E76;&#x518D;&#x6B21;execute &#x6B64;task&#x3002;</li>
+<li>CallerRunsPolicy
+&#x5728;&#x8C03;&#x7528;execute&#x7684;&#x7EBF;&#x7A0B;&#x91CC;&#x9762;&#x6267;&#x884C;&#x6B64;command&#xFF0C;&#x4F1A;&#x963B;&#x585E;&#x5165;&#x53E3;&#x3002;</li>
+<li>&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x62D2;&#x7EDD;&#x7B56;&#x7565;&#xFF08;&#x6700;&#x5E38;&#x7528;&#xFF09;
+&#x5B9E;&#x73B0;RejectedExecutionHandler&#xFF0C;&#x5E76;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7B56;&#x7565;&#x6A21;&#x5F0F;&#x3002;</li>
+</ul>
+<h4 id="tips">Tips</h4>
+<ol>
+<li>&#x5982;&#x679C;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x5C11;&#x4E8E;corePoolSize&#xFF0C;&#x5219;&#x521B;&#x5EFA;&#x65B0;&#x7EBF;&#x7A0B;&#x6765;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF08;&#x6CE8;&#x610F;&#xFF0C;&#x6267;&#x884C;&#x8FD9;&#x4E00;&#x6B65;&#x9AA4;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x5168;&#x5C40;&#x9501;&#xFF09;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x7B49;&#x4E8E;&#x6216;&#x591A;&#x4E8E;corePoolSize&#xFF0C;&#x5219;&#x5C06;&#x4EFB;&#x52A1;&#x52A0;&#x5165;BlockingQueue&#x3002;</li>
+<li>&#x5982;&#x679C;&#x65E0;&#x6CD5;&#x5C06;&#x4EFB;&#x52A1;&#x52A0;&#x5165;BlockingQueue&#xFF08;&#x961F;&#x5217;&#x5DF2;&#x6EE1;&#xFF09;&#xFF0C;&#x5219;&#x5728;&#x975E;corePool&#x4E2D;&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x7EBF;&#x7A0B;&#x6765;&#x5904;&#x7406;&#x4EFB;&#x52A1;&#xFF08;&#x6CE8;&#x610F;&#xFF0C;&#x6267;&#x884C;&#x8FD9;&#x4E00;&#x6B65;&#x9AA4;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x5168;&#x5C40;&#x9501;&#xFF09;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x521B;&#x5EFA;&#x65B0;&#x7EBF;&#x7A0B;&#x5C06;&#x4F7F;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x8D85;&#x51FA;maximumPoolSize&#xFF0C;&#x4EFB;&#x52A1;&#x5C06;&#x88AB;&#x62D2;&#x7EDD;&#xFF0C;&#x5E76;&#x8C03;&#x7528;RejectedExecutionHandler.rejectedExecution()&#x65B9;&#x6CD5;&#x3002;</li>
+<li>ThreadPoolExecutor&#x91C7;&#x53D6;&#x4E0A;&#x8FF0;&#x6B65;&#x9AA4;&#x7684;&#x603B;&#x4F53;&#x8BBE;&#x8BA1;&#x601D;&#x8DEF;&#xFF0C;&#x662F;&#x4E3A;&#x4E86;&#x5728;&#x6267;&#x884C;execute()&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x907F;&#x514D;&#x83B7;&#x53D6;&#x5168;&#x5C40;&#x9501;&#xFF08;&#x90A3;&#x5C06;&#x4F1A;&#x662F;&#x4E00;&#x4E2A;&#x4E25;&#x91CD;&#x7684;&#x53EF;&#x4F38;&#x7F29;&#x74F6;&#x9888;&#xFF09;&#x3002;&#x5728;ThreadPoolExecutor&#x5B8C;&#x6210;&#x9884;&#x70ED;&#x4E4B;&#x540E;&#xFF08;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;corePoolSize&#xFF09;&#xFF0C;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;execute()&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x90FD;&#x662F;&#x6267;&#x884C;&#x6B65;&#x9AA4;2&#xFF0C;&#x800C;&#x6B65;&#x9AA4;2&#x4E0D;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x5168;&#x5C40;&#x9501;&#x3002;</li>
+</ol>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="1266003512362270766.html" class="navigation navigation-prev " aria-label="Previous page: 如果在线程中使用无界阻塞队列会发生什么问题?">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="1266003512655872046.html" class="navigation navigation-next " aria-label="Next page: 如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"你知道如果线程池的队列满了之后,会发生什么事情吗?","level":"2.1.2.8","depth":3,"next":{"title":"如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?","level":"2.1.2.9","depth":3,"path":"pages/Java/advance/1266003512655872046.md","ref":"pages/Java/advance/1266003512655872046.md","articles":[]},"previous":{"title":"如果在线程中使用无界阻塞队列会发生什么问题?","level":"2.1.2.7","depth":3,"path":"pages/Java/advance/1266003512362270766.md","ref":"pages/Java/advance/1266003512362270766.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/Java/advance/1266003512504877152.md","mtime":"2020-05-29T08:26:05.382Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-29T09:06:01.774Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing-plus/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
