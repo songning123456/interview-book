@@ -13,9 +13,18 @@
    * [说说HashMap是如何进行扩容的可以吗?](/pages/Java/base/1266003510697132063.md)
    * [HashMap默认的初始长度是多少?为什么这么规定?](/pages/Java/base/1266003510818766945.md)
    * [高并发情况下,HashMap会出现死锁吗?](/pages/Java/base/1266003510948790365.md)
+   * [ConcurrentHashMap实现线程安全的底层原理到底是什么?](/pages/Java/base/1266003511787651113.md)
    * [BAT面试官为什么都喜欢问并发编程的问题?]()
  * [进阶](/pages/Java/advance/README.md)
    * [说说synchronized的关键字的底层原理是什么?](/pages/Java/advance/1266003511150116913.md)
+   * [深入讲解synchronized,CAS的说明(深入到硬核级别)]()
+   * [能聊聊你对CAS的理解以及其底层原理可以吗?](/pages/Java/advance/1266003511292723238.md)
+   * [你对JDK中的AQS理解吗?AQS的实现原理是什么?](/pages/Java/advance/1266003511913480288.md)
+   * [说说线程池的底层工作原理可以吗?](/pages/Java/advance/1266003512047697966.md)
+   * [那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?](/pages/Java/advance/1266003512169332821.md)
+   * [如果在线程中使用无界阻塞队列会发生什么问题?](/pages/Java/advance/1266003512362270766.md)
+   * [你知道如果线程池的队列满了之后,会发生什么事情吗?](/pages/Java/advance/1266003512504877152.md)
+   * [如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?](/pages/Java/advance/1266003512655872046.md)
  * [高级](/pages/Java/senior/README.md)
 ----
 
