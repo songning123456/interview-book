@@ -2,7 +2,7 @@
 
  * [interview of sonin](README.md)
 
-----
+---
 
 * [Java](/pages/Java/README.md)
  * [基础](/pages/Java/base/README.md)
@@ -26,7 +26,8 @@
    * [你知道如果线程池的队列满了之后,会发生什么事情吗?](/pages/Java/advance/1266003512504877152.md)
    * [如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?](/pages/Java/advance/1266003512655872046.md)
  * [高级](/pages/Java/senior/README.md)
-----
+ 
+---
 
 * [Spring Cloud](/pages/SpringCloud/README.md)
  * [你们公司用的Dubbo?那你再额外说说Spring Cloud的核...]()
@@ -71,7 +72,7 @@
  * [如果公司没有RocketMQ中间件,那你们如何实现最终一致性事务?](/pages/SpringCloud/1266003509891825709.md)
  * [如果对自己的系统落地最终一致性事务,如何落地实...]()
  * [你们生产系统中有哪个业务场景是需要使用分布式锁的?为什...]()
- * [们是用哪个开源框架实现的Redis分布式锁?说说其核...]()
+ * [你们是用哪个开源框架实现的Redis分布式锁?说说其核...]()
  * [如果Redis是集群部署的,那么集群故障时分布式锁还有效...]()
  * [自己梳理出来Redis分布式锁的生产环境问题解决方案!]()
  * [如果要实现Zookeeper分布式锁,一般用哪个开源框架?核...]()
