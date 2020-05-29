@@ -1,5 +1,5 @@
 #### SpringCloud架构原理图
-![SpringCloud架构原理图](/images/分布式/SpringCloud架构原理.png)
+![SpringCloud架构原理图](/images/SpringCloud/SpringCloud架构原理.png)
     
 #### Spring Cloud核心组件
 (1) Eureka<br/>

@@ -7,4 +7,4 @@
 &emsp;&emsp;(6) 切换扩展点的实现，只需要在配置文件中修改具体的实现，不需要改代码。使用方便。<br/>
 
 #### Dubbo底层架构原理图
-![Dubbo底层架构原理图](/images/分布式/Dubbo底层架构原理图.jpg)
+![Dubbo底层架构原理图](/images/SpringCloud/Dubbo底层架构原理图.jpg)

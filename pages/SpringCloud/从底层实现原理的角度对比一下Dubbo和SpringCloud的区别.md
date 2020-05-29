@@ -1,8 +1,8 @@
 #### Dubbo && SpringCloud原理图
-![Dubbo && SpringCloud原理图](/images/分布式/Dubbo&SpringCloud.png)
+![Dubbo && SpringCloud原理图](/images/SpringCloud/Dubbo&SpringCloud.png)
     
 #### RPC && SpringCloud原理图
-![RPC && SpringCloud原理图](/images/分布式/RPC&SpringCloud.PNG)
+![RPC && SpringCloud原理图](/images/SpringCloud/RPC&SpringCloud.PNG)
     
 #### 相同点
 &emsp;&emsp;都需要 服务提供方，注册中心，服务消费方。

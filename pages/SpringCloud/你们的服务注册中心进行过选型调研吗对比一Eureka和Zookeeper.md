@@ -1,5 +1,5 @@
 #### Eureka && Zookeeper
-![Eureka && Zookeeper](/images/分布式/Eureka&Zookeeper.png)
+![Eureka && Zookeeper](/images/SpringCloud/Eureka&Zookeeper.png)
 
 #### Eureka (AP)
 &emsp;&emsp;peer-to-peer，部署一个集群，但是集群里每个机器的地位是对等的，各个服务可以向任何一个Eureka实例服务注册和服务发现，集群里任何一个
