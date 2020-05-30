@@ -547,7 +547,7 @@
                 <a href="../senior/1266003517114417182.html">
             
                     
-                    你知道发生OOM之后,应该如何排查和处理线上系统的OO...
+                    你知道发生OOM之后,应该如何排查和处理线上系统的OOM?
             
                 </a>
             
@@ -656,7 +656,7 @@
                 <a href="../../Spring/1266003514161627157.html">
             
                     
-                    Spring的事务实现原理是什么?能聊聊你对事物传播机制的...
+                    Spring的事务实现原理是什么?能聊聊你对事物传播机制的理解吗?
             
                 </a>
             
@@ -1675,7 +1675,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h4 id="&#x8FD0;&#x884C;&#x4EE3;&#x7801;">&#x8FD0;&#x884C;&#x4EE3;&#x7801;</h4>
+                                <h4 id="&#x4EE3;&#x7801;">&#x4EE3;&#x7801;</h4>
 <pre><code>ExecutorService threadPool = Executors.newFixedThreadPool(3);
 threadPool.submit(new Callable() {
        public void run() {}
@@ -1686,13 +1686,12 @@ threadPool.submit(new Callable() {
 <li>&#x5728;&#x8C03;&#x7528;execute()&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x4EFB;&#x52A1;&#x65F6;&#xFF0C;&#x7EBF;&#x7A0B;&#x6C60;&#x4F1A;&#x505A;&#x5982;&#x4E0B;&#x5224;&#x65AD;:<ol>
 <li>&#x5982;&#x679C;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x5C0F;&#x4E8E;corePoolSize=3&#xFF0C;&#x90A3;&#x4E48;&#x9A6C;&#x4E0A;&#x521B;&#x5EFA;&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;&#xFF1B;</li>
 <li>&#x5982;&#x679C;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x5927;&#x4E8E;&#x6216;&#x7B49;&#x4E8E;corePoolSize=3&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;&#x653E;&#x5165;&#x961F;&#x5217;&#xFF1B;</li>
-<li>&#x5982;&#x679C;&#x8FD9;&#x65F6;&#x5019;&#x961F;&#x5217;&#x6EE1;&#x4E86;&#x4E14;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x8FD8;&#x5C0F;&#x4E8E;maximumPoolSize&#xFF0C;&#x90A3;&#x4E48;&#x8FD8;&#x662F;&#x8981;&#x521B;&#x5EFA;&#x975E;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x7ACB;&#x523B;&#x8FD0;&#x884C;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;&#xFF1A;</li>
+<li>&#x5982;&#x679C;&#x8FD9;&#x65F6;&#x5019;&#x961F;&#x5217;&#x6EE1;&#x4E86;&#x4E14;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x8FD8;&#x5C0F;&#x4E8E;maximumPoolSize&#xFF0C;&#x90A3;&#x4E48;&#x8FD8;&#x662F;&#x8981;&#x521B;&#x5EFA;&#x975E;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x7ACB;&#x523B;&#x8FD0;&#x884C;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;;</li>
 <li>&#x5982;&#x679C;&#x961F;&#x5217;&#x6EE1;&#x4E86;&#x4E14;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x5927;&#x4E8E;&#x6216;&#x7B49;&#x4E8E;maximumPoolSize,&#x90A3;&#x4E48;&#x7EBF;&#x7A0B;&#x6C60;&#x4F1A;&#x542F;&#x52A8;&#x9971;&#x548C;&#x62D2;&#x7EDD;&#x7B56;&#x7565;&#x6765;&#x6267;&#x884C;&#x3002;</li>
 </ol>
 </li>
 <li>&#x5F53;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x5B8C;&#x6210;&#x4EFB;&#x52A1;&#x65F6;&#xFF0C;&#x5B83;&#x4F1A;&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x53BB;&#x4E0B;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x6765;&#x6267;&#x884C;&#x3002;</li>
-<li>&#x5F53;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x65E0;&#x4E8B;&#x53EF;&#x505A;&#x8D85;&#x8FC7;&#x4E00;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#xFF08;keepAliveTime&#xFF09;&#x65F6;&#xFF0C;&#x7EBF;&#x7A0B;&#x6C60;&#x4F1A;&#x5224;&#x65AD;&#xFF1A;
-&#x5982;&#x679C;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x5927;&#x4E8E;corePoolSize=3&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x7EBF;&#x7A0B;&#x5C31;&#x88AB;&#x505C;&#x6389;&#x3002;&#x6240;&#x4EE5;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#x5B83;&#x6700;&#x7EC8;&#x4F1A;&#x6536;&#x7F29;&#x5230;corePoolSize=3&#x7684;&#x5927;&#x5C0F;&#x3002;</li>
+<li>&#x5F53;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x65E0;&#x4E8B;&#x53EF;&#x505A;&#x8D85;&#x8FC7;&#x4E00;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#xFF08;keepAliveTime&#xFF09;&#x65F6;&#xFF0C;&#x7EBF;&#x7A0B;&#x6C60;&#x4F1A;&#x5224;&#x65AD;&#xFF1A;&#x5982;&#x679C;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x5927;&#x4E8E;corePoolSize=3&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x7EBF;&#x7A0B;&#x5C31;&#x88AB;&#x505C;&#x6389;&#x3002;&#x6240;&#x4EE5;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#x5B83;&#x6700;&#x7EC8;&#x4F1A;&#x6536;&#x7F29;&#x5230;corePoolSize=3&#x7684;&#x5927;&#x5C0F;&#x3002;</li>
 </ul>
 
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
@@ -1738,7 +1737,7 @@ threadPool.submit(new Callable() {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"说说线程池的底层工作原理可以吗?","level":"2.1.2.4","depth":3,"next":{"title":"那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?","level":"2.1.2.5","depth":3,"path":"pages/Java/advance/1266003512169332821.md","ref":"pages/Java/advance/1266003512169332821.md","articles":[]},"previous":{"title":"你对JDK中的AQS理解吗?AQS的实现原理是什么?","level":"2.1.2.3","depth":3,"path":"pages/Java/advance/1266003511913480288.md","ref":"pages/Java/advance/1266003511913480288.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/Java/advance/1266003512047697966.md","mtime":"2020-05-29T11:23:21.952Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-30T05:38:39.367Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"说说线程池的底层工作原理可以吗?","level":"2.1.2.4","depth":3,"next":{"title":"那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?","level":"2.1.2.5","depth":3,"path":"pages/Java/advance/1266003512169332821.md","ref":"pages/Java/advance/1266003512169332821.md","articles":[]},"previous":{"title":"你对JDK中的AQS理解吗?AQS的实现原理是什么?","level":"2.1.2.3","depth":3,"path":"pages/Java/advance/1266003511913480288.md","ref":"pages/Java/advance/1266003511913480288.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/Java/advance/1266003512047697966.md","mtime":"2020-05-30T06:21:57.283Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-30T08:38:35.741Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -547,7 +547,7 @@
                 <a href="../senior/1266003517114417182.html">
             
                     
-                    你知道发生OOM之后,应该如何排查和处理线上系统的OO...
+                    你知道发生OOM之后,应该如何排查和处理线上系统的OOM?
             
                 </a>
             
@@ -656,7 +656,7 @@
                 <a href="../../Spring/1266003514161627157.html">
             
                     
-                    Spring的事务实现原理是什么?能聊聊你对事物传播机制的...
+                    Spring的事务实现原理是什么?能聊聊你对事物传播机制的理解吗?
             
                 </a>
             
@@ -1686,8 +1686,7 @@
 <li>&#x8BBE;&#x7F6E;allowCoreThreadTimeout=true&#xFF08;&#x9ED8;&#x8BA4;false&#xFF09;&#x65F6;&#xFF0C;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x4F1A;&#x8D85;&#x65F6;&#x5173;&#x95ED;&#x3002;</li>
 </ol>
 </li>
-<li>queueCapacity(&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5BB9;&#x91CF;)
-&#x4E5F;&#x53EB;&#x963B;&#x585E;&#x961F;&#x5217;&#xFF0C;&#x5F53;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x90FD;&#x5728;&#x8FD0;&#x884C;&#xFF0C;&#x6B64;&#x65F6;&#x518D;&#x6709;&#x4EFB;&#x52A1;&#x8FDB;&#x6765;&#xFF0C;&#x4F1A;&#x8FDB;&#x5165;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#xFF0C;&#x6392;&#x961F;&#x7B49;&#x5F85;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x3002;</li>
+<li>queueCapacity(&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5BB9;&#x91CF;)<div style="text-indent:2em">&#x4E5F;&#x53EB;&#x963B;&#x585E;&#x961F;&#x5217;&#xFF0C;&#x5F53;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x90FD;&#x5728;&#x8FD0;&#x884C;&#xFF0C;&#x6B64;&#x65F6;&#x518D;&#x6709;&#x4EFB;&#x52A1;&#x8FDB;&#x6765;&#xFF0C;&#x4F1A;&#x8FDB;&#x5165;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#xFF0C;&#x6392;&#x961F;&#x7B49;&#x5F85;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x3002;</div></li>
 <li>maxPoolSize(&#x6700;&#x5927;&#x7EBF;&#x7A0B;&#x6570;)<ol>
 <li>&#x7EBF;&#x7A0B;&#x6C60;&#x91CC;&#x5141;&#x8BB8;&#x5B58;&#x5728;&#x7684;&#x6700;&#x5927;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#xFF1B;</li>
 <li>&#x5F53;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5DF2;&#x6EE1;&#xFF0C;&#x4E14;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x6838;&#x5FC3;&#x7EBF;&#x7A0B;&#x6570;&#x65F6;&#xFF0C;&#x4F1A;&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF1B;</li>
@@ -1724,11 +1723,12 @@
 </ul>
 <h4 id="threadpoolexecutor&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;4&#x4E2A;&#x62D2;&#x7EDD;&#x7B56;&#x7565;">ThreadPoolExecutor&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;4&#x4E2A;&#x62D2;&#x7EDD;&#x7B56;&#x7565;</h4>
 <ul>
-<li>AbortPolicy: &#x76F4;&#x63A5;&#x629B;&#x5F02;&#x5E38;</li>
-<li>DiscardPolicy: &#x5F53;&#x524D;&#x4EFB;&#x52A1;&#x4F1A;&#x5F3A;&#x5236;&#x8C03;&#x7528;run&#x5148;&#x6267;&#x884C;&#xFF0C;&#x4EFB;&#x52A1;&#x5C06;&#x7531;&#x8C03;&#x7528;&#x8005;&#x7EBF;&#x7A0B;(&#x53EF;&#x80FD;&#x662F;&#x4E3B;&#x7EBF;&#x7A0B;)&#x53BB;&#x6267;&#x884C;&#x3002;&#x7F3A;&#x70B9;&#x53EF;&#x80FD;&#x4F1A;&#x963B;&#x585E;&#x4E3B;&#x7EBF;&#x7A0B;&#x3002;</li>
-<li>DiscardOldestPolicy: &#x629B;&#x5F03;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x4E2D;&#x6700;&#x65E7;&#x4EFB;&#x52A1;</li>
-<li>CallerRunsPolicy: &#x629B;&#x5F03;&#x5F53;&#x524D;&#x5C06;&#x8981;&#x52A0;&#x5165;&#x961F;&#x5217;&#x7684;&#x4EFB;&#x52A1;</li>
-<li>&#x81EA;&#x5B9A;&#x4E49;: &#x5982;&#x679C;&#x540E;&#x7EED;&#x6162;&#x6162;&#x7684;&#x961F;&#x5217;&#x91CC;&#x6CA1;&#x4EFB;&#x52A1;&#x4E86;&#xFF0C;&#x7EBF;&#x7A0B;&#x7A7A;&#x95F2;&#x4E86;&#xFF0C;&#x8D85;&#x8FC7;corePoolSize&#x7684;&#x7EBF;&#x7A0B;&#x4F1A;&#x81EA;&#x52A8;&#x91CA;&#x653E;&#x6389;&#xFF0C;&#x5728;keepAliveTime&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x91CA;&#x653E;&#x3002;</li>
+<li>AbortPolicy<div style="text-indent:2em">&#x76F4;&#x63A5;&#x629B;&#x5F02;&#x5E38;</div></li>
+<li>DiscardPolicy<div style="text-indent:2em">&#x5F53;&#x524D;&#x4EFB;&#x52A1;&#x4F1A;&#x5F3A;&#x5236;&#x8C03;&#x7528;run&#x5148;&#x6267;&#x884C;&#xFF0C;&#x4EFB;&#x52A1;&#x5C06;&#x7531;&#x8C03;&#x7528;&#x8005;&#x7EBF;&#x7A0B;(&#x53EF;&#x80FD;&#x662F;&#x4E3B;&#x7EBF;&#x7A0B;)&#x53BB;&#x6267;&#x884C;&#x3002;&#x7F3A;&#x70B9;&#x53EF;&#x80FD;&#x4F1A;&#x963B;&#x585E;&#x4E3B;&#x7EBF;&#x7A0B;&#x3002;</div></li>
+<li>DiscardOldestPolicy<div style="text-indent:2em">&#x629B;&#x5F03;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x4E2D;&#x6700;&#x65E7;&#x4EFB;&#x52A1;</div></li>
+<li>CallerRunsPolicy<div style="text-indent:2em">&#x629B;&#x5F03;&#x5F53;&#x524D;&#x5C06;&#x8981;&#x52A0;&#x5165;&#x961F;&#x5217;&#x7684;&#x4EFB;&#x52A1;</div></li>
+<li>&#x81EA;&#x5B9A;&#x4E49;<div style="text-indent:2em">&#x5982;&#x679C;&#x540E;&#x7EED;&#x6162;&#x6162;&#x7684;&#x961F;&#x5217;&#x91CC;&#x6CA1;&#x4EFB;&#x52A1;&#x4E86;&#xFF0C;&#x7EBF;&#x7A0B;&#x7A7A;&#x95F2;&#x4E86;&#xFF0C;&#x8D85;&#x8FC7;corePoolSize&#x7684;&#x7EBF;&#x7A0B;&#x4F1A;&#x81EA;&#x52A8;&#x91CA;&#x653E;&#x6389;&#xFF0C;&#x5728;keepAliveTime&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x91CA;&#x653E;&#x3002;</div>
+</li>
 </ul>
 
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
@@ -1774,7 +1774,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?","level":"2.1.2.5","depth":3,"next":{"title":"如果在线程中使用无界阻塞队列会发生什么问题?","level":"2.1.2.6","depth":3,"path":"pages/Java/advance/1266003512362270766.md","ref":"pages/Java/advance/1266003512362270766.md","articles":[]},"previous":{"title":"说说线程池的底层工作原理可以吗?","level":"2.1.2.4","depth":3,"path":"pages/Java/advance/1266003512047697966.md","ref":"pages/Java/advance/1266003512047697966.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/Java/advance/1266003512169332821.md","mtime":"2020-05-29T11:23:21.956Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-30T05:38:39.367Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?","level":"2.1.2.5","depth":3,"next":{"title":"如果在线程中使用无界阻塞队列会发生什么问题?","level":"2.1.2.6","depth":3,"path":"pages/Java/advance/1266003512362270766.md","ref":"pages/Java/advance/1266003512362270766.md","articles":[]},"previous":{"title":"说说线程池的底层工作原理可以吗?","level":"2.1.2.4","depth":3,"path":"pages/Java/advance/1266003512047697966.md","ref":"pages/Java/advance/1266003512047697966.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/Java/advance/1266003512169332821.md","mtime":"2020-05-30T06:26:22.017Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-30T08:38:35.741Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -2,7 +2,7 @@
 
 ###### 本系列知识由sonin总结发布,内容涵盖前端以及后端等
 
-![interview](/images/readme/interview.jpg)
+![interview](/images/readme/1266003527138803793.jpg)
 
 ##### 其他参考
 
