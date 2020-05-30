@@ -1,0 +1,1778 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化? · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="1266003509698887696.html" />
+    
+    
+    <link rel="prev" href="1266003509468201025.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    interview of sonin
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../Java/">
+            
+                <a href="../Java/">
+            
+                    
+                    Java
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../Java/base/">
+            
+                <a href="../Java/base/">
+            
+                    
+                    基础
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1.1" data-path="../Java/base/1266003510067986476.html">
+            
+                <a href="../Java/base/1266003510067986476.html">
+            
+                    
+                    为什么在Java面试中一定会深入考察HashMap?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.2" data-path="../Java/base/1266003510239952957.html">
+            
+                <a href="../Java/base/1266003510239952957.html">
+            
+                    
+                    你知道HashMap底层的数据结构是什么吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.3" data-path="../Java/base/1266003510374170667.html">
+            
+                <a href="../Java/base/1266003510374170667.html">
+            
+                    
+                    JDK1.8中对hash算法和寻址算法是如何优化的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.4" data-path="../Java/base/1266003510550331466.html">
+            
+                <a href="../Java/base/1266003510550331466.html">
+            
+                    
+                    你知道HashMap是如何解决hash碰撞问题的吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.5" data-path="../Java/base/1266003510697132063.html">
+            
+                <a href="../Java/base/1266003510697132063.html">
+            
+                    
+                    说说HashMap是如何进行扩容的可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.6" data-path="../Java/base/1266003510818766945.html">
+            
+                <a href="../Java/base/1266003510818766945.html">
+            
+                    
+                    HashMap默认的初始长度是多少?为什么这么规定?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.7" data-path="../Java/base/1266003510948790365.html">
+            
+                <a href="../Java/base/1266003510948790365.html">
+            
+                    
+                    高并发情况下,HashMap会出现死锁吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.8" data-path="../Java/base/1266003511787651113.html">
+            
+                <a href="../Java/base/1266003511787651113.html">
+            
+                    
+                    ConcurrentHashMap实现线程安全的底层原理到底是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../Java/advance/">
+            
+                <a href="../Java/advance/">
+            
+                    
+                    进阶
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.2.1" data-path="../Java/advance/1266003511150116913.html">
+            
+                <a href="../Java/advance/1266003511150116913.html">
+            
+                    
+                    说说synchronized的关键字的底层原理是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.2" data-path="../Java/advance/1266003511292723238.html">
+            
+                <a href="../Java/advance/1266003511292723238.html">
+            
+                    
+                    能聊聊你对CAS的理解以及其底层原理可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.3" data-path="../Java/advance/1266003511913480288.html">
+            
+                <a href="../Java/advance/1266003511913480288.html">
+            
+                    
+                    你对JDK中的AQS理解吗?AQS的实现原理是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.4" data-path="../Java/advance/1266003512047697966.html">
+            
+                <a href="../Java/advance/1266003512047697966.html">
+            
+                    
+                    说说线程池的底层工作原理可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5" data-path="../Java/advance/1266003512169332821.html">
+            
+                <a href="../Java/advance/1266003512169332821.html">
+            
+                    
+                    那你再说说线程池的核心配置参数都是干什么的?平时我们应该怎么用?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.6" data-path="../Java/advance/1266003512362270766.html">
+            
+                <a href="../Java/advance/1266003512362270766.html">
+            
+                    
+                    如果在线程中使用无界阻塞队列会发生什么问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.7" data-path="../Java/advance/1266003512504877152.html">
+            
+                <a href="../Java/advance/1266003512504877152.html">
+            
+                    
+                    你知道如果线程池的队列满了之后,会发生什么事情吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.8" data-path="../Java/advance/1266003512655872046.html">
+            
+                <a href="../Java/advance/1266003512655872046.html">
+            
+                    
+                    如果线上机器突然宕机,线程池的阻塞队列中的请求怎么办?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.9" data-path="../Java/advance/1266003512857198645.html">
+            
+                <a href="../Java/advance/1266003512857198645.html">
+            
+                    
+                    谈谈你对Java内存模型的理解可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.10" data-path="../Java/advance/1266003512966250566.html">
+            
+                <a href="../Java/advance/1266003512966250566.html">
+            
+                    
+                    你知道Java内存模型中的原子性,有序性,可见性是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.11" data-path="../Java/advance/1266003513092079621.html">
+            
+                <a href="../Java/advance/1266003513092079621.html">
+            
+                    
+                    能能从Java底层角度聊聊volatile关键字的原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.12" data-path="../Java/advance/1266003513297600516.html">
+            
+                <a href="../Java/advance/1266003513297600516.html">
+            
+                    
+                    你知道指令重排以及happens-before原则是什么吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../Java/senior/">
+            
+                <a href="../Java/senior/">
+            
+                    
+                    高级
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.3.1" data-path="../Java/senior/1266003515533164602.html">
+            
+                <a href="../Java/senior/1266003515533164602.html">
+            
+                    
+                    JVM中有哪几块内存区域?Java8之后对内存做了什么改进?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.2" data-path="../Java/senior/1266003515960983567.html">
+            
+                <a href="../Java/senior/1266003515960983567.html">
+            
+                    
+                    你知道JVM是如何运行起来的吗?我们的对象是如何分配的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.3" data-path="../Java/senior/1266003516292333626.html">
+            
+                <a href="../Java/senior/1266003516292333626.html">
+            
+                    
+                    说说JVM在哪些情况下会触发垃圾回收可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.4" data-path="../Java/senior/1266003516485271593.html">
+            
+                <a href="../Java/senior/1266003516485271593.html">
+            
+                    
+                    说说JVM的年轻代垃圾回收算法?对象什么时候转移到老年代?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.5" data-path="../Java/senior/1266003516749512749.html">
+            
+                <a href="../Java/senior/1266003516749512749.html">
+            
+                    
+                    说说老年代的垃圾回收算法?常用的垃圾回收器都有什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.6" data-path="../Java/senior/1266003516866953280.html">
+            
+                <a href="../Java/senior/1266003516866953280.html">
+            
+                    
+                    你们生产环境中的Tomcat是如何设置JVM参数的?如何检查JVM运行情况?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.7" data-path="../Java/senior/1266003516984393818.html">
+            
+                <a href="../Java/senior/1266003516984393818.html">
+            
+                    
+                    你在实际项目中是否做过JVM GC优化,怎么做的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.8" data-path="../Java/senior/1266003517114417182.html">
+            
+                <a href="../Java/senior/1266003517114417182.html">
+            
+                    
+                    你知道发生OOM之后,应该如何排查和处理线上系统的OO...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.9" data-path="../Java/senior/1266003522684452895.html">
+            
+                <a href="../Java/senior/1266003522684452895.html">
+            
+                    
+                    计算机的通信方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../Spring/">
+            
+                <a href="../Spring/">
+            
+                    
+                    Spring
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../Spring/1266003513490538513.html">
+            
+                <a href="../Spring/1266003513490538513.html">
+            
+                    
+                    说说你对Spring的IOC机制的理解可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../Spring/1266003513670893618.html">
+            
+                <a href="../Spring/1266003513670893618.html">
+            
+                    
+                    说说你对Spring的AOP机制的理解可以吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../Spring/1266003513821888530.html">
+            
+                <a href="../Spring/1266003513821888530.html">
+            
+                    
+                    了解过cglib动态代理吗?他和jdk动态代理的区别什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../Spring/1266003513964494868.html">
+            
+                <a href="../Spring/1266003513964494868.html">
+            
+                    
+                    能说说Spring中的Bean是线程安全的吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../Spring/1266003514161627157.html">
+            
+                <a href="../Spring/1266003514161627157.html">
+            
+                    
+                    Spring的事务实现原理是什么?能聊聊你对事物传播机制的...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../Spring/1266003514312622174.html">
+            
+                <a href="../Spring/1266003514312622174.html">
+            
+                    
+                    能画一张图说说Spring Boot的核心架构吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../Spring/1266003514547503179.html">
+            
+                <a href="../Spring/1266003514547503179.html">
+            
+                    
+                    能画一张图说说Spring的核心架构吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../Spring/1266003514706886713.html">
+            
+                <a href="../Spring/1266003514706886713.html">
+            
+                    
+                    能说说Spring中都使用了哪些设计模式吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../Spring/1266003514803355688.html">
+            
+                <a href="../Spring/1266003514803355688.html">
+            
+                    
+                    能画一张图说说Spring Web MVC的核心架构吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Spring Cloud
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="1266003503914942509.html">
+            
+                <a href="1266003503914942509.html">
+            
+                    
+                    你们的系统使用了哪种服务框架?为什么要这样技术选型?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="1266003504225320982.html">
+            
+                <a href="1266003504225320982.html">
+            
+                    
+                    看过Dubbo源码吗?说说Dubbo的底层架构原理?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="1266003504359538773.html">
+            
+                <a href="1266003504359538773.html">
+            
+                    
+                    咱们来聊点深入的,说说Dubbo底层的网络通信机制原理?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="1266003504476979219.html">
+            
+                <a href="1266003504476979219.html">
+            
+                    
+                    Dubbo框架从架构设计角度,是怎么保证极高的可扩展性?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="1266003504686694408.html">
+            
+                <a href="1266003504686694408.html">
+            
+                    
+                    如果让你设计一个RPC框架,网络通信 代理机制 负载均衡?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6" data-path="1266003504686694508.html">
+            
+                <a href="1266003504686694508.html">
+            
+                    
+                    能画一张图说说Spring Cloud的核心架构吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.7" data-path="1266003504770580518.html">
+            
+                <a href="1266003504770580518.html">
+            
+                    
+                    平时除了使用外,有研究过Spring Cloud的底层架构原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.8" data-path="1266003505043210273.html">
+            
+                <a href="1266003505043210273.html">
+            
+                    
+                    从底层实现原理的角度,对比一下Dubbo和Spring Cloud的区别?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.9" data-path="1266003505391337531.html">
+            
+                <a href="1266003505391337531.html">
+            
+                    
+                    你们的服务注册中心进行过选型调研吗?对比一Eureka和Zookeeper?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.10" data-path="1266003505634607158.html">
+            
+                <a href="1266003505634607158.html">
+            
+                    
+                    画图阐述一下你们的服务注册中心部署架构,生产环境下怎么保证高可用?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.11" data-path="1266003505915625504.html">
+            
+                <a href="1266003505915625504.html">
+            
+                    
+                    你们系统遇到过服务发现过慢的问题吗?怎么优化和解决的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.12" data-path="1266003506066620430.html">
+            
+                <a href="1266003506066620430.html">
+            
+                    
+                    说一下自己公司的服务注册中心怎么技术选型的?生产环境中应该怎么优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.13" data-path="1266003506205032504.html">
+            
+                <a href="1266003506205032504.html">
+            
+                    
+                    你们对网关的技术选型是怎么考虑的?能对比一下各种网关的优劣吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.14" data-path="1266003506511216704.html">
+            
+                <a href="1266003506511216704.html">
+            
+                    
+                    说说生产环境下,你们是怎么实现网关对服务的动态路由的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.15" data-path="1266003506809012225.html">
+            
+                <a href="1266003506809012225.html">
+            
+                    
+                    如果网关需要抗每秒10万的高并发访问,你应该怎么对网关进行生产优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.16" data-path="1266003506968395844.html">
+            
+                <a href="1266003506968395844.html">
+            
+                    
+                    你们公司的网关是怎么技术选型的,假设有高并发场景?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.17" data-path="1266003507165528135.html">
+            
+                <a href="1266003507165528135.html">
+            
+                    
+                    如果需要部署上万服务实例,现有的服务注册中心能否抗住?如何优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.18" data-path="1266003507534626867.html">
+            
+                <a href="1266003507534626867.html">
+            
+                    
+                    你们是如何基于网关实现灰度发布的?说说你们的灰度发布方案?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.19" data-path="1266003507681427533.html">
+            
+                <a href="1266003507681427533.html">
+            
+                    
+                    说说你们一个服务从开发到上线,服务注册 网关路由 服务调用的流程?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.20" data-path="1266003507773702201.html">
+            
+                <a href="1266003507773702201.html">
+            
+                    
+                    画一下你们系统架构的整体架构图?说说各个服务在生产环境怎么部署的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.21" data-path="1266003507886948414.html">
+            
+                <a href="1266003507886948414.html">
+            
+                    
+                    你们系统每天有多大的访问量?每个服务高峰QPS多少?压测过服务最大QPS吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.22" data-path="1266003508033749072.html">
+            
+                <a href="1266003508033749072.html">
+            
+                    
+                    如果系统访问量比现在增加10倍,你们考虑过系统的扩容方案吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.23" data-path="1266003508155383820.html">
+            
+                <a href="1266003508155383820.html">
+            
+                    
+                    你们生产环境的服务是怎么配置超时和重试参数的?为什么要这样配置?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.24" data-path="1266003508289601556.html">
+            
+                <a href="1266003508289601556.html">
+            
+                    
+                    如果出现服务请求重试,会不会出现类似重复下单的问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.25" data-path="1266003508415430739.html">
+            
+                <a href="1266003508415430739.html">
+            
+                    
+                    对于核心接口的防重幂等性,你们是怎么设计的?怎么防止重复下单问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.26" data-path="1266003508566425662.html">
+            
+                <a href="1266003508566425662.html">
+            
+                    
+                    画一下你们电商系统的核心交易链路图,说说分布式架构下存在什么问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.27" data-path="1266003508725809155.html">
+            
+                <a href="1266003508725809155.html">
+            
+                    
+                    针对电商核心交易链路,你们是怎么设计分布式事务技术方案的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.28" data-path="1266003508860026894.html">
+            
+                <a href="1266003508860026894.html">
+            
+                    
+                    对于TCC事务,最终一致性事务的技术选型,你们是怎么做的?如何调研的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.29" data-path="1266003508860026900.html">
+            
+                <a href="1266003508860026900.html">
+            
+                    
+                    你们公司的核心链路是否有事务问题?分布式事务方案?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.30" data-path="1266003509036187661.html">
+            
+                <a href="1266003509036187661.html">
+            
+                    
+                    在搭建的电商系统里,落地开发对交易链路的TCC分布式事务方案?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.31" data-path="1266003509468201025.html">
+            
+                <a href="1266003509468201025.html">
+            
+                    
+                    你能说说一个TCC分布式事务框架的核心架构原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.1.32" data-path="1266003509602418771.html">
+            
+                <a href="1266003509602418771.html">
+            
+                    
+                    现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.33" data-path="1266003509698887696.html">
+            
+                <a href="1266003509698887696.html">
+            
+                    
+                    你了解RocketMQ对分布式事务支持的底层实现原理吗?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.34" data-path="1266003509891825709.html">
+            
+                <a href="1266003509891825709.html">
+            
+                    
+                    如果公司没有RocketMQ中间件,那你们如何实现最终一致性事务?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.35" data-path="1266003520390168640.html">
+            
+                <a href="1266003520390168640.html">
+            
+                    
+                    对分布式系统进行核心链路追踪的时候,链路id是怎么管理...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.36" data-path="1266003520717324352.html">
+            
+                <a href="1266003520717324352.html">
+            
+                    
+                    唯一id生成机制中的snowflake算法的时钟回拨问题...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.37" data-path="1266003520981565524.html">
+            
+                <a href="1266003520981565524.html">
+            
+                    
+                    实现灰度发布的时候,网关是可以灰度了,可是Dubbo服务...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.38" data-path="1266003521241612302.html">
+            
+                <a href="1266003521241612302.html">
+            
+                    
+                    除了常见服务注册中心之外,你觉得Redis能作为服务注...
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.39" data-path="1266003521409384470.html">
+            
+                <a href="1266003521409384470.html">
+            
+                    
+                    我们一般到底用Zookeeper来干什么事儿?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.40" data-path="1266003521564573786.html">
+            
+                <a href="1266003521564573786.html">
+            
+                    
+                    有哪些开源的分布式系统中使用了Zookeeper?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.41" data-path="1266003521728151639.html">
+            
+                <a href="1266003521728151639.html">
+            
+                    
+                    为什么我们在分布式系统架构中需要使用Zookeeper集群?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.42" data-path="1266003521937866845.html">
+            
+                <a href="1266003521937866845.html">
+            
+                    
+                    Zookeeper为了满足分布式系统的需求要有哪些特点?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.43" data-path="1266003522118221855.html">
+            
+                <a href="1266003522118221855.html">
+            
+                    
+                    Zookeeper集群的三种角色: Leader,Follower,Observer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.44" data-path="1266003522411823194.html">
+            
+                <a href="1266003522411823194.html">
+            
+                    
+                    客户端与Zookeeper之间的长连接和会话是什么?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.45" data-path="1266003524215373909.html">
+            
+                <a href="1266003524215373909.html">
+            
+                    
+                    为什么网关Zuul之前还要配置Nginx?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.46" data-path="1266003524362174475.html">
+            
+                <a href="1266003524362174475.html">
+            
+                    
+                    Dubbo用ZooKeeper,Spring Cloud用Eureka作为各种的注册中心,为什么要这样设计?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.47" data-path="1266003524819353634.html">
+            
+                <a href="1266003524819353634.html">
+            
+                    
+                    Eureka原理?Eureka对等怎么同步?路由策略?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.48" data-path="1266003525356224548.html">
+            
+                <a href="1266003525356224548.html">
+            
+                    
+                    怎么样定义一个微服务,或划分服务比较合理?业务导向的共性?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.49" data-path="1266003525456887891.html">
+            
+                <a href="1266003525456887891.html">
+            
+                    
+                    为什么会有Dubbo和Spring Cloud两个微服务框架的存在,各自的优势?最重要的区别?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.50" data-path="1266003525628854352.html">
+            
+                <a href="1266003525628854352.html">
+            
+                    
+                    你了解Hystrix吗?简单的说一说?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.51" data-path="1266003526841008138.html">
+            
+                <a href="1266003526841008138.html">
+            
+                    
+                    Zookeeper都有哪些使用场景?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../Network/">
+            
+                <a href="../Network/">
+            
+                    
+                    网络
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../Network/1266003517290577997.html">
+            
+                <a href="../Network/1266003517290577997.html">
+            
+                    
+                    你能聊聊TCP/IP四种网络模型吗?OSI七层网络模型也说一下!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../Network/1266003517642899552.html">
+            
+                <a href="../Network/1266003517642899552.html">
+            
+                    
+                    浏览器请求www.baidu.com的全过程大概是怎样的?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../Network/1266003518020386883.html">
+            
+                <a href="../Network/1266003518020386883.html">
+            
+                    
+                    画一下TCP三次握手流程图?为啥是三次而不是二次或者四次呢?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.4" data-path="../Network/1266003518125244420.html">
+            
+                <a href="../Network/1266003518125244420.html">
+            
+                    
+                    聊聊HTTP协议的工作原理!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.5" data-path="../Network/1266003518389485581.html">
+            
+                <a href="../Network/1266003518389485581.html">
+            
+                    
+                    聊聊HTTPS的工作原理?为啥用HTTPS就可以加密通信?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.6" data-path="../Network/1266003518746001443.html">
+            
+                <a href="../Network/1266003518746001443.html">
+            
+                    
+                    聊聊http的长连接的工作原理到底是啥?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.7" data-path="../Network/1266003518951522362.html">
+            
+                <a href="../Network/1266003518951522362.html">
+            
+                    
+                    聊聊Socket的工作原理?Socket和TCP IP之间是啥关系?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.8" data-path="../Network/1266003519102517325.html">
+            
+                <a href="../Network/1266003519102517325.html">
+            
+                    
+                    你能聊聊BIO,NIO,AIO分别都是啥?有什么区别?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.9" data-path="../Network/1266003520100761655.html">
+            
+                <a href="../Network/1266003520100761655.html">
+            
+                    
+                    让所有工程师闻风色变的DDoS攻击到底是什么东西?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../database/">
+            
+                <a href="../database/">
+            
+                    
+                    数据库
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.1" data-path="../database/Mysql/">
+            
+                <a href="../database/Mysql/">
+            
+                    
+                    MYSQL
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.1.1" data-path="../database/Mysql/1266003522869002329.html">
+            
+                <a href="../database/Mysql/1266003522869002329.html">
+            
+                    
+                    MYSQL集群会产生哪些问题?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.1.2" data-path="../database/Mysql/1266003523527508014.html">
+            
+                <a href="../database/Mysql/1266003523527508014.html">
+            
+                    
+                    mysql定位慢查询?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.1.3" data-path="../database/Mysql/1266003523657531470.html">
+            
+                <a href="../database/Mysql/1266003523657531470.html">
+            
+                    
+                    你能说说Mysql如何实现主从复制?读写分离?分表分库?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化?</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h4 id="&#x74F6;&#x9888;">&#x74F6;&#x9888;</h4>
+<div style="text-indent:2em">&#x4F7F;&#x7528;&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x4E3B;&#x8981;&#x662F;&#x4FDD;&#x8BC1;&#x6838;&#x5FC3;&#x94FE;&#x8DEF;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x6210;&#x529F;&#xFF0C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x5931;&#x8D25;&#x3002;&#x5F53;&#x7136;&#x4E5F;&#x4F1A;&#x5E26;&#x6765;&#x4E00;&#x4E9B;&#x6027;&#x80FD;&#x7684;&#x5F00;&#x9500;&#x3002;seata&#x6A21;&#x578B;&#x91CC;&#x9762;&#x9891;&#x7E41;&#x7684;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#xFF0C;&#x4EE5;&#x53CA;&#x5BF9;&#x5E94;&#x4E8B;&#x52A1;&#x7684;&#x72B6;&#x6001;&#x6301;&#x4E45;&#x5316;&#x7684;IO&#x7B49;&#x7B49;&#x3002;&#x5982;&#x679C;&#x9700;&#x8981;&#x652F;&#x6491;&#x9AD8;&#x5E76;&#x53D1;&#xFF0C;&#x90A3;&#x4E48;TC&#x670D;&#x52A1;&#x4E5F;&#x9700;&#x8981;&#x6A2A;&#x5411;&#x6269;&#x5BB9;&#x3002;&#x76F8;&#x5E94;&#x7684;&#xFF0C;&#x5BF9;&#x4E8E;TC&#x80CC;&#x540E;&#x7684;DB&#x4E5F;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#x3002;</div>
+
+<h4 id="&#x4F18;&#x5316;">&#x4F18;&#x5316;</h4>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="1266003509468201025.html" class="navigation navigation-prev " aria-label="Previous page: 你能说说一个TCC分布式事务框架的核心架构原理吗?">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="1266003509698887696.html" class="navigation navigation-next " aria-label="Next page: 你了解RocketMQ对分布式事务支持的底层实现原理吗?">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化?","level":"4.1.32","depth":2,"next":{"title":"你了解RocketMQ对分布式事务支持的底层实现原理吗?","level":"4.1.33","depth":2,"path":"pages/SpringCloud/1266003509698887696.md","ref":"pages/SpringCloud/1266003509698887696.md","articles":[]},"previous":{"title":"你能说说一个TCC分布式事务框架的核心架构原理吗?","level":"4.1.31","depth":2,"path":"pages/SpringCloud/1266003509468201025.md","ref":"pages/SpringCloud/1266003509468201025.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","back-to-top-button","chapter-fold","code","splitter","-lunr","-search","search-pro","popup","-sharing","sharing-plus","livereload"],"pluginsConfig":{"chapter-fold":{},"livereload":{},"splitter":{},"search-pro":{},"author":"sonin","sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"popup":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"title":"interview","sharing":{"qq":true,"all":["douban","facebook","google","instapaper","linkedin","twitter","weibo","messenger","qq","qzone","viber","whatsapp"],"douban":true,"facebook":false,"weibo":true,"twitter":false,"pocket":false,"google":false,"qzone":true},"description":"interview of sonin","theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/SpringCloud/1266003509602418771.md","mtime":"2020-05-29T11:23:22.104Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-30T05:38:39.367Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing-plus/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

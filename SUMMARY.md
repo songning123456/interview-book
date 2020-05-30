@@ -121,7 +121,7 @@
  * [画一下你们电商系统的核心交易链路图,说说分布式架构下存在什么问题?](/pages/SpringCloud/1266003508566425662.md)
  * [针对电商核心交易链路,你们是怎么设计分布式事务技术方案的?](/pages/SpringCloud/1266003508725809155.md)
  * [对于TCC事务,最终一致性事务的技术选型,你们是怎么做的?如何调研的?](/pages/SpringCloud/1266003508860026894.md)
- <!-- * [你们公司的核心链路是否有事务问题?分布式事务方...]() -->
+ * [你们公司的核心链路是否有事务问题?分布式事务方案?](/pages/SpringCloud/1266003508860026900.md)
  * [在搭建的电商系统里,落地开发对交易链路的TCC分布式事务方案?](/pages/SpringCloud/1266003509036187661.md)
  * [你能说说一个TCC分布式事务框架的核心架构原理吗?](/pages/SpringCloud/1266003509468201025.md)
  * [现有的TCC事务方案的性能瓶颈在哪里?能支撑高并发交易场景吗?如何优化?](/pages/SpringCloud/1266003509602418771.md)
@@ -157,6 +157,13 @@
  <!-- * [为了满足分布式系统的需求,Zookeeper的架构设计有哪...]() -->
  * [Zookeeper集群的三种角色: Leader,Follower,Observer](/pages/SpringCloud/1266003522118221855.md)
  * [客户端与Zookeeper之间的长连接和会话是什么?](/pages/SpringCloud/1266003522411823194.md)
+ * [为什么网关Zuul之前还要配置Nginx?](/pages/SpringCloud/1266003524215373909.md)
+ * [Dubbo用ZooKeeper,Spring Cloud用Eureka作为各种的注册中心,为什么要这样设计?](/pages/SpringCloud/1266003524362174475.md)
+ * [Eureka原理?Eureka对等怎么同步?路由策略?](/pages/SpringCloud/1266003524819353634.md)
+ * [怎么样定义一个微服务,或划分服务比较合理?业务导向的共性?](/pages/SpringCloud/1266003525356224548.md)
+ * [为什么会有Dubbo和Spring Cloud两个微服务框架的存在,各自的优势?最重要的区别?](/pages/SpringCloud/1266003525456887891.md)
+ * [你了解Hystrix吗?简单的说一说?](/pages/SpringCloud/1266003525628854352.md)
+ * [Zookeeper都有哪些使用场景?](/pages/SpringCloud/1266003526841008138.md)
  
 ---
 
