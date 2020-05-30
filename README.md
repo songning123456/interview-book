@@ -6,6 +6,7 @@
 
 ##### 其他参考
 
+* [JAVA核心面试知识整理](/images/readme/1266003527352713251.pdf)
 * [中华石杉](https://blog.csdn.net/qq_42046105) <https://blog.csdn.net/qq_42046105>
 * [advanced-java](https://github.com/doocs/advanced-java) <https://github.com/doocs/advanced-java>
 * [潜林](https://www.cnblogs.com/fyql/default.html?page=1) <https://www.cnblogs.com/fyql/default.html?page=1>
