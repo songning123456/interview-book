@@ -88,7 +88,7 @@ public class Test{
         }
 }
 ```
-这两种情况锁的都是类的实例对象，如果Test testObj1=new Test();现在两个线程thread1,thread2，如果thread1访问Test.test1或Test.test2那么thread2是无法同时访问的，因为Test对象的锁已经被thread1使用了，只有thread1释放锁之后才能被thread2占用；如果再有一个对象Test testObj2=new test();此时thread1访问testObj1.testMethod1方法，thread2访问testObj2.testMethod1方法是互不影响的。
+这两种情况锁的都是类的实例对象，如果Test testObj1=new Test();现在两个线程thread1,thread2，如果thread1访问testObj1.test1或testObj1.test2那么thread2是无法同时访问的，因为testObj1对象的锁已经被thread1使用了，只有thread1释放锁之后才能被thread2占用；如果再有一个对象Test testObj2=new test();此时thread1访问testObj1.testMethod1方法，thread2访问testObj2.testMethod1方法是互不影响的。
 
 
 * synchronized加在对象上
