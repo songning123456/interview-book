@@ -187,16 +187,22 @@
  
 ---
 
-* [数据库](/pages/database/README.md)
- * [MYSQL](/pages/database/Mysql/README.md)
-   *[MYSQL,MyISAM和InnoDB存储引擎的区别是啥?](/pages/database/Mysql/1266003522869002129.md)
-   [聊聊MySQL的索引实现原理?各种索引你们平时都怎么用...](/pages/database/Mysql/1266003522869002229.md)
+* [数据库](/pages/Database/README.md)
+ * [MYSQL](/pages/Database/Mysql/README.md)
+   *[MYSQL,MyISAM和InnoDB存储引擎的区别是啥?](/pages/Database/Mysql/1266003522869002129.md)
+   [聊聊MySQL的索引实现原理?各种索引你们平时都怎么用...](/pages/Database/Mysql/1266003522869002229.md)
    <!-- * [你能说说事务的几个特性是啥?有哪几种隔离级别?]() -->
    <!-- * [你能说说MySQL数据库锁的实现原理吗?如果死锁了咋办?]() -->
    <!-- * [MySQL的SQL调优一般都有哪些手段?你们一般怎么做?]() -->
    <!-- * [能不能说说我们经常听到的SQL注入攻击背后的原理是什...]() -->
-   * [MYSQL集群会产生哪些问题?](/pages/database/Mysql/1266003522869002329.md)
-   * [mysql定位慢查询?](/pages/database/Mysql/1266003523527508014.md)
-   * [你能说说Mysql如何实现主从复制?读写分离?分表分库?](/pages/database/Mysql/1266003523657531470.md)
+   * [MYSQL集群会产生哪些问题?](/pages/Database/Mysql/1266003522869002329.md)
+   * [mysql定位慢查询?](/pages/Database/Mysql/1266003523527508014.md)
+   * [你能说说Mysql如何实现主从复制?读写分离?分表分库?](/pages/Database/Mysql/1266003523657531470.md)
  
 ---
+
+* [实战](/pages/ActualCombat/README.md)
+ * [introduction](/pages/ActualCombat/introduction.md) 
+ * [Java](/pages/ActualCombat/java.md)
+ * [sql](/pages/ActualCombat/sql.md)
+ * [linux](/pages/ActualCombat/linux.md)
