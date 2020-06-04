@@ -128,7 +128,144 @@ public class Test{
 
 
 ###### 解决办法
-银行家算法
+在Account中包含一个唯一的，不可变的值。比如说账号等。通过对这个值对对象进行排序。(snowFlakeId)
+```
+package com.example.demo.lock.method3;
+import lombok.Data;
+/**
+ * @author songning
+ */
+@Data
+public class Account {
+    private Integer id;
+    private Integer balance;
+    public Account(Integer id, Integer balance) {
+        this.id = id;
+        this.balance = balance;
+    }
+    /**
+     * 借记
+     *
+     * @param money
+     * @throws Exception
+     */
+    public void debit(int money) throws Exception {
+        Thread.sleep(500);
+        balance = balance + money;
+    }
+    /**
+     * 信贷
+     *
+     * @param money
+     * @throws Exception
+     */
+    public void credit(int money) throws Exception {
+        Thread.sleep(500);
+        balance = balance - money;
+    }
+    public int compareTo(int money) {
+        if (balance > money) {
+            return 1;
+        } else if (balance < money) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+}
+```
+
+```
+package com.example.demo.lock.method3;
+/**
+ * @author songning
+ */
+public class Helper {
+    public void transfer(Account fromAccount, Account toAccount, int amount) throws Exception {
+        if (fromAccount.compareTo(amount) < 0) {
+            throw new Exception("金钱不够");
+        } else {
+            fromAccount.credit(amount);
+            toAccount.debit(amount);
+        }
+    }
+}
+```
+
+```
+package com.example.demo.lock.method3;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+/**
+ * @author songning
+ */
+public class TransferThread extends Thread {
+    public static List<Account> accountList = Arrays.asList(new Account(1, 1000), new Account(2, 1000));
+    @Override
+    public void run() {
+        int i = new Random().nextInt(2);
+        Account fromAccount, toAccount;
+        if (i == 0) {
+            fromAccount = accountList.get(1);
+            toAccount = accountList.get(0);
+        } else {
+            fromAccount = accountList.get(0);
+            toAccount = accountList.get(1);
+        }
+        try {
+            Lock.transferMoney(fromAccount, toAccount, 1);
+        } catch (Exception e) {
+            System.out.println("发生异常-------" + e);
+        }
+    }
+}
+```
+
+```
+package com.example.demo.lock.method3;
+/**
+ * @author songning
+ */
+public class Lock {
+    public static void transferMoney(Account fromAccount, Account toAccount, int amount) throws Exception {
+        int fromId = fromAccount.getId();
+        int toId = toAccount.getId();
+        System.out.println("账户" + fromId + " 向账户 " + toId + " 转账");
+        if (fromId < toId) {
+            synchronized (fromAccount) {
+                synchronized (toAccount) {
+                    new Helper().transfer(fromAccount, toAccount, amount);
+                }
+            }
+        } else if (fromId > toId) {
+            synchronized (toAccount) {
+                synchronized (fromAccount) {
+                    new Helper().transfer(fromAccount, toAccount, amount);
+                }
+            }
+        } else {
+            throw new Exception("from,to不能相等!!!");
+        }
+    }
+}
+```
+
+```
+package com.example.demo.lock.method3;
+/**
+ * @author songning
+ */
+public class DemoMain {
+    public static void main(String[] args) {
+        for (int i = 0; i < 50; i++) {
+            new TransferThread().start();
+        }
+    }
+}
+
+```
+
 
 
 #### List<Person> personList筛选出满足age>20的集合? 
