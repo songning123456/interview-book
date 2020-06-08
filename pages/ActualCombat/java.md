@@ -337,7 +337,7 @@ jstack pid: thread dump
 
 
 
-#### 在整个项目开发过程中，你做过哪些优化?
+#### 在整个项目开发过程中,你做过哪些优化?
 * Redis缓存优化
 <div style="text-indent:2em">在项目启动时implements ApplicationRunner实现public void run(ApplicationArguments args) {}方法，查询系统配置表和设备表，直接缓存到Redis中，在项目中可以直接查询Redis缓存而非数据库，提高了查询速度。</div>
 
