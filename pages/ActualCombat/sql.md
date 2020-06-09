@@ -1,35 +1,12 @@
-#### mysql有哪些索引?
-* **普通索引**
-```
-CREATE INDEX indexName ON mytable(username(length));
-ALTER mytable ADD INDEX [indexName] ON (username(length));
-DROP INDEX [indexName] ON mytable; 
-```
+#### mysql有哪些索引并说说他们的区别?
 
+###### Hash索引 && B+树索引
+* 如果是等值查询，那么哈希索引明显有绝对优势，因为只需要经过一次算法即可找到相应的键值；当然了，这个前提是，键值都是唯一的。如果键值不是唯一的，就需要先找到该键所在位置，然后再根据链表往后扫描，直到找到相应的数据。
+* 从示意图中也能看到，如果是范围查询检索，这时候哈希索引就毫无用武之地了，因为原先是有序的键值，经过哈希算法后，有可能变成不连续的了，就没办法再利用索引完成范围查询检索。
+* 同理，哈希索引也没办法利用索引完成排序，以及like 'xxx%' 这样的部分模糊查询（这种部分模糊查询，其实本质上也是范围查询）。
+* 哈希索引也不支持多列联合索引的最左匹配规则。
+* B+树索引的关键字检索效率比较平均，不像B树那样波动幅度大，在有大量重复键值情况下，哈希索引的效率也是极低的，因为存在所谓的哈希碰撞问题。
 
-* **唯一索引**
-```
-CREATE UNIQUE INDEX indexName ON mytable(username(length));
-ALTER mytable ADD UNIQUE [indexName] ON (username(length));
-```
-索引列的值必须唯一，但允许有空值。如果是组合索引，则列值的组合必须唯一。
-
-
-* **主键索引**
-```
-CREATE TABLE mytable(  
-ID INT NOT NULL,   
-username VARCHAR(16) NOT NULL,  
-PRIMARY KEY(ID)
-);
-```
-它是一种特殊的唯一索引，不允许有空值。(一个表只能有一个主键)
-
-
-* **组合索引**
-```
-ALTER TABLE mytable ADD INDEX name_city_age (name(10),city,age); 
-```
 
 
 #### SQL语句性能的优化?
