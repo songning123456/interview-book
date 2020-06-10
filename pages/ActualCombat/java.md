@@ -370,6 +370,10 @@ LIMIT :limitSize
 <div style="text-indent:2em">某一业务场景下，第一次查询获取List<T>的结果集，然后根据T中的条件startTime,endTime,deviceIds再次查询,此时可以把第二次查询用异步操作执行并用Futrue接收，当所有的查询isDone()时，get()并return结果集。</div>
 
 
+* 下载功能模块优化
+<div style="text-indent:2em">很多页面需要实现下载的功能，包括图片和excel。走的是http请求，有时候因为数据量或者网络的问题导致请求响应超时。所以引进websocket来实现下载功能，整合所有的接口，并用线程中断技术interrupt实现下载取消的功能。</div>
+
+
 
 #### 一次完整的HTTP请求过程
 1. **DNS域名解析**
