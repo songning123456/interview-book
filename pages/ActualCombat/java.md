@@ -705,11 +705,42 @@ upstream backserver {
 
 #### 如何自定义一个注解?
 
+1. 创建 @ Annotation 类
+2. @Target: 指定该注解的作用目标
+```
+@Target(ElementType.TYPE)   // 接口 类 枚举 注解
+@Target(ElementType.FIELD)  // 字段 枚举的常量
+@Target(ElementType.METHOD) // 方法
+@Target(ElementType.PARAMETER)  // 方法参数
+@Target(ElementType.CONSTRUCTOR)    //构造函数
+@Target(ElementType.LOCAL_VARIABLE) // 局部变量
+@Target(ElementType.ANNOTATION_TYPE)    // 注解
+@Target(ElementType.PACKAGE)    // 包
+```
+3. @Retention: 指定该注解的保留策略
+```
+@Retention(RetentionPolicy.SOURCE)  // 注解仅存在于源码中，在class字节码文件中不包含
+@Retention(RetentionPolicy.CLASS)   // 默认的保存策略，注解会在class字节码文件中存在，但运行时无法获得
+@Retention(RetentionPolicy.RUNTIME) // 注解会在class字节码文件中存在，在运行时可以通过反射获取到
+```
+4. @Inherited: 指定该注解是否可以被继承
+
 
 #### HTTPS请求流程?
 
 
 #### @SpringBootApplication包含哪些注解?
+
+* @ComponentScan
+<div style="text-indent:2em">扫描当前包及其子包下被@Component，@Controller，@Service，@Repository注解标记的类并纳入到Spring容器进行管理。</div>
+
+
+* @SpringBootConfiguration
+<div style="text-indent:2em">继承自@Configuration，二者功能一致，标注当前类是配置类，并会将当前类内声明的一个或多个以@Bean注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。</div>
+
+
+* EnableAutoConfiguration
+<div style="text-indent:2em">启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。</div>
 
 
 #### JVM调优?(-Xms... jmap... top...)
