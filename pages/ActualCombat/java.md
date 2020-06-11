@@ -680,3 +680,36 @@ upstream backserver {
     hash_method crc32;
 }
 ```
+
+
+#### ES写数据的过程?
+
+
+#### ES倒排索引?
+
+
+#### ES查询是否越多越好?
+
+
+#### TCP协议?
+
+
+#### Spring AOP?
+
+
+#### Mysql索引?
+
+
+#### Mysql的优化?
+
+
+#### 如何自定义一个注解?
+
+
+#### HTTPS请求流程?
+
+
+#### @SpringBootApplication包含哪些注解?
+
+
+#### JVM调优?(-Xms... jmap... top...)
