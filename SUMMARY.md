@@ -202,7 +202,3 @@
 ---
 
 * [实战](/pages/ActualCombat/README.md)
- * [自我介绍](/pages/ActualCombat/introduction.md) 
- * [Java](/pages/ActualCombat/java.md)
- * [sql](/pages/ActualCombat/sql.md)
- * [linux](/pages/ActualCombat/linux.md)
