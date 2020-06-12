@@ -754,4 +754,8 @@ upstream backserver {
 <div style="text-indent:2em">启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。</div>
 
 
-#### JVM调优?(-Xms... jmap... top...)
+#### JVM参数调优?
+
+
+
+#### JVM命令?
