@@ -803,6 +803,12 @@ upstream backserver {
 
 
 #### JVM常用命令?
+* jconsole
+* jvisualvm
+* **jmap -heap pid**: 获取垃圾回收器的类型和系统参数
+* jinfo -flags pid: 查看应用启动的参数
+* **jstack -l pid**: 查看线程的运行信息(包括死锁的线程)
+* jstat -gcutil pid: 统计gc信息
 
 
 
