@@ -430,6 +430,7 @@ LIMIT :limitSize
 
 #### 常用的设计模式
 * 策略模式
+
 ```
 public interface StrategyService {
     void doSomething();
@@ -473,6 +474,7 @@ public class Client {
 
 
 * 工厂模式
+
 ```
 public interface Shape {
    void draw();
@@ -536,6 +538,7 @@ public class FactoryPatternDemo {
 
 
 * 单例模式
+
 ```
 // 懒汉模式，线程不安全
 public class Singleton {  
@@ -585,6 +588,7 @@ public class Singleton {
 
 
 * 代理模式
+
 ```
 // 静态代理
 
@@ -702,35 +706,59 @@ upstream backserver {
 
 
 
-#### ES写数据的过程?
+#### ES读写搜索数据的过程?
+
+###### ES写数据
 1. 客户端选择一个node发送请求过去，这个node就是coordinating node(协调节点)。
 2. coordinating node对document进行路由，将请求转发给对应的node(有primary shard)。
 3. 实际的node上的primary shard处理请求，然后将数据同步到replica node。
 4. coordinating node如果发现primary node和所有replica node都搞定之后，就返回响应结果给客户端。
 
+###### ES读数据
+1. 客户端发送请求到任意一个node，成为coordinate node。
+2. coordinate node对doc id进行哈希路由，将请求转发到对应的node，此时会使用round-robin随机轮询算法，在primary shard以及其所有replica中随机选择一个，让读请求负载均衡。
+3. 接收请求的node返回document给coordinate node。
+4. coordinate node返回document给客户端。
+
+###### ES搜索数据
+1. 客户端发送请求到一个coordinate node。
+2. 协调节点将搜索请求转发到所有的shard对应的primary shard或replica shard，都可以。
+3. query phase: 每个shard将自己的搜索结果(其实就是一些doc id)返回给协调节点，由协调节点进行数据的合并、排序、分页等操作，产出最终结果。
+4. fetch phase: 接着由协调节点根据doc id去各个节点上拉取实际的document数据，最终返回给客户端。
+
 
 
 #### ES倒排索引?
-
-
-
-#### ES查询是否越多越好?
-
+关键词到文档ID的映射，每个关键词都对应着一系列的文件，这些文件中都出现了关键词。
 
 
 #### TCP协议?
+3次握手，4次挥手。
 
 
 
 #### Spring AOP?
-
-
-
-#### Mysql索引?
-
-
-
-#### Mysql的优化?
+* 定义
+<div style="text-indent:2em">面向切面编程，在程序开发中主要用来解决一些系统层面上的问题，比如日志，事务，权限。</div>
+* 通知类型介绍
+  1. Before: 在目标方法被调用之前做增强处理,@Before只需要指定切入点表达式即可。
+  2. AfterReturning: 在目标方法正常完成后做增强,@AfterReturning除了指定切入点表达式后，还可以指定一个返回值形参名returning,代表目标方法的返回值。
+  3. AfterThrowing: 主要用来处理程序中未处理的异常,@AfterThrowing除了指定切入点表达式后，还可以指定一个throwing的返回值形参名,可以通过该形参名来访问目标方法中所抛出的异常对象。
+  4. After: 在目标方法完成之后做增强，无论目标方法时候成功完成。@After可以指定一个切入点表达式。
+  5. Around: 环绕通知,在目标方法完成前后做增强处理,环绕通知是最重要的通知类型,像事务,日志等都是环绕通知,注意编程中核心是一个ProceedingJoinPoint。
+* 使用场景
+  1. Authentication: 权限
+  2. Caching: 缓存
+  3. Context passing: 内容传递
+  4. Error handling: 错误处理
+  5. Lazy loading: 懒加载
+  6. Debugging: 调试
+  7. logging tracing profiling monitoring: 记录 跟踪 优化 校准
+  8. Performance optimization: 性能优化
+  9. Persistence: 持久化
+  10. Resource pooling: 资源池
+  11. Synchronization: 同步
+  12. Transactions: 事务
 
 
 
@@ -807,18 +835,17 @@ upstream backserver {
 
 
 #### JVM常用命令?
-* jconsole
-* jvisualvm
+* jps
 * **jmap -heap pid**: 获取垃圾回收器的类型和系统参数
 * jinfo -flags pid: 查看应用启动的参数
 * **jstack -l pid**: 查看线程的运行信息(包括死锁的线程)
 * jstat -gcutil pid: 统计gc信息
+* jconsole
+* jvisualvm
 
 
 
 #### mysql有哪些索引并说说他们的区别?
-
-
 
 ###### Hash索引 && B+树索引
 * 如果是等值查询，那么哈希索引明显有绝对优势，因为只需要经过一次算法即可找到相应的键值；当然了，这个前提是，键值都是唯一的。如果键值不是唯一的，就需要先找到该键所在位置，然后再根据链表往后扫描，直到找到相应的数据。
@@ -852,4 +879,12 @@ upstream backserver {
 
 
 
-#### top命令?
+#### 你知道top命令吗?
+* 定义
+<div style="text-indent:2em">top命令是Linux下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况，类似于Windows的任务管理器。top显示系统当前的进程和其他状况,是一个动态显示过程,即可以通过用户按键来不断刷新当前状态。如果在前台执行该命令,它将独占前台,直到用户终止该程序为止。比较准确的说,top命令提供了实时的对系统处理器的状态监视。它将显示系统中CPU最“敏感”的任务列表。该命令可以按CPU使用。内存使用和执行时间对任务进行排序；而且该命令的很多特性都可以通过交互式命令或者在个人定制文件中进行设定。</div>
+* 常用操作
+  1. top: 每隔5秒显式所有进程的资源占用情况。
+  2. top -d 2: 每隔2秒显式所有进程的资源占用情况。
+  3. top -c: 每隔5秒显式进程的资源占用情况，并显示进程的命令行参数(默认只有进程名)。
+  4. top -p 12345 -p 6789: 每隔5秒显示pid是12345和pid是6789的两个进程的资源占用情况。
+  5. top -d 2 -c -p 123456: 每隔2秒显示pid是12345的进程的资源使用情况，并显式该进程启动的命令行参数。
