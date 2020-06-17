@@ -840,6 +840,7 @@ upstream backserver {
 * jinfo -flags pid: 查看应用启动的参数
 * **jstack -l pid**: 查看线程的运行信息(包括死锁的线程)
 * jstat -gcutil pid: 统计gc信息
+  jstat -gc pid interval count: interval-毫秒时间间隔, count-统计总次数
 * jconsole
 * jvisualvm
 
