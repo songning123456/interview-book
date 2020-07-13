@@ -1,3 +1,0 @@
-### Mysql
-
-###### Please Go Forward

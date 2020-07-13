@@ -1,3 +1,0 @@
-### Java
-
-###### Please Go Forward
