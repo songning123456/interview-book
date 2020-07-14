@@ -14,5 +14,6 @@
  * [SSM框架](/pages/SSM.md)
  * [消息队列](/pages/MQ.md)
  * [微服务](/pages/MicroService.md)
+ * [算法](/pages/Arithmetic.md)
  * [介绍](/pages/Introduction.md)
 
