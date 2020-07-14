@@ -76,10 +76,10 @@ JVM的堆是运行时数据区，所有类的实例和数组都是在堆上分�
 #### Java虚拟机的运行时数据区有几块？线程私有和线程共享区域有哪些？
 | 区域 | 私有/公有 | 解释 | 
 | :----- | :----- | :----- | 
-| 程序计数器 | 私有 | 当前线程执行的字节码的行号指示器 | 
-| Java虚拟机栈 | 私有 | 存放基本数据类型、对象引用和returnAddress类型 | 
-| 本地方法栈 | 私有 | 为虚拟机使用到的Native方法服务 | 
-| Java堆 | 公有 | 存放对象的实例，也是GC回收器管理的主要区域 | 
-| 方法区 | 公有 | 存放已被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据 | 
-| 运行时常量池 | ———— | 方法区的一部分，存放编译期生成的各种字面量和符号引用 | 
-| 直接内存 | ———— | 不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，容易引起OOM异常，NIO会调用，不受Java堆大小的限制 | 
+| <div style="width: 100px">程序计数器</div> | <div style="width: 100px">私有</div> | 当前线程执行的字节码的行号指示器 | 
+| <div style="width: 100px">Java虚拟机栈</div> | <div style="width: 100px">私有</div> | 存放基本数据类型、对象引用和returnAddress类型 | 
+| <div style="width: 100px">本地方法栈</div> | <div style="width: 100px">私有</div> | 为虚拟机使用到的Native方法服务 | 
+| <div style="width: 100px">Java堆</div> | <div style="width: 100px">公有</div> | 存放对象的实例，也是GC回收器管理的主要区域 | 
+| <div style="width: 100px">方法区</div> | <div style="width: 100px">公有</div> | 存放已被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据 | 
+| <div style="width: 100px">运行时常量池</div> | <div style="width: 100px">————</div> | 方法区的一部分，存放编译期生成的各种字面量和符号引用 | 
+| <div style="width: 100px">直接内存</div> | <div style="width: 100px">————</div> | 不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，容易引起OOM异常，NIO会调用，不受Java堆大小的限制 | 
