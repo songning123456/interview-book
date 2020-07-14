@@ -3,5 +3,6 @@
 node_modules/
 _book.tar.gz
 /_book/
+*.exe
 
 
