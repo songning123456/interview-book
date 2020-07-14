@@ -4,7 +4,7 @@
  ---
  
  * [Java基础](/pages/Base.md)
- * [多线程](/pages/MultiThread.md)
+ * [线程](/pages/Thread.md)
  * [并发](/pages/Concurrence.md)
  * [设计模式](/pages/DesignPatterns.md)
  * [JVM](/pages/JVM.md)
