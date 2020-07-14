@@ -1,3 +1,31 @@
+#### 变量命名规范？
+除第一个单词外，其他单词首字母大写。
+
+
+变量名不应该以下划线或美元符号开头。
+
+
+临时变量通常被取名为I、j、k、m和n，他们一般用于整型；c、d、e他们一般用于字符型。
+
+
+对不易清楚识别出该变量类型的变量应使用类型名或类型名的缩写作其后缀。
+
+
+#### Object中定义的方法？
+| 方法 | 解释 | 
+| :----- | :----- | 
+| public Boolean equals (Object obj) | 比较当前对象与obj是否为同一对象 | 
+| public String toString() | 返回当前对象的字符串表达形式 | 
+| public native int hashCode() | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象 | 
+| protected void finalize() throws Throwable | 对象销毁时被调用 | 
+| public final native void notify() | native型方法指由C++语言编写的方法，Java解析器对其先进性转义后才执行 | 
+| public final native void notifyAll() | ———— | 
+| public final native void wait() | ———— | 
+
+
+#### ==和equals区别？
+==在基本数据类型中，是比较它们的值在复合数据中，是比较它们的内存地址。如果一些类重写了equal()方法，就是实现它们具体的值了！
+
 #### ”static”关键字是什么意思？Java中是否可以覆盖(override)一个private或者是static的方法？
 “static”关键字表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。
 
@@ -93,3 +121,14 @@ Exception对象会在下一个垃圾回收过程中被回收掉。
 
 #### finally代码块和finalize()方法有什么区别？
 无论是否抛出异常，finally代码块都会执行，它主要是用来释放应用占用的资源。finalize()方法是Object类的一个protected方法，它是在对象被垃圾回收之前由Java虚拟机来调用的。
+
+
+#### 泛型是什么，有什么用？
+因为集合可以存储的对象类型是任意的，在取出进行向下转型时，容易发生ClassCastException。所以JDK1.5以后就有了解决这个问题的技术-泛型。将运行时期的ClassCastException异常转移到编译时期通过编译失败体现。避免了强制转换的麻烦。
+
+
+#### 泛型的擦出是什么，因为泛型擦出导致的异常怎么解决避免？
+根据异常捕获的原则，一定是子类在前面，父类在后面。所以java为了避免这样的情况，禁止在catch子句中使用泛型变量，异常声明中可以使用类型变量。
+
+
+

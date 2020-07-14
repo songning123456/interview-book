@@ -46,6 +46,24 @@ Java中的HashMap使用hashCode()和equals()方法来确定键值对的索引，
 | 可供应用迭代的键的集合，因此，HashMap是快速失败的 | 对键的列举(Enumeration) |
 
 
+#### HashMap的结构？
+数组+链表+红黑树。
+
+
+数组中每个元素都是一个链表,HashMap是基于hash原理：我们对map进行put的时候，会对键调用hashcode方法，通过hashcode获得bucket，从而存储entry。 
+
+
+#### 如何避免hashcode相同导致的冲突，如何存储这些冲突元素，找到这些元素？
+因为他们的hashcode相同,所有他们的bucket位置相同,会产生碰撞,采用合适的equal和hashcode会减少碰撞,使用integer和String(warping)可以提高查找效律。
+
+
+因为HashMap采用链表储存对象,所有entry会储存在链表中。找到bucket位置后，可以调用key.equal()方法找到链表中正确的节点，从而找到值对象。
+
+
+#### TreeMap结构，如何实现有序的？
+TreeMap基于红黑树(Red-Black tree)实现。该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的Comparator进行排序，具体取决于使用的构造方法。
+
+
 #### 数组(Array)和列表(ArrayList)有什么区别？什么时候应该使用Array而不是ArrayList？
 | Array | ArrayList | 
 | :----- | :----- |
@@ -65,7 +83,7 @@ Java中的HashMap使用hashCode()和equals()方法来确定键值对的索引，
 | ———— | LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素 |
 
 
-#### Comparable和Comparator接口是干什么的？列出它们的区别。
+#### Comparable和Comparator接口是干什么的？列出它们的区别？
 Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。
 
 
