@@ -183,6 +183,49 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 | <div style="width: 280px">PROPAGATION_NESTED</div> | 表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与PROPAGATION_REQUIRED一样。注意各厂商对这种传播行为的支持是有所差异的。可以参考资源管理器的文档来确认它们是否支持嵌套事务 |
 
 
+#### SpringMVC工作原理？
+![SpringMVC](/images/SSM/SpringMVC.jpeg)
+
+
+**步骤1** 客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet。
+
+
+**步骤2** DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)。
+
+
+**步骤3&&4** DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用。
+
+
+**步骤5** Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet。
+
+
+**步骤6** Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View。
+
+
+**步骤7** DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
+
+
+#### SpringMVC常用的注解？
+| 名称 | 解释 | 
+| :----- | :----- | 
+| @Controller | Controller控制器是通过服务接口定义的提供访问应用程序的一种行为，它解释用户的输入，将其转换成一个模型然后将试图呈献给用户。Spring MVC使用@Controller定义控制器，它还允许自动检测定义在类路径下的组件并自动注册。如想自动检测生效，需在XML头文件下引入spring-context | 
+| @RequestMapping | 既可以作用在类级别，也可以作用在方法级别 | 
+| @PathVariable | @PathVariable中的参数可以是任意的简单类型，如int, long, Date等等。Spring会自动将其转换成合适的类型或者抛出TypeMismatchException异常 | 
+| @RequestParam | @RequestParam将请求的参数绑定到方法中的参数上。其实，即使不配置该参数，注解也会默认使用该参数。如果想自定义指定参数的话，如果将@RequestParam的required属性设置为false(如@RequestParam(value="id",required=false)) | 
+| @RequestBody | 方法参数应该被绑定到HTTP请求Body上 | 
+| @ResponseBody | 将返回类型直接输入到HTTP response body中 | 
+| @RestController | 创建REST类型的控制器与@Controller类型 | 
+
+
+#### Restful的优势？
+| 优势 | 解释 | 
+| :----- | :----- | 
+| <div style="width: 150px">客户-服务器</div> | 客户-服务器约束背后的原则是分离关注点。通过分离用户接口和数据存储这两个关注点，改善了用户接口跨多个平台的可移植性；同时通过简化服务器组件，改善了系统的可伸缩性 | 
+| <div style="width: 150px">无状态</div> | 通信在本质上是无状态的，改善了可见性、可靠性、可伸缩性 | 
+| <div style="width: 150px">缓存</div> | 改善了网络效率减少一系列交互的平均延迟时间，来提高效率、可伸缩性和用户可觉察的性能 | 
+| <div style="width: 150px">统一接口</div> | REST架构风格区别于其他基于网络的架构风格的核心特征是，它强调组件之间要有一个统一的接口 | 
+
+
 #### 什么是JDBC？
 JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。
 
