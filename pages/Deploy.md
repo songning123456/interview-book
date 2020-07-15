@@ -70,3 +70,83 @@
 | service mysql stop | 停止mysql服务 | 
 | service mysql status | 显示mysql服务状态 | 
 | service --status-all | 查看已有服务 | 
+
+
+#### 如何查看内存使用情况？
+![vmstat](/images/Deploy/vmstat.PNG)
+
+
+<table>
+    <tr>
+        <td rowspan="2">procs</td>
+        <td>r</td>
+        <td>列表示运行和等待cpu时间片的进程数，如果长期大于1，说明cpu不足，需要增加cpu</td>
+    </tr>
+    <tr>
+        <td>b</td>
+        <td>列表示在等待资源的进程数，比如正在等待I/O或者内存交换等</td>
+    </tr>
+    <tr>
+        <td rowspan="4">memory</td>
+        <td>swpd</td>
+        <td>切换到内存交换区的内存数量(k表示)。如果swpd的值不为0，或者比较大，比如超过了100m，只要si、so的值长期为0，系统性能还是正常</td>
+    </tr>
+    <tr>
+        <td>free</td>
+        <td>当前的空闲页面列表中内存数量(k表示)</td>
+    </tr>
+    <tr>
+        <td>buff</td>
+        <td>作为buffer cache的内存数量，一般对块设备的读写才需要缓冲</td>
+    </tr>
+    <tr>
+        <td>cache</td>
+        <td>作为page cache的内存数量，一般作为文件系统的cache，如果cache较大，说明用到cache的文件较多，如果此时IO中bi比较小，说明文件系统效率比较好</td>
+    </tr>
+    <tr>
+        <td rowspan="2">swap</td>
+        <td>si</td>
+        <td>由内存进入内存交换区数量</td>
+    </tr>
+    <tr>      
+        <td>so</td>
+        <td>由内存交换区进入内存数量</td>
+    </tr>
+    <tr>
+        <td rowspan="2">io</td>
+        <td>bi</td>
+        <td>从块设备读入数据的总量(读磁盘)(每秒kb)</td>
+    </tr>
+    <tr>      
+        <td>bo</td>
+        <td>块设备写入数据的总量(写磁盘)(每秒kb)</td>
+    </tr>
+    <tr>
+        <td rowspan="2">system</td>
+        <td>in</td>
+        <td>列表示在某一时间间隔中观测到的每秒设备中断数</td>
+    </tr>
+    <tr>      
+        <td>cs</td>
+        <td>列表示每秒产生的上下文切换次数，如当cs比磁盘I/O和网络信息包速率高得多，都应进行进一步调查</td>
+    </tr>    
+    <tr>
+        <td rowspan="4">cpu</td>
+        <td>us</td>
+        <td>列显示了用户方式下所花费 CPU 时间的百分比。us的值比较高时，说明用户进程消耗的cpu时间多，但是如果长期大于50%，需要考虑优化用户的程序</td>
+    </tr>
+    <tr>      
+        <td>sy</td>
+        <td>列显示了内核进程所花费的cpu时间的百分比。这里us+sy的参考值为80%，如果us+sy大于80%说明可能存在CPU不足</td>
+    </tr>
+    <tr>      
+        <td>id</td>
+        <td>列显示了cpu处在空闲状态的时间百分比</td>
+    </tr>
+    <tr>      
+        <td>wa</td>
+        <td>列显示了IO等待所占用的CPU时间的百分比。这里wa的参考值为30%，如果wa超过30%，说明IO等待严重，这可能是磁盘大量随机访问造成的，也可能磁盘或者磁盘访问控制器的带宽瓶颈造成的(主要是块操作)</td>
+    </tr>
+</table>
+
+

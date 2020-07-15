@@ -168,10 +168,7 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 | <div style="width: 100px">CGLIB代理</div> | 实现原理类似于JDK动态代理，只是它在运行期间生成的代理对象是针对目标类扩展的子类。CGLIB是高效的代码生成包，底层是依靠ASM(开源的java字节码编辑类库)操作字节码实现的，性能比JDK强；需要引入包asm.jar和cglib.jar | 
 
 
-#### Spring事务的传播行为？
-[测试用例](https://blog.csdn.net/qq_26323323/article/details/81908955)
-
-
+#### <a href="https://blog.csdn.net/qq_26323323/article/details/81908955">Spring事务的传播行为？</a>
 | 传播行为 | 解释 | 
 | :----- | :----- | 
 | <div style="width: 280px">PROPAGATION_REQUIRED</div> | 表示当前方法必须运行在事务中。如果当前事务存在，方法将会在该事务中运行。否则，会启动一个新的事务 | 
