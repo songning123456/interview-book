@@ -1,5 +1,5 @@
 # 面试宝典
-![进面啦](/images/进面啦.jpg)
+![进面啦](/images/HomePage.jpg)
 
 
 ##### 欢迎star

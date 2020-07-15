@@ -14,19 +14,179 @@
 
 spring主要的2个特征：创建管理bean(就是所有的java对象)；解决bean之间的依赖关系(谁调用谁的方法)。
 
-
-#### Spring注入方式有哪些？
-构造方法注入
-
-
-Setter注入
+#### SpringBean的加载过程？
+![SpringBean](/images/SSM/SpringBean.jpeg)
 
 
-基于注解的注入
+#### Spring中bean实例化的方式(依赖注入)?
+Set方法
+```
+public class SpringAction {  
+    private SpringDao springDao;  
+    public void setSpringDao(SpringDao springDao) {  
+        this.springDao = springDao;
+    }  
+    public void doMethod(){  
+        springDao.doMethod();  
+    }  
+}  
+
+<bean name="springAction" class="xxx.SpringAction">  
+    <property name="springDao" ref="springDao"></property>
+</bean>  
+<bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
+```
+
+普通构造方法
+```
+public class SpringAction {  
+    private SpringDao springDao;   
+    public SpringAction(SpringDao springDao){  
+        this.springDao = springDao;  
+    }
+    public void doMethod(){  
+        springDao.doMethod();  
+    }  
+}  
+
+ <bean name="springAction" class="xxx.SpringAction">  
+    <constructor-arg index="0" ref="springDao"></constructor-arg>  
+</bean>
+<bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
+```
 
 
-#### 说说Spring的AOP？
-AOP利用一种称为”横切”的技术，剖解开封装的对象内部，并且将那些影响了多个类的公共行为封装到一个可重用模块，并且将其命名为”Aspect”，即切面。所谓的切面，简单的说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于较少系统的重复代码，降低模块之间的耦合度，并且有利于未来的可操作性和可维护性。
+静态工厂
+```
+public class SpringAction {  
+    private FactoryDao staticFactoryDao;   
+    public void setStaticFactoryDao(FactoryDao staticFactoryDao) {  
+        this.staticFactoryDao = staticFactoryDao;  
+    }  
+}  
+
+public class DaoFactory {  
+    public static final FactoryDao getStaticFactoryDaoImpl(){  
+        return new StaticFacotryDaoImpl();  
+    }  
+} 
+
+<bean id="bean2" class="xxx.StaticFactory" factory-method="getInstance"/>
+<bean name="springAction" class="xxx.SpringAction" >  
+    <property name="staticFactoryDao" ref="staticFactoryDao"></property>
+</bean>  
+<bean name="staticFactoryDao" class="xxx.DaoFactory" factory-method="getStaticFactoryDaoImpl"></bean>  
+```
+
+
+实例工厂创建
+```
+public class SpringAction {  
+    private FactoryDao factoryDao;  
+    public void setFactoryDao(FactoryDao factoryDao) {  
+        this.factoryDao = factoryDao;  
+    }  
+}  
+
+public class DaoFactory {   
+    public FactoryDao getFactoryDaoImpl(){  
+        return new FactoryDaoImpl();  
+    }  
+}  
+
+<bean name="springAction" class="xxx.SpringAction">   
+    <property name="factoryDao" ref="factoryDao"></property>  
+</bean>  
+<bean name="daoFactory" class="xxx.DaoFactory"></bean>  
+<bean name="factoryDao" factory-bean="daoFactory" factory-method="getFactoryDaoImpl"></bean>  
+```
+
+
+#### Spring IOC原理?
+IOC(Inversion Of Control)是指容器控制程序对象之间的关系，而不是传统实现中，由程序代码直接操控。控制权由应用代码中转到了外部容器，控制权的转移是所谓反转。对于Spring而言，就是由Spring来控制对象的生命周期和对象之间的关系；IOC还有另外一个名字——“依赖注入(Dependency Injection)”。从名字上理解，所谓依赖注入，即组件之间的依赖关系由容器在运行期决定，即由容器动态地将某种依赖关系注入到组件之中。
+
+
+所有的类都会在Spring容器中登记，告诉Spring这是个什么东西，你需要什么东西，然后Spring会在系统运行到适当的时候，把你要的东西主动给你，同时也把你交给其他需要你的东西。所有的类的创建、销毁都由Spring来控制，也就是说控制对象生存周期的不再是引用它的对象，而是Spring。对于某个具体的对象而言，以前是它控制其他对象，现在是所有对象都被Spring控制，所以这叫控制反转。
+
+
+在系统运行中，动态的向某个对象提供它所需要的其他对象。
+
+
+依赖注入的思想是通过反射机制实现的，在实例化一个类时，它通过反射调用类中set方法将事先保存在HashMap中的类属性注入到类中。
+
+
+总而言之，在传统的对象创建方式中，通常由调用者来创建被调用者的实例，而在Spring中创建被调用者的工作由Spring来完成，然后注入调用者，即所谓的依赖注入or控制反转。
+
+
+注入方式有两种：依赖注入和设置注入。
+
+
+IOC的优点：降低了组件之间的耦合，降低了业务对象之间替换的复杂性，使之能够灵活的管理对象。
+
+
+#### Spring AOP原理?
+AOP面向方面编程基于IOC，是对OOP的有益补充。
+
+
+AOP利用一种称为“横切”的技术，剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，并将其名为“Aspect”，即方面。所谓“方面”，简单地说，就是将那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，比如日志记录，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可操作性和可维护性。
+
+
+AOP代表的是一个横向的关系，将“对象”比作一个空心的圆柱体，其中封装的是对象的属性和行为；则面向方面编程的方法，就是将这个圆柱体以切面形式剖开，选择性的提供业务逻辑。而剖开的切面，也就是所谓的“方面”了。然后它又以巧夺天功的妙手将这些剖开的切面复原，不留痕迹，但完成了效果。
+
+
+实现AOP的技术，主要分为两大类：一是采用动态代理技术，利用截取消息的方式，对该消息进行装饰，以取代原有对象行为的执行；二是采用静态织入的方式，引入特定的语法创建“方面”，从而使得编译器可以在编译期间织入有关“方面”的代码。
+
+
+| 代理方式 | 解释 | 
+| :----- | :----- | 
+| <div style="width: 100px">JDK动态代理</div> | 其代理对象必须是某个接口的实现，它是通过在运行期间创建一个接口的实现类来完成对目标对象的代理，其核心的两个类是InvocationHandler和Proxy | 
+| <div style="width: 100px">CGLIB代理</div> | 实现原理类似于JDK动态代理，只是它在运行期间生成的代理对象是针对目标类扩展的子类。CGLIB是高效的代码生成包，底层是依靠ASM(开源的java字节码编辑类库)操作字节码实现的，性能比JDK强；需要引入包asm.jar和cglib.jar | 
+
+
+#### Spring的优点?
+降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
+
+
+可以使用容易提供的众多服务，如事务管理，消息服务等。
+
+
+容器提供单例模式支持。
+
+
+容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
+
+
+容器提供了众多的辅助类，能加快应用的开发。
+
+
+Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
+
+
+Spring属于低侵入式设计，代码的污染极低。
+
+
+独立于各种应用服务器。
+
+
+Spring的DI机制降低了业务对象替换的复杂性。
+
+
+Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
+
+
+#### Spring事务的传播行为？
+[测试用例](https://blog.csdn.net/qq_26323323/article/details/81908955)
+
+
+| 传播行为 | 解释 | 
+| :----- | :----- | 
+| <div style="width: 280px">PROPAGATION_REQUIRED</div> | 表示当前方法必须运行在事务中。如果当前事务存在，方法将会在该事务中运行。否则，会启动一个新的事务 | 
+| <div style="width: 280px">PROPAGATION_SUPPORTS</div> | 表示当前方法不需要事务上下文，但是如果存在当前事务的话，那么该方法会在这个事务中运行 | 
+| <div style="width: 280px">PROPAGATION_MANDATORY</div> | 表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常 | 
+| <div style="width: 280px">PROPAGATION_REQUIRED_NEW</div> | 表示当前方法必须运行在它自己的事务中。一个新的事务将被启动。如果存在当前事务，在该方法执行期间，当前事务会被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager | 
+| <div style="width: 280px">PROPAGATION_NOT_SUPPORTED</div> | 表示该方法不应该运行在事务中。如果存在当前事务，在该方法运行期间，当前事务将被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager | 
+| <div style="width: 280px">PROPAGATION_NEVER</div> | 表示当前方法不应该运行在事务上下文中。如果当前正有一个事务在运行，则会抛出异常 | 
+| <div style="width: 280px">PROPAGATION_NESTED</div> | 表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与PROPAGATION_REQUIRED一样。注意各厂商对这种传播行为的支持是有所差异的。可以参考资源管理器的文档来确认它们是否支持嵌套事务 |
 
 
 #### 什么是JDBC？
