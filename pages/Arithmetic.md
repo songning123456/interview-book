@@ -19,3 +19,14 @@ while (start + 1 < end) {
 | 写出状态转移方程 | ———— | 
 | 边界条件 | 也就是找到无法通过转移方程得到的结果 | 
 | 确定计算方向 | 这个看状态方程与边界条件 | 
+
+
+#### 写树算法的套路框架
+```
+void traverse(TreeNode root) {
+    // root需要做什么？在这做。
+    // 其他的不用root操心，抛给框架
+    traverse(root.left);
+    traverse(root.right);
+}
+```
