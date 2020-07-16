@@ -12,7 +12,7 @@
 实现Runnable接口这种方式更受欢迎，因为这不需要继承Thread类。在应用设计中已经继承了别的对象的情况下，这需要多继承(而Java不支持多继承)，只能实现接口。同时，线程池也是非常高效的，很容易实现和使用。
 
 
-#### 概括的解释下线程的几种可用状态。
+#### 概括的解释下线程的几种可用状态？
 | 状态 | 解释 | 
 | :---- | :---- |
 | 就绪(Runnable) | 线程准备运行，不一定立马就能开始执行 |
@@ -24,18 +24,11 @@
 | 死亡(Dead) | 线程完成了执行 |
 
 
-#### 什么是线程安全?
+#### 什么是线程安全？如何保证线程安全?
 线程安全就是多线程访问同一代码，不会产生不确定的结果。
 
 
-#### 如何保证线程安全?
-对非安全的代码进行加锁控制。
-
-
-使用线程安全的类。
-
-
-多线程并发情况下，线程共享的变量改为方法级的局部变量。
+对非安全的代码进行加锁控制；使用线程安全的类；多线程并发情况下，线程共享的变量改为方法级的局部变量。
 
 
 #### 怎么停止一个线程？
@@ -64,3 +57,211 @@
 | void wait() | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法 | 
 | void wait(long timeout) | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者超过指定的时间量 | 
 | void wait(long timeout,int nanos) | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量 | 
+
+
+#### 多线程的几种通讯方式？
+* **同步**——多个线程通过synchronized关键字这种方式来实现线程间的通信。
+
+
+```
+public class MyObject {
+    synchronized public void methodA() {
+        //do something....
+    }
+    synchronized public void methodB() {
+        //do some other thing
+    }
+}
+
+public class ThreadA extends Thread {
+    private MyObject object;
+    @Override
+    public void run() {
+        super.run();
+        object.methodA();
+    }
+}
+
+public class ThreadB extends Thread {
+    private MyObject object;
+    @Override
+    public void run() {
+        super.run();
+        object.methodB();
+    }
+}
+
+public class Run {
+    public static void main(String[] args) {
+        MyObject object = new MyObject();
+        //线程A与线程B 持有的是同一个对象:object
+        ThreadA a = new ThreadA(object);
+        ThreadB b = new ThreadB(object);
+        a.start();
+        b.start();
+    }
+}
+```
+由于线程A和线程B持有同一个MyObject类的对象object，尽管这两个线程需要调用不同的方法，但是它们是同步执行的，比如：线程B需要等待线程A执行完了methodA()方法之后，它才能执行methodB()方法。这样，线程A和线程B就实现了通信。这种方式，本质上就是“共享内存”式的通信。多个线程需要访问同一个共享变量，谁拿到了锁(获得了访问权限)，谁就可以执行。
+
+
+* **while轮询的方式**
+
+
+```
+import java.util.ArrayList;
+import java.util.List;
+public class MyList {
+    private List<String> list = new ArrayList<String>();
+    public void add() {
+        list.add("elements");
+    }
+    public int size() {
+        return list.size();
+    }
+}
+ 
+import mylist.MyList;
+public class ThreadA extends Thread {
+    private MyList list;
+    public ThreadA(MyList list) {
+        super();
+        this.list = list;
+    }
+    @Override
+    public void run() {
+        try {
+            for (int i = 0; i < 10; i++) {
+            list.add();
+            System.out.println("添加了" + (i + 1) + "个元素");
+            Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+ 
+import mylist.MyList;
+public class ThreadB extends Thread {
+    private MyList list;
+    public ThreadB(MyList list) {
+        super();
+        this.list = list;
+    }
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                if (list.size() == 5) {
+                    System.out.println("==5, 线程b准备退出了");
+                    throw new InterruptedException();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+import mylist.MyList;
+import extthread.ThreadA;
+import extthread.ThreadB;
+public class Test {
+    public static void main(String[] args) {
+        MyList service = new MyList();
+        ThreadA a = new ThreadA(service);
+        a.setName("A");
+        a.start();
+        ThreadB b = new ThreadB(service);
+        b.setName("B");
+        b.start();
+    }
+}
+```
+在这种方式下，线程A不断地改变条件，线程ThreadB不停地通过while语句检测这个条件(list.size()==5)是否成立 ，从而实现了线程间的通信。但是这种方式会浪费CPU资源。之所以说它浪费资源，是因为JVM调度器将CPU交给线程B执行时，它没做啥“有用”的工作，只是在不断地测试某个条件是否成立。就类似于现实生活中，某个人一直看着手机屏幕是否有电话来了，而不是在干别的事情，当有电话来时，响铃通知TA电话来了。这种方式还存在另外一个问题：轮询的条件的可见性问题。线程都是先把变量读取到本地线程栈空间，然后再去再去修改的本地变量。因此，如果线程B每次都在取本地的条件变量，那么尽管另外一个线程已经改变了轮询的条件，它也察觉不到，这样也会造成死循环。
+
+
+* **wait/notify机制**
+
+
+```
+import java.util.ArrayList;
+import java.util.List;
+public class MyList {
+    private static List<String> list = new ArrayList<String>();
+    public static void add() {
+        list.add("anyString");
+    }
+    public static int size() {
+        return list.size();
+    }
+}
+
+public class ThreadA extends Thread {
+    private Object lock;
+    public ThreadA(Object lock) {
+        super();
+        this.lock = lock;
+    }
+    @Override
+    public void run() {
+        try {
+            synchronized (lock) {
+                if (MyList.size() != 5) {
+                    System.out.println("wait begin " + System.currentTimeMillis());
+                    lock.wait();
+                    System.out.println("wait end " + System.currentTimeMillis());
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class ThreadB extends Thread {
+    private Object lock;
+    public ThreadB(Object lock) {
+        super();
+        this.lock = lock;
+    }
+    @Override
+    public void run() {
+        try {
+            synchronized (lock) {
+                for (int i = 0; i < 10; i++) {
+                    MyList.add();
+                    if (MyList.size() == 5) {
+                        lock.notify();
+                        System.out.println("已经发出了通知");
+                    }
+                    System.out.println("添加了" + (i + 1) + "个元素!");
+                    Thread.sleep(1000);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class Run {
+    public static void main(String[] args) {
+        try {
+            Object lock = new Object();
+            ThreadA a = new ThreadA(lock);
+            a.start();
+            Thread.sleep(50);
+            ThreadB b = new ThreadB(lock);
+            b.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+线程A要等待某个条件满足时(list.size()==5)，才执行操作。线程B则向list中添加元素，改变list的size。A,B之间如何通信的呢？也就是说，线程A如何知道list.size()已经为5了呢？这里用到了Object类的wait()和notify()方法。当条件未满足时(list.size()!=5)，线程A调用wait()放弃CPU，并进入阻塞状态。不像while轮询那样占用CPU。当条件满足时，线程B调用notify()通知线程A，所谓通知线程A，就是唤醒线程A，并让它进入可运行状态。这种方式的一个好处就是CPU的利用率提高了。但是也有一些缺点：比如，线程B先执行，一下子添加了5个元素并调用了notify()发送了通知，而此时线程A还执行；当线程A执行并调用wait()时，那它永远就不可能被唤醒了。因为，线程B已经发了通知了，以后不再发通知了。这说明：通知过早，会打乱程序的执行逻辑。
+
+
+* **管道通信**——java.io.PipedInputStream 和 java.io.PipedOutputStream
