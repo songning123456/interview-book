@@ -12,7 +12,7 @@
  * [网络](/pages/Network.md)
  * [数据库](/pages/Database.md)
  * [SSM框架](/pages/SSM.md)
- * [消息队列](/pages/MQ.md)
+ * [中间件](/pages/Middleware.md)
  * [微服务](/pages/MicroService.md)
  * [算法](/pages/Arithmetic.md)
  * [服务部署](/pages/Deploy.md)
