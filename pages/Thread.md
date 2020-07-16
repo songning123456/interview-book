@@ -265,3 +265,133 @@ public class Run {
 
 
 * **管道通信**——java.io.PipedInputStream 和 java.io.PipedOutputStream
+
+
+#### 说说线程池的创建方式？
+**newCachedThreadPool**——创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
+
+
+```
+// 无限大小线程池JVM自动回收
+ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+for (int i = 0; i < 10; i++) {
+    final int temp = i;
+    newCachedThreadPool.execute(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println(Thread.currentThread().getName() + ",i:" + temp);
+        }
+    });
+}
+```
+<span style="color: red">总结：线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</span>
+
+
+**newFixedThreadPool**——创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+```
+ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(5);
+for (int i = 0; i < 10; i++) {
+    final int temp = i;
+    newFixedThreadPool.execute(new Runnable() {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getId() + ",i:" + temp);
+        }
+    });
+}
+```
+<span style="color: red">总结：因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。定长线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()。</span>
+
+
+**newScheduledThreadPool**——创建一个定长线程池，支持定时及周期性任务执行。
+
+
+```
+// 延时3秒执行
+ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPool(5);
+		for (int i = 0; i < 10; i++) {
+			final int temp = i;
+			newScheduledThreadPool.schedule(new Runnable() {
+				public void run() {
+					System.out.println("i:" + temp);
+				}
+			}, 3, TimeUnit.SECONDS);
+}
+```
+
+
+**newSingleThreadExecutor**——创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+```
+ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
+for (int i = 0; i < 10; i++) {
+    final int index = i;
+    newSingleThreadExecutor.execute(new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("index:" + index);
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+    });
+}
+```
+<span style="color: red">注意: 结果依次输出，相当于顺序执行各个任务。</span>
+
+
+#### 线程池的工作原理？
+![线程池](/images/Thread/ThreadPool.jpg)
+
+
+判断线程池里的核心线程是否都在执行任务。如果不是(核心线程空闲或者还有核心线程没有被创建)则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。
+
+
+线程池判断工作队列是否已满。如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。
+
+
+判断线程池里的线程是否都处于工作状态。如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略来处理这个任务。
+
+
+#### 如何合理的配置线程池？
+<table>
+    <tr>
+        <th>角度</th>
+        <th>类型</th>
+        <th>解释</th>
+    </tr>
+    <tr>
+        <td rowspan="3">任务的性质</td>
+        <td style="width: 150px">CPU密集型任务</td>
+        <td>配置尽可能少的线程数量，如配置Ncpu+1个线程的线程池</td>
+    </tr>
+    <tr>
+        <td style="width: 150px">IO密集型任务</td>
+        <td>由于需要等待IO操作，线程并不是一直在执行任务，则配置尽可能多的线程，如2*Ncpu</td>
+    </tr>
+    <tr>
+        <td style="width: 150px">混合型任务</td>
+        <td>如果可以拆分，则将其拆分成一个CPU密集型任务和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐率要高于串行执行的吞吐率，如果这两个任务执行时间相差太大，则没必要进行分解。我们可以通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</td>
+    </tr>
+    <tr>
+      <td>任务的优先级</td>
+      <td style="width: 150px">高，中和低</td>
+      <td>使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高的任务先得到执行，需要注意的是如果一直有优先级高的任务提交到队列里，那么优先级低的任务可能永远不能执行</td>
+    </tr>
+    <tr>
+        <td>任务的执行时间</td>
+        <td style="width: 150px">长，中和短</td>
+        <td>交给不同规模的线程池来处理，或者也可以使用优先级队列，让执行时间短的任务先执行</td>
+    </tr>
+    <tr>
+        <td>任务的依赖性</td>
+        <td style="width: 150px">是否依赖其他系统资源，如数据库连接</td>
+        <td>依赖数据库连接池的任务，因为线程提交SQL后需要等待数据库返回结果，如果等待的时间越长CPU空闲时间就越长，那么线程数应该设置越大，这样才能更好的利用CPU</td>
+    </tr>
+</table>
