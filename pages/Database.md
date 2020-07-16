@@ -66,3 +66,41 @@ SELECT子句中避免使用 *，尽量应该根据业务需求按字段进行查
 
 
 LIKE操作符。
+
+
+#### left join、inner join和right join的区别？
+| 名称 | 解释 | 
+| :----- | :----- | 
+| left join | 返回包括左表中的所有记录和右表中联结字段相等的记录 | 
+| inner join | 返回包括右表中的所有记录和左表中联结字段相等的记录 | 
+| right join | 只返回两个表中联结字段相等的行 | 
+
+
+![用户-课程表](/images/Database/test-join.PNG)
+
+
+**left join**
+
+
+```sql
+select user.id as user_id, user.user_name, class.id as class_id, class.class_name from user left join class on user.id = class.id
+```
+![left join](/images/Database/left-join.PNG)
+
+
+**right join**
+
+
+```sql
+select user.id as user_id, user.user_name, class.id as class_id, class.class_name from user right join class on user.id = class.id
+```
+![right join](/images/Database/right-join.PNG)
+
+
+**inner join**
+
+
+```sql
+select user.id as user_id, user.user_name, class.id as class_id, class.class_name from user inner join class on user.id = class.id
+```
+![inner join](/images/Database/inner-join.PNG)

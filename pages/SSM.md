@@ -218,6 +218,47 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 | @RestController | 创建REST类型的控制器与@Controller类型 | 
 
 
+#### 如何在过滤器处理类似重复下单的问题？
+通过设置token的形式。把当前用户信息和token设置到session里，token为当前时间戳的值，同一用户下每次提交的token不一样，才允许通过，如果是2次以上的请求，那么可以使用token.equals(session.getAttribute("token"))来判断是否在同一个时刻有重复提交，如果相等，那么给错误提示: 重复提交！如果没有，那么就把token设置到对应的Session里。
+
+
+```jsp
+<input type="hidden" name="token" value="<%=System.currentTimeMillis()%>" />
+```
+
+
+```
+public void doFilter(ServletRequest request, ServletResponse response, FilterChain arg2) throws IOException, ServletException {
+    HttpServletRequest servletrequest = (HttpServletRequest) request;
+    HttpServletResponse servletresponse = (HttpServletResponse) response;
+    // 获取页面token值
+    String clientToken = servletrequest.getParameter("token"); 
+    String uid=servletrequest.getParameter("uid");
+    // 页面token值为空就不用过滤
+    if(clientToken==null){
+        arg2.doFilter(request, response);
+    }else{
+        HttpSession session = servletrequest.getSession();
+        // 获取会话token值
+        String sessionToken = (String) session.getAttribute("token"); 
+        String sessionUid=(String) session.getAttribute("uid");
+        // 判断页面token值是否等于会话token值，会话token值为空就是第一次提交，相等就是重复提交
+        if (sessionToken != null && uid.equals(sessionUid) && clientToken.equals(sessionToken)) {
+            servletresponse.setContentType("text/html");
+            servletresponse.setCharacterEncoding("GBK");
+            // 跳转到错误提示页面
+            servletresponse.sendRedirect(servletrequest.getContextPath()+"/public/duplicataSubmitError.jsp");
+        }else{
+            session.setAttribute("uid",uid);
+            // 把页面token值赋予会话token值
+            session.setAttribute("token", clientToken); 
+            arg2.doFilter(request, response);	
+        }
+    }
+}
+```
+
+
 #### Restful的优势？
 | 优势 | 解释 | 
 | :----- | :----- | 
