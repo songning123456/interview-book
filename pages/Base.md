@@ -27,6 +27,16 @@
 对不易清楚识别出该变量类型的变量应使用类型名或类型名的缩写作其后缀。
 
 
+#### JDK常用的包？
+| 包名 | 解释 | 
+| :----- | :----- | 
+| java.lang | 这个是系统的基础类，比如String、Math、Integer、System和Thread，提供常用功能 | 
+| java.io | 这里面是所有输入输出有关的类，比如文件操作等 | 
+| java.net | 这里面是与网络有关的类，比如URL、URLConnection等 | 
+| java.util | 这个是系统辅助类，特别是集合类Collection、List、Map等 | 
+| java.sql | 这个是数据库操作的类，Connection、Statememt、ResultSet等 | 
+
+
 #### Object中定义的方法？
 | 方法 | 解释 | 
 | :----- | :----- | 
@@ -139,18 +149,21 @@ Java不支持像C++中那样的复制构造函数，这个不同点是因为如�
 对象被引用传递，意味着传递的并不是实际的对象，而是对象的引用。因此，外部对引用对象所做的改变会反映到所有的对象上。
 
 
+#### Java中Exception和Error有什么区别？
+![异常](/images/Base/Exception.jpeg)
+
+
+| Exception | Error | 
+| :----- | :----- | 
+| 表示程序可以处理的异常，可以捕获且可能恢复。遇到这类异常，应该尽可能处理异常，使程序恢复运行，而不应该随意终止异常 | Error类一般是指与虚拟机相关的问题，如系统崩溃、虚拟机错误、内存空间不足、方法调用栈溢等。对于这类错误的导致的应用程序中断，仅靠程序本身无法恢复和和预防，遇到这样的错误，建议让程序终止 | 
+
+
 #### Java中的两种异常类型是什么？他们有什么区别？
 | 受检查的(checked)异常 | 不受检查的(unchecked)异常 | 
 | :----- | :----- | 
 | 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等) | 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复 | 
 | 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等 | 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等 | 
 | 需要try catch处理或throws声明抛出异常 | 语法上不需要声明抛出异常 | 
-
-
-#### Java中Exception和Error有什么区别？
-| Exception | Error | 
-| :----- | :----- | 
-| 表示程序可以处理的异常，可以捕获且可能恢复。遇到这类异常，应该尽可能处理异常，使程序恢复运行，而不应该随意终止异常 | Error类一般是指与虚拟机相关的问题，如系统崩溃、虚拟机错误、内存空间不足、方法调用栈溢等。对于这类错误的导致的应用程序中断，仅靠程序本身无法恢复和和预防，遇到这样的错误，建议让程序终止 | 
 
 
 #### throw和throws有什么区别？

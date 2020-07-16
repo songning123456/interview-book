@@ -223,29 +223,55 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 | <div style="width: 150px">统一接口</div> | REST架构风格区别于其他基于网络的架构风格的核心特征是，它强调组件之间要有一个统一的接口 | 
 
 
-#### 什么是JDBC？
+#### 什么是JDBC？解释下驱动(Driver)在JDBC中的角色？Class.forName()方法有什么作用？
 JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。
 
 
-#### 解释下驱动(Driver)在JDBC中的角色？
 JDBC驱动提供了特定厂商对JDBC API接口类的实现，驱动必须要提供java.sql包下面这些类的实现：Connection, Statement, PreparedStatement,CallableStatement, ResultSet和Driver。
 
 
-#### Class.forName()方法有什么作用？
-这个方法用来载入跟数据库建立连接的驱动。
+Class.forName()用来载入跟数据库建立连接的驱动。
 
 
 #### PreparedStatement比Statement有什么优势？
 | Statement | PreparedStatement | 
 | :----- | :----- | 
 | 每次执行sql语句，相关数据库都要执行sql语句的编译 | PreparedStatement是预编译的，对于批量处理可以大大提高效率，也叫JDBC存储过程 | 
-| 在对数据库只执行一次性存取的时侯，用Statement 对象进行处理 | 对象的开销比Statement大，对于一次性操作并不会带来额外的好处 | 
+| 在对数据库只执行一次性存取的时侯，用Statement对象进行处理 | 对象的开销比Statement大，对于一次性操作并不会带来额外的好处 | 
+| 是'+'字符串拼接，安全性较低 | 用'?'传参,可以防止sql注入，具有安全性 | 
 
 
 #### 什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？
 CallableStatement用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。准备一个CallableStatement的方法是：CallableStament.prepareCall()。
 
 
-#### 数据库连接池是什么意思？
-像打开关闭数据库连接这种和数据库的交互可能是很费时的，尤其是当客户端数量增加的时候，会消耗大量的资源，成本是非常高的。可以在应用服务器启动的时候建立很多个数据库连接并维护在一个池中。连接请求由池中的连接提供。在连接使用完毕以后，把连接归还到池中，以用于满足将来更多的请求。
+#### 数据库连接池的优点？
+在我们不使用数据库连接池的时候，每次访问数据库都需要创建连接，使用完成之后需要释放关闭连接，而这样是很耗费资源的。当我们使用数据库连接池的时候，在tomcat启动的时候就创建了指定数量的连接，之后当我们程序使用的时候就直接从连接池里面取，而不需要创建。同理，当我们使用完的时候也不需要关闭连接，而是将连接返回到连接池中，供其他请求继续使用。
 
+
+#### JDBC连接数据库步骤？
+**加载JDBC驱动程序**——通过Class类的forName方法实现，并将驱动地址放进去成功加载后，会将Driver类的实例注册到DriverManager类中。
+
+
+**提供JDBC连接的URL、创建数据库的连接**——要连接数据库，需要向java.sql.DriverManager请求并获得Connection对象，该对象就代表一个数据库的连接。使用DriverManager的getConnection()方法传入指定的欲连接的数据库的路径、数据库的用户名和密码。
+```
+ Connection con = DriverManager.getConnection(url,username,password);
+ "jdbc:mysql://localhost:3306/test?user=root&password=123&useUnicode=true&characterEncoding=utf-8"
+```
+
+
+**创建一个Statement**——要执行SQL语句，必须获得java.sql.Statement实例；执行静态SQL语句，通常通过Statement实例实现；执行动态SQL语句，通常通过PreparedStatement实例实现。
+```
+String sql = "";
+Statement st = con.createStatement();  
+PreparedStatement pst = con.prepareStatement(sql);
+```
+
+
+**执行SQL语句**——Statement接口提供了executeQuery、executeUpdate、execute三种方法。executeQuery执行select语句，返回ResultSet结果集；executeUpdate执行insert、update、delete语句。
+```
+ResultSet rst = pst.executeQuery();
+```
+
+
+**关闭JDBC对象**——操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。

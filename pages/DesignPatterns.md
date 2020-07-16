@@ -144,3 +144,53 @@
 
 开闭原则
 
+
+#### 单例模式
+私有化的构造函数；私有的静态的全局变量；公有的静态的方法
+
+
+```
+// 饿汉式
+public class Singleton {
+    private Singleton() {};
+    private static Singleton single = new Singleton();
+    public static Singleton getInstance() {
+        return single;
+    }
+}
+```
+
+
+```
+// 懒汉式
+public class Singleton {
+    private Singleton() {}
+    private static Singleton single=null;
+    public tatic Singleton getInstance() {
+        if (single == null) {  
+            single = new Singleton();
+        }  
+        return single;
+    }
+}
+```
+
+
+```
+// 线程安全
+public class Singleton {
+    private Singleton() {}
+    private static Singleton single;
+    public static Singleton getInstance() {
+        if(null == single){
+            synchronized(single ){
+                if(null == single){
+                    single = new Singleton();
+                }
+            }
+        }
+        return single;
+    }
+}
+```
+
