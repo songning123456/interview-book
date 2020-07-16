@@ -1,4 +1,4 @@
-#### 解释下Serialization和Deserialization？
+#### 解释下序列化(Serialization)和反序列化(Deserialization)？
 把对象转换为字节序列的过程称为对象的序列化；把字节序列恢复为对象的过程称为对象的反序列化。
 
 
@@ -6,6 +6,10 @@
 
 
 当两个进程在进行远程通信时，彼此可以发送各种类型的数据。无论是何种类型的数据，都会以二进制序列的形式在网络上传送。发送方需要把这个Java对象转换为字节序列，才能在网络上传送，接收方则需要把字节序列再恢复为Java对象。
+
+
+#### Java为什么要实现序列化？
+序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化，将数据分解成字节流，以便存储在文件中或网络上传输。可以对流化后的对象进行读写操作，也可以将流化后的对象传输与网络之间。序列化是为了解决在对对象进行读写操作时所引发的问题。总的来说，就是将数据分解成字节流，以便存储在文件中或网络上传输，反序列化就是打开字节流并重构对象。
 
 
 #### Spring的优点?
@@ -44,7 +48,7 @@ Spring的高度开放性，并不强制应用完全依赖于Spring，开发者�
 
 
 #### Spring中bean实例化的方式(依赖注入)?
-Set方法
+**Set方法**
 ```
 public class SpringAction {  
     private SpringDao springDao;  
@@ -62,7 +66,7 @@ public class SpringAction {
 <bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
 ```
 
-普通构造方法
+**普通构造方法**
 ```
 public class SpringAction {  
     private SpringDao springDao;   
@@ -81,7 +85,7 @@ public class SpringAction {
 ```
 
 
-静态工厂
+**静态工厂**
 ```
 public class SpringAction {  
     private FactoryDao staticFactoryDao;   
@@ -104,7 +108,7 @@ public class DaoFactory {
 ```
 
 
-实例工厂创建
+**实例工厂**
 ```
 public class SpringAction {  
     private FactoryDao factoryDao;  
@@ -275,3 +279,7 @@ ResultSet rst = pst.executeQuery();
 
 
 **关闭JDBC对象**——操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。
+
+
+#### #{}和${}的区别是什么？
+${}是Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比如${driver}会被静态替换为com.mysql.jdbc.Driver。#{}是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。
