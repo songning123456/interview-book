@@ -1,4 +1,4 @@
-#### 解析xml使用哪些方式，有什么区别？
+#### 解析XML使用哪些方式，有什么区别？
 | 方式 | 优点 | 缺点 | 
 | :----- | :----- | :----- | 
 | DOM | DOM可以以一种独立于平台和语言的方式访问和修改一个文档的内容和结构，DOM技术使得用户页面可以动态的变化，如动态显示隐藏一个元素，改变它的属性，增加一个元素等，DOM可以使页面的交互性大大增强 | DOM解析XML文件时会将XML文件的所有内容以文档树方式存放在内存中 | 
@@ -19,43 +19,60 @@
 序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化，将数据分解成字节流，以便存储在文件中或网络上传输。可以对流化后的对象进行读写操作，也可以将流化后的对象传输与网络之间。序列化是为了解决在对对象进行读写操作时所引发的问题。总的来说，就是将数据分解成字节流，以便存储在文件中或网络上传输，反序列化就是打开字节流并重构对象。
 
 
-#### Spring的优点?
-降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
+#### 能说说使用Spring的好处吗?
+* 降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
 
 
-可以使用容易提供的众多服务，如事务管理，消息服务等。
+* 可以使用容易提供的众多服务，如事务管理，消息服务等。
 
 
-容器提供单例模式支持。
+* 容器提供单例模式支持。
 
 
-容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
+* 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
 
 
-容器提供了众多的辅助类，能加快应用的开发。
+* 容器提供了众多的辅助类，能加快应用的开发。
 
 
-Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
+* Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
 
 
-Spring属于低侵入式设计，代码的污染极低。
+* Spring属于低侵入式设计，代码的污染极低。
 
 
-独立于各种应用服务器。
+* 独立于各种应用服务器。
 
 
-Spring的DI机制降低了业务对象替换的复杂性。
+* Spring的DI机制降低了业务对象替换的复杂性。
 
 
-Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
+* Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
-#### SpringBean的加载过程？
+#### <a href="https://www.cnblogs.com/dengpengbo/p/10485924.html">你知道Spring中使用了哪些设计模式吗？</a>
+| 设计模式 | 解释 | 
+| :----- | :----- | 
+| 单例模式 | `<bean scope="singleton"></bean>` | 
+| 原型模式 | `<bean scope="prototype"></bean>` | 
+| 模板模式 | JdbcTemplate | 
+| 观察者模式 | ApplicationListener | 
+| 工厂模式-简单工厂模式 | getBean() | 
+| 工厂模式-工厂方法模式 | `<bean factory-method="getInstance"></bean>` | 
+| 适配器模式 | 在AOP实现中的Advice和interceptor之间的转换 | 
+| 装饰者模式 | 一种是类名中含有Wrapper，另一种是类名中含有Decorator | 
+| 代理模式 | Spring AOP | 
+| 策略模式 | 实例化对象 | 
+
+
+#### 你知道SpringBean的加载过程吗？
 ![SpringBean](/images/SSM/SpringBean.jpeg)
 
 
-#### Spring中bean实例化的方式(依赖注入)?
-**Set方法**
+#### Spring中bean实例化有哪几种方式(依赖注入)?
+* **Set方法**
+
+
 ```
 public class SpringAction {  
     private SpringDao springDao;  
@@ -73,7 +90,9 @@ public class SpringAction {
 <bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
 ```
 
-**普通构造方法**
+* **普通构造方法**
+
+
 ```
 public class SpringAction {  
     private SpringDao springDao;   
@@ -92,7 +111,9 @@ public class SpringAction {
 ```
 
 
-**静态工厂**
+* **静态工厂**
+
+
 ```
 public class SpringAction {  
     private FactoryDao staticFactoryDao;   
@@ -115,7 +136,9 @@ public class DaoFactory {
 ```
 
 
-**实例工厂**
+* **实例工厂**
+
+
 ```
 public class SpringAction {  
     private FactoryDao factoryDao;  
@@ -136,6 +159,19 @@ public class DaoFactory {
 <bean name="daoFactory" class="xxx.DaoFactory"></bean>  
 <bean name="factoryDao" factory-bean="daoFactory" factory-method="getFactoryDaoImpl"></bean>  
 ```
+
+
+#### SpringBean有哪些作用域？是否是线程安全的？
+| 类别 | 是否线程安全 | 作用域 | 
+| :----- | :----- | 
+| <div style="width: 150px">singleton(默认)</div> | <div style="width: 100px">不确定</div> | 单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例 | 
+| <div style="width: 150px">prototype</div> | <div style="width: 100px">安全</div> | 原型模式，每次通过容器的getBean方法获取prototype定义的Bean时，都将产生一个新的Bean实例，一般来说下面几种作用域，在开发的时候一般都不会用，99.99%的时候都是用singleton单例作用域 | 
+| <div style="width: 150px">request</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，即每次HTTP请求将会产生不同的Bean实例。只有在Web应用中使用Spring时，该作用域才有效，在请求完成以后，bean会失效并被垃圾回收器回收 | 
+| <div style="width: 150px">session</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP Session，使用session定义的Bean豆浆产生一个新实例。同样只有在Web应用中使用Spring时，该作用域才有效，在session过期后，bean会随之失效 | 
+| <div style="width: 150px">globalSession</div> | <div style="width: 100px">不确定</div> | 每个全局的HTTP Session，使用session定义的Bean都将产生一个新实例。典型情况下，仅在使用portlet context的时候有效。同样只有在Web应用中使用Spring时，该作用域才有效 | 
+
+
+线程安全这个问题，要从单例与原型Bean分别进行说明。对于原型Bean，每次创建一个新对象，也就是线程之间并不存在Bean共享，自然是不会有线程安全的问题。对于单例Bean，所有线程都共享一个单例实例Bean，因此是存在资源的竞争。如果单例Bean，是一个无状态Bean，也就是线程中的操作不会对Bean的成员执行查询以外的操作，那么这个单例Bean是线程安全的。比如SpringMVC的Controller、Service、Dao等，这些Bean大多是无状态的，只关注于方法本身。对于有状态的Bean，Spring官方提供的Bean，一般提供了通过ThreadLocal去解决线程安全的方法，比如RequestContextHolder、TransactionSynchronizationManager、LocaleContextHolder等。
 
 
 #### Spring IOC原理?
@@ -305,13 +341,13 @@ CallableStatement用来执行存储过程。存储过程是由数据库存储和
 
 
 #### 数据库连接池的优点？
-限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃。
+* 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃。
 
 
-数据库连接不需要每次都去创建或销毁，节约了资源。
+* 数据库连接不需要每次都去创建或销毁，节约了资源。
 
 
-数据库连接不需要每次都去创建，响应时间更快。
+* 数据库连接不需要每次都去创建，响应时间更快。
 
 
 #### JDBC连接数据库步骤？
@@ -344,3 +380,17 @@ ResultSet rst = pst.executeQuery();
 
 #### #{}和${}的区别是什么？
 ${}是Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比如${driver}会被静态替换为com.mysql.jdbc.Driver。#{}是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。
+
+
+#### 能画一张图并解释Spring Boot的核心架构吗？
+![SpringBoot](/images/SSM/SpringBoot.png)
+
+
+| 特征 | 解释 | 
+| :----- | :----- | 
+| <div style="width: 300px">独立运行Spring项目</div> | Spring Boot可以以jar包形式独立运行，运行一个Spring Boot项目只需要通过java -jar xx.jar来运行 | 
+| <div style="width: 300px">内嵌servlet容器</div> | Spring Boot可以选择内嵌Tomcat、jetty或者Undertow，这样我们无须以war包形式部署项目 | 
+| <div style="width: 300px">提供starter简化Maven配置</div> | Spring提供了一系列的start pom来简化Maven的依赖加载。例如，当你使用了spring-boot-starter-web，会自动加入依赖包 | 
+| <div style="width: 300px">自动装配Spring</div> | SpringBoot会根据在类路径中的jar包，类。为jar包里面的类自动配置Bean，这样会极大地减少我们要使用的配置。当然，SpringBoot只考虑大多数的开发场景，并不是所有的场景，若在实际开发中我们需要配置Bean，而SpringBoot没有提供支持，则可以自定义自动配置 | 
+| <div style="width: 300px">准生产的应用监控</div> | SpringBoot提供基于HTTP SSH Telnet对运行时的项目进行监控 | 
+| <div style="width: 300px">无代码生产和XML配置</div> | Spring Boot不是借助于代码生成来实现的，而是通过条件注解来实现的，这是Spring4.x提供的新特性 | 
