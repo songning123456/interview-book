@@ -12,9 +12,9 @@
  * [网络](/pages/Network.md)
  * [数据库](/pages/Database.md)
  * [SSM框架](/pages/SSM.md)
- * [中间件](/pages/Middleware.md)
+ <!-- * [中间件](/pages/Middleware.md) -->
  * [微服务](/pages/MicroService.md)
- * [算法](/pages/Arithmetic.md)
+ <!-- * [算法](/pages/Arithmetic.md) -->
  * [服务部署](/pages/Deploy.md)
  * [自我/项目概述](/pages/Introduction.md)
  * [后记](/pages/Ending.md)
