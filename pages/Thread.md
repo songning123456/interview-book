@@ -52,11 +52,11 @@
 #### 多线程之间是如何进行信息交互的？
 | 方法 | 解释 | 
 | :----- | :----- | 
-| void notify() | 唤醒在此对象监视器上等待的单个线程 | 
-| void notifyAll() | 唤醒在此对象监视器上等待的所有线程 | 
-| void wait() | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法 | 
-| void wait(long timeout) | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者超过指定的时间量 | 
-| void wait(long timeout,int nanos) | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量 | 
+| <div style="width: 300px">void notify()</div> | 唤醒在此对象监视器上等待的单个线程 | 
+| <div style="width: 300px">void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程 | 
+| <div style="width: 300px">void wait()</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法 | 
+| <div style="width: 300px">void wait(long timeout)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者超过指定的时间量 | 
+| <div style="width: 300px">void wait(long timeout,int nanos)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量 | 
 
 
 #### 多线程的几种通讯方式？
@@ -268,7 +268,7 @@ public class Run {
 
 
 #### 说说线程池的创建方式？
-**newCachedThreadPool**——创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
+* **newCachedThreadPool**——创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
 
 
 ```
@@ -292,7 +292,9 @@ for (int i = 0; i < 10; i++) {
 <span style="color: red">总结：线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</span>
 
 
-**newFixedThreadPool**——创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+* **newFixedThreadPool**——创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+
+
 ```
 ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(5);
 for (int i = 0; i < 10; i++) {
@@ -308,7 +310,7 @@ for (int i = 0; i < 10; i++) {
 <span style="color: red">总结：因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。定长线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()。</span>
 
 
-**newScheduledThreadPool**——创建一个定长线程池，支持定时及周期性任务执行。
+* **newScheduledThreadPool**——创建一个定长线程池，支持定时及周期性任务执行。
 
 
 ```
@@ -325,7 +327,9 @@ ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPo
 ```
 
 
-**newSingleThreadExecutor**——创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+* **newSingleThreadExecutor**——创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+
+
 ```
 ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
 for (int i = 0; i < 10; i++) {
@@ -346,17 +350,75 @@ for (int i = 0; i < 10; i++) {
 <span style="color: red">注意: 结果依次输出，相当于顺序执行各个任务。</span>
 
 
-#### 线程池的工作原理？
+#### 线程池的底层工作原理？
 ![线程池](/images/Thread/ThreadPool.jpg)
+在创建了线程池后，等待提交过来的任务请求。
 
 
-判断线程池里的核心线程是否都在执行任务。如果不是(核心线程空闲或者还有核心线程没有被创建)则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。
+在调用execute()方法添加一个请求任务时，线程池会做如下判断：
 
 
-线程池判断工作队列是否已满。如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。
+```
+如果正在运行的线程数量小于corePoolSize=5，那么马上创建线程运行这个任务；
+如果正在运行的线程数量大于或等于corePoolSize=5，那么将这个任务放入队列；
+如果这时候队列满了且正在运行的线程数量还小于maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务；
+如果队列满了且正在运行的线程数量大于或等于maximumPoolSize,那么线程池会启动饱和拒绝策略来执行。
+```
 
 
-判断线程池里的线程是否都处于工作状态。如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略来处理这个任务。
+当一个线程完成任务时，它会从队列中去下一个任务来执行。
+
+
+当一个线程无事可做超过一定的时间(keepAliveTime)时，线程池会判断：如果当前运行的线程数大于corePoolSize=5，那么这个线程就被停掉。所以线程池的所有任务完成后它最终会收缩到corePoolSize=5的大小。
+
+
+#### 能说说线程池的核心配置参数？ThreadPoolExecutor有哪些拒绝策略？
+| 参数 | 默认值 | 解释 | 
+| :----- | :----- | :----- | 
+| corePoolSize(核心线程数) | 1 | 1.核心线程会一直存在，即使没有任务执行； <br> 2.当线程数小于核心线程数的时候，即使有空闲线程，也会一直创建线程直到达到核心线程数； <br> 3.设置allowCoreThreadTimeout=true(默认false)时，核心线程会超时关闭 | 
+| queueCapacity(任务队列容量) | Integer.MAX_VALUE | 也叫阻塞队列，当核心线程都在运行，此时再有任务进来，会进入任务队列，排队等待线程执行 | 
+| maxPoolSize(最大线程数) | Integer.MAX_VALUE | 1.线程池里允许存在的最大线程数量； <br> 2.当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务； <br> 3.线程池里允许存在的最大线程数量。当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务 | 
+| keepAliveTime(线程空闲时间) | 60秒 | 1.当线程空闲时间达到keepAliveTime时，线程会退出(关闭)，直到线程数等于核心线程数； <br> 2.如果设置了allowCoreThreadTimeout=true，则线程会退出直到线程数等于零 | 
+| allowCoreThreadTimeout(允许核心线程超时) | false | ———— | 
+| rejectedExecutionHandler(任务拒绝处理器) | AbortPolicy() | 1.当线程数量达到最大线程数，且任务队列已满时，会拒绝任务； <br> 2.调用线程池shutdown()方法后，会等待执行完线程池的任务之后，再shutdown()。如果在调用了shutdown()方法和线程池真正shutdown()之间提交任务，会拒绝新任务 | 
+
+
+| 拒绝策略 | 解释 | 
+| :----- | :----- | 
+| AbortPolicy | 直接抛异常 | 
+| DiscardPolicy | 当前任务会强制调用run先执行，任务将由调用者线程(可能是主线程)去执行。缺点可能会阻塞主线程 | 
+| DiscardOldestPolicy | 抛弃任务队列中最旧任务 | 
+| CallerRunsPolicy | 抛弃当前将要加入队列的任务 | 
+| 自定义 | 如果后续慢慢的队列里没任务了，线程空闲了，超过corePoolSize的线程会自动释放掉，在keepAliveTime之后就会释放 | 
+
+
+#### JDK提供了多少种阻塞队列？如果在线程池中使用无界阻塞队列会发生什么问题？
+| 阻塞队列 | 解释 | 
+| :----- | :----- | 
+| ArrayBlockingQueue | 一个由数组结构组成的有界阻塞队列 | 
+| LinkedBlockingQueue | 一个由链表结构组成的有界阻塞队列 | 
+| PriorityBlockingQueue | 一个支持优先级排序的无界阻塞队列 | 
+| DelayQueue | 一个使用优先级队列实现的无界阻塞队列 | 
+| SynchronousQueue | 一个不存储元素的阻塞队列 | 
+| LinkedTransferQueue | 一个由链表结构组成的无界阻塞队列 | 
+| LinkedBlockingQueue | 一个由链表结构组成的双向阻塞队列 | 
+
+
+| 线程池 | 默认队列 | 解释 |
+| :----- | :----- | 
+| Executors.newFixedThreadPool(10) | LinkedBlockingQueue | 无限加入队列 |
+| Executors.newScheduledThreadPool(10) | DelayedWorkQueue | 队列如果满了，阻塞 |
+| Executors.newSingleThreadScheduledExecutor() | DelayedWorkQueue | 队列如果满了，阻塞 |
+| Executors.newCachedThreadPool() | SynchronousQueue | 队列如果满了，抛异常 |
+| Executors.newSingleThreadExecutor() | LinkedBlockingQueue | 无限加入队列 |
+因为调用异常，会调用超时，线程处理任务时间是超时时间，线程池等待队列，会变得越来越大，此时会导致内存飙升起来，而且还可能导致OOM，内存溢出或者频繁的GC。
+
+
+#### 如果线上机器突然宕机，线程池的阻塞队列中的请求怎么办？该如何解决？
+机器宕机，必然会导致线程池里的积压的任务丢失。
+
+
+在提交一个任务到线程池里去，提交之前，将这个任务信息持久化到数据库里，此时的状态为**未提交**，提交成功之后，更新任务信息的状态为**提交成功**，当任务完成的时候，更新任务信息的状态为 已完成当宕机的机器重启的时候，可以开启一个后台线程，扫描数据库里**未提交**和**已提交**的任务，可以把任务读取出来，重新提交到线程池中，继续进行执行，被调用的方法一定做好幂等操作，防止请求重复执行。
 
 
 #### 如何合理的配置线程池？
@@ -369,11 +431,11 @@ for (int i = 0; i < 10; i++) {
     <tr>
         <td rowspan="3">任务的性质</td>
         <td style="width: 150px">CPU密集型任务</td>
-        <td>配置尽可能少的线程数量，如配置Ncpu+1个线程的线程池</td>
+        <td>配置尽可能少的线程数量，如配置<span style="color:red">Ncpu+1</span>个线程的线程池</td>
     </tr>
     <tr>
         <td style="width: 150px">IO密集型任务</td>
-        <td>由于需要等待IO操作，线程并不是一直在执行任务，则配置尽可能多的线程，如2*Ncpu</td>
+        <td>由于需要等待IO操作，线程并不是一直在执行任务，则配置尽可能多的线程，如<span style="color:red">2*Ncpu</span></td>
     </tr>
     <tr>
         <td style="width: 150px">混合型任务</td>
