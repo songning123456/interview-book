@@ -1,3 +1,21 @@
+#### nginx实现请求转发的方式？负载均衡的实现方式？
+反向代理和负载均衡
+
+
+| 策略 | 解释 | 代码 | 
+| :----- | :----- | :----- | 
+| <div style="width: 140px">轮询(默认)</div> | <div style="width: 200px">每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除</div> | upstream backserver { <br> &emsp;&emsp;server 192.168.0.14; <br> &emsp;&emsp;server 192.168.0.15; <br> }  | 
+| <div style="width: 140px">指定权重</div> | <div style="width: 200px">指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况</div> | upstream backserver { <br> &emsp;&emsp;server 192.168.0.14 weight=10; <br> &emsp;&emsp;server 192.168.0.15 weight=10; <br> }  | 
+| <div style="width: 140px">IP绑定 ip_hash</div> | <div style="width: 200px">每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题</div> | upstream backserver { <br> &emsp;&emsp;ip_hash; <br> &emsp;&emsp;server 192.168.0.14:88; <br> &emsp;&emsp;server 192.168.0.15:80; <br> } | 
+| <div style="width: 140px">fair(第三方)</div> | <div style="width: 200px">按后端服务器的响应时间来分配请求，响应时间短的优先分配</div> | upstream backserver { <br> &emsp;&emsp;server server1; <br> &emsp;&emsp;server server2; <br> &emsp;&emsp;fair; <br>} | 
+| <div style="width: 140px">url_hash(第三方)</div> | <div style="width: 200px">按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效</div> | upstream backserver { <br> &emsp;&emsp;server squid1:3128; <br> &emsp;&emsp;server squid2:3128; <br> &emsp;&emsp;hash $request_uri; <br> &emsp;&emsp;hash_method crc32; <br> } | 
+
+
+#### Tomcat的作用以及理解？
+![Tomcat](/images/Deploy/Tomcat.png)
+当一个动态动态网页编写完成后是不能直接被别人通过浏览器访问的，要想访问此动态网页就必须让浏览器通过一段程序来访问此网页，这段程序就是服务器，他用来接受浏览器的请求，进行处理，将结果返回给浏览器。
+
+
 #### Linux常用命令
 | 命令 | 解释 | 
 | :----- | :----- | 

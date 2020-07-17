@@ -145,12 +145,19 @@
 开闭原则
 
 
-#### 单例模式的特点及其创建的方式？
-私有化的构造函数；私有的静态的全局变量；公有的静态的方法
+#### 单例模式的优缺点及其实现的方式？
+| 优点 | 缺点 | 
+| :----- | :----- | 
+| <div style="width: 400px">由于单例模式在内存中只有一个实例，减少内存开支，特别是一个对象需要频繁地创建销毁时，而且创建或销毁时性能又无法优化,单例模式就非常明显了</div> | 单例模式一般没有接口，扩展很困难，若要扩展，除了修改代码基本上没有第二种途径可以实现 | 
+| <div style="width: 400px">由于单例模式只生成一个实例，所以，减少系统的性能开销，当一个对象产生需要比较多的资源时，如读取配置，产生其他依赖对象时，则可以通过在应用启动时直接产生一个单例对象，然后永久驻留内存的方式来解决</div> | 单例对象如果持有Context，那么很容易引发内存泄漏，此时需要注意传递给单例对象的Context最好是Application Context | 
+| <div style="width: 400px">单例模式可以避免对资源的多重占用，例如一个写文件操作，由于只有一个实例存在内存中，避免对同一个资源文件的同时写操作</div> | ———— | 
+| <div style="width: 400px">单例模式可以在系统设置全局的访问点，优化和共享资源访问，例如，可以设计一个单例类，负责所有数据表的映射处理</div> | ———— | 
+
+
+* **饿汉式**
 
 
 ```
-// 饿汉式
 public class Singleton {
     private Singleton() {};
     private static Singleton single = new Singleton();
@@ -161,8 +168,10 @@ public class Singleton {
 ```
 
 
+* **懒汉式**
+
+
 ```
-// 懒汉式
 public class Singleton {
     private Singleton() {}
     private static Singleton single=null;
@@ -176,8 +185,10 @@ public class Singleton {
 ```
 
 
+* **线程安全**
+
+
 ```
-// 线程安全
 public class Singleton {
     private Singleton() {}
     private static Singleton single;
@@ -193,4 +204,101 @@ public class Singleton {
     }
 }
 ```
+
+
+#### 动态代理的实现方式？
+* **基于JDK的动态代理**
+
+
+```
+public interface IJdkSubject {
+    void jdkProxyMethod(String param);
+}
+
+public class JdkSubjectImpl implements IJdkSubject {
+    @Override
+    public void jdkProxyMethod(String param) {
+        System.out.println("JDK Proxy " + param);
+    }
+}
+
+public class JdkSubjectProxy implements InvocationHandler {
+    private IJdkSubject iJdkSubject;
+    public JdkSubjectProxy(IJdkSubject jdkSubject) {
+        this.iJdkSubject = jdkSubject;
+    }
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("--------------begin--------------");
+        // invoke => 方法的返回值；如果没有，返回null
+        Object invoke = method.invoke(iJdkSubject, args);
+        System.out.println("--------------end--------------");
+        return invoke;
+    }
+}
+
+public class JdkProxyMain {
+    public static void main(String[] args) {
+        IJdkSubject iJdkSubject = new JdkSubjectImpl();
+        InvocationHandler jdkSubjectProxy = new JdkSubjectProxy(iJdkSubject);
+        // jdkSubjectProxy.getClass().getClassLoader() => 代理类的类加载器
+        // iJdkSubject.getClass().getInterfaces() => 被代理类的接口，如果有多个就是数组的形式传入
+        // jdkSubjectProxy => 代理类实例
+        IJdkSubject proxyInstance = (IJdkSubject) Proxy.newProxyInstance(jdkSubjectProxy.getClass().getClassLoader(), iJdkSubject.getClass().getInterfaces(), jdkSubjectProxy);
+        proxyInstance.jdkProxyMethod("success");
+    }
+}
+```
+
+
+```
+// 运行结果
+--------------begin--------------
+JDK Proxy success
+--------------end--------------
+```
+
+
+* **基于CGLIB的动态代理**
+
+
+```
+public class CglibSubject {
+    public void cglibProxyMethod() {
+        System.out.println("cglib Proxy success");
+    }
+}
+
+public class CglibInterceptor implements MethodInterceptor {
+    @Override
+    public Object intercept(Object object, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println("--------------begin--------------");
+        // MethodProxy => 代理方法
+        // object => 被代理对象的实例
+        // invokeSuper => 调用被拦截的方法，不要使用invoke，会出现OOM的情况
+        Object obj = methodProxy.invokeSuper(object, objects);
+        System.out.println("--------------end--------------");
+        return obj;
+    }
+}
+
+public class CglibProxyMain {
+    public static void main(String[] args) {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(CglibSubject.class);
+        enhancer.setCallback(new CglibInterceptor());
+        CglibSubject cglibSubject = (CglibSubject) enhancer.create();
+        cglibSubject.cglibProxyMethod();
+    }
+}
+```
+
+
+```
+// 运行结果
+--------------begin--------------
+cglib Proxy success
+--------------end--------------
+```
+
 

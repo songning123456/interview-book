@@ -269,8 +269,77 @@ URL编码是负责把URL里面的空格和其他的特殊字符替换成对应�
 浏览器解密握手消息，然后生成的随机密码，然后用对称加密来进行进行加密。(常用的非对称加密是RSA算法，对称加密是AES、RC4等，hash算法就是MD5。)计算消息的hash值，如果跟网站发来的hash一样，握手就结束，之后所有的数据都会由之前浏览器。
 
 
-#### 说说你们项目如何实现跨域名访问的？
-使用了CORS跨域解决方案。它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
+#### 浏览器的同源策略？
+| URL | 解释 | 是否允许通信 | 
+| :----- | :----- | :----- | 
+| `http://www.a.com/a.js` <br> `http://www.a.com/b.js` | 同一域名下 | √ | 
+| `http://www.a.com/lab/a.js` <br> `http://www.a.com/script/b.js` | 同一域名下不同文件夹 | √ | 
+| `http://www.a.com:8000/a.js` <br> `http://www.a.com/b.js` | 同一域名，不同端口 | × | 
+| `http://www.a.com/a.js` <br> `https://www.a.com/b.js` | 同一域名，不同协议 | × | 
+| `http://www.a.com/a.js` <br> `http://70.32.92.74/b.js` | 域名和域名对应ip | × | 
+| `http://www.a.com/a.js` <br> `http://script.a.com/b.js` | 主域相同，子域不同 | × | 
+| `http://www.a.com/a.js` <br> `http://a.com/b.js` | 同一域名，不同二级域名 | × | 
+| `http://www.cnblogs.com/a.js` <br> `http://www.a.com/b.js` | 不同域名 | × | 
+<span style="color: red">如果是协议和端口造成的跨域问题“前台”是无能为力的。</span>
+
+
+<span style="color: red">在跨域问题上，域仅仅是通过“URL的首部”来识别而不会去尝试判断相同的ip地址对应着两个域或两个域是否在同一个ip上。</span>
+
+
+*“URL的首部”指 window.location.protocol + window.location.host，也可以理解为“Domains, protocols and ports must match”。*
+
+
+#### <a href="https://www.cnblogs.com/PheonixHkbxoic/p/5760838.html">前端解决跨域的方案？</a>
+**CORS**——它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
+
+
+```
+// IE浏览器
+var xdr = new XDomainRequest();
+xdr.onload = function(){
+    console.log(xdr.responseText);
+}
+xdr.open('get', 'http://www.baidu.com');
+...
+xdr.send(null);
+
+// 其它浏览器
+var xhr =  new XMLHttpRequest();
+xhr.onreadystatechange = function () {
+    if(xhr.readyState == 4){
+        if(xhr.status >= 200 && xhr.status < 304 || xhr.status == 304){
+            console.log(xhr.responseText);
+        }
+    }
+}
+xhr.open('get', 'http://www.baidu.com');
+...
+xhr.send(null);
+```
+
+
+```
+// 实现跨浏览器的CORS
+function createCORS(method, url){
+    var xhr = new XMLHttpRequest();
+    if('withCredentials' in xhr){
+        xhr.open(method, url, true);
+    }else if(typeof XDomainRequest != 'undefined'){
+        var xhr = new XDomainRequest();
+        xhr.open(method, url);
+    }else{
+        xhr = null;
+    }
+    return xhr;
+}
+var request = createCORS('get', 'http://www.baidu.com');
+if(request){
+    request.onload = function(){
+        ...
+    };
+    request.send();
+}
+```
 
 
 #### <a href="https://blog.csdn.net/lzuacm/article/details/50945225">TCP和UDP的区别？</a>
