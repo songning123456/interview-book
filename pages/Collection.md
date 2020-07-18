@@ -34,7 +34,7 @@ Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源
 | 可供应用迭代的键的集合，因此，HashMap是快速失败的 | 对键的列举(Enumeration) |
 
 
-#### <a href="https://www.jianshu.com/p/ee0de4c99f87">你知道HashMap的基本结构吗？</a>
+#### <a href="https://www.jianshu.com/p/ee0de4c99f87">你知道HashMap的基本结构吗？讲一下HashMap的put的过程？</a>
 ![HashMap](/images/Collection/HashMap.jpg)
 
 
@@ -51,7 +51,29 @@ Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源
 ```
 
 
-数组中每个元素都是一个链表,HashMap是基于hash原理：我们对map进行put的时候，会对键调用hashcode方法，通过hashcode获得bucket，从而存储entry。 
+* 对key求Hash值，然后再计算下标；
+
+
+* 如果没有碰撞，直接放入桶中；
+
+
+* 如果碰撞了，以链表的方式链接到后面；
+
+
+* 如果链表长度超过阀值(TREEIFY_THRESHOLD == 8)，就把链表转成红黑树；
+
+
+* 如果节点已经存在就替换旧值；
+
+
+* 如果桶满了(容量 * 加载因子)，就需要resize。
+
+
+```
+思考：扩容后，原始值所在的位置？
+
+答：元素的下标要么 不变，要么变为 原下标+原容量。
+```
 
 
 #### ConcurrentHashMap实现线程安全的底层原理是什么？
@@ -93,7 +115,92 @@ key -> 4; value -> 4
 
 
 #### Comparable和Comparator接口是干什么的？列出它们的区别？
-Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。
+* **Comparable实现**——Comparable是排序接口。若一个类实现了Comparable接口，就意味着“该类支持排序”。此外，“实现Comparable接口的类的对象”可以用作“有序映射(如TreeMap)”中的键或“有序集合(TreeSet)”中的元素，而不需要指定比较器。接口中通过x.compareTo(y)来比较x和y的大小。若返回负数，意味着x<y；返回零，意味着x=y；返回正数，意味着x>y。      
 
 
-Java提供了包含compare()和equals()两个方法的Comparator接口。compare()方法用来给两个输入参数排序，返回负数，0，正数表明第一个参数是小于，等于，大于第二个参数。equals()方法需要一个对象作为参数，它用来决定输入参数是否和comparator相等。只有当输入参数也是一个comparator并且输入参数和当前comparator的排序结果是相同的时候，这个方法才返回true。
+```
+// Person对象
+public class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    @Override
+    public int compareTo(Person person) {
+        // this.age - person.age升序，person.age - this.age降序
+        return this.age - person.age;
+    }
+    @Override
+    public String toString() {
+        return this.name + "-" + this.age;
+    }
+}
+
+// Comparable实现
+public class ComparableMain {
+    public static void main(String[] args) {
+        ArrayList<Person> list = new ArrayList<>();
+        list.add(new Person("ccc", 20));
+        list.add(new Person("AAA", 30));
+        list.add(new Person("bbb", 10));
+        list.add(new Person("ddd", 40));
+        System.out.println("Comparable-before: " + list);
+        Collections.sort(list);
+        System.out.println("Comparable-after: " + list);
+    }
+}
+
+// 结果
+Comparable-before: [ccc-20, AAA-30, bbb-10, ddd-40]
+Comparable-after: [bbb-10, ccc-20, AAA-30, ddd-40]
+```
+
+
+* **Comparator实现**——Comparator是比较器接口。我们若需要控制某个类的次序，而该类本身不支持排序(即没有实现Comparable接口)；那么，我们可以建立一个“该类的比较器”来进行排序。这个“比较器”只需要实现Comparator接口即可。也就是说，我们可以通过“实现Comparator类来新建一个比较器”，然后通过该比较器对类进行排序。int compare(T o1, T o2)和上面的x.compareTo(y)类似，定义排序规则后返回。正数，零和负数分别代表大于，等于和小于。
+
+
+```
+// Person略，去掉implements Comparable<Person>
+...
+
+// 升序
+public class AscComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person person1, Person person2) {
+        return person1.getAge() - person2.getAge();
+    }
+}
+
+// 降序
+public class DescComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person person1, Person person2) {
+        return person2.getAge() - person1.getAge();
+    }
+}
+
+// Comparator实现
+public class ComparatorMain {
+    public static void main(String[] args) {
+        ArrayList<Person> list = new ArrayList<>();
+        list.add(new Person("ccc", 20));
+        list.add(new Person("AAA", 30));
+        list.add(new Person("bbb", 10));
+        list.add(new Person("ddd", 40));
+        System.out.println("Comparator-before: " + list);
+        AscComparator ascComparator = new AscComparator();
+        list.sort(ascComparator);
+        System.out.println("Comparator-asc: " + list);
+        DescComparator descComparator = new DescComparator();
+        list.sort(descComparator);
+        System.out.println("Comparator-desc: " + list);
+    }
+}
+
+// 结果
+Comparator-before: [ccc-20, AAA-30, bbb-10, ddd-40]
+Comparator-asc: [bbb-10, ccc-20, AAA-30, ddd-40]
+Comparator-desc: [ddd-40, AAA-30, ccc-20, bbb-10]
+```
