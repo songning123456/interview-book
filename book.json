@@ -1,19 +1,13 @@
 {
   "plugins": [
     "hide-element",
-    "back-to-top-button",
-    "chapter-fold",
-    "code",
     "lightbox",
     "page-treeview",
-    "splitter",
     "-lunr",
     "-search",
     "search-pro",
-    "popup",
     "-sharing",
-    "sharing-plus",
-    "auto-scroll-table"
+    "sharing-plus"
   ],
   "pluginsConfig": {
     "hide-element": {
