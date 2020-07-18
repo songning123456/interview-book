@@ -1,13 +1,5 @@
-#### 同步方法和同步代码块的区别是什么？
-在Java语言中，每一个对象有一把锁。线程可以使用synchronized关键字来获取对象上的锁。synchronized关键字可应用在方法级别(粗粒度锁)或者是代码块级别(细粒度锁)。
-
-
-#### 在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步？
-监视器和锁在Java虚拟机中是一块使用的。监视器监视一块同步代码块，确保一次只有一个线程执行同步代码块。每一个监视器都和一个对象引用相关联，线程在获取锁之前不允许执行同步代码。
-
-
 #### 什么是死锁(deadlock)？如何才能产生死锁？
-两个进程都在等待对方执行完毕才能继续往下执行的时候就发生了死锁，结果就是两个进程都陷入了无限的等待中。
+当一个线程永远地持有一个锁，并且其他线程都尝试获得这个锁时，那么它们将永远被阻塞。在线程A持有锁L并想获得锁M的同时，线程B持有锁M并尝试获得锁L，那么这两个线程将永远地等待下去。这种就是最简答的死锁形式(或者叫做“抱死”)。
 
 
 | 条件 | 解释 | 
@@ -18,7 +10,7 @@
 | 循环等待条件 | 若干进程之间形成一种头尾相接的循环等待资源关系 | 
 
 
-#### 如何预防死锁？
+#### 如何预防死锁？死锁的解决办法？
 | 条件 | 解释 | 
 | :----- | :----- | 
 | 打破互斥条件 | <div style="width: 550px">即允许进程同时访问某些资源。但是，有的资源是不允许被同时访问的，像打印机等等，这是由资源本身的属性所决定的。所以，这种办法并无实用价值</div> | 
@@ -27,15 +19,130 @@
 | 打破循环等待条件 | <div style="width: 550px">实行资源有序分配策略。采用这种策略，即把资源事先分类编号，按号分配，使进程在申请，占用资源时不会形成环路。所有进程对资源的请求必须严格按资源序号递增的顺序提出。进程占用了小号资源，才能申请大号资源，就不会产生环路，从而预防了死锁</div> | 
 
 
-#### 如何确保N个线程可以访问N个资源同时又不导致死锁？
-使用多线程的时候，一种非常简单的避免死锁的方式就是：指定获取锁的顺序，并强制线程按照指定的顺序获取锁。因此，如果所有的线程都是以同样的顺序加锁和释放锁，就不会出现死锁了。
+在Account中包含一个唯一的，不可变的值。比如说账号等。通过对这个值对对象进行排序(snowFlakeId)。
+```
+@Data
+public class Account {
+    private Integer id;
+    private Integer balance;
+    public Account(Integer id, Integer balance) {
+        this.id = id;
+        this.balance = balance;
+    }
+    /**
+     * 借记
+     *
+     * @param money
+     * @throws Exception
+     */
+    public void debit(int money) throws Exception {
+        Thread.sleep(500);
+        balance = balance + money;
+    }
+    /**
+     * 信贷
+     *
+     * @param money
+     * @throws Exception
+     */
+    public void credit(int money) throws Exception {
+        Thread.sleep(500);
+        balance = balance - money;
+    }
+    public int compareTo(int money) {
+        if (balance > money) {
+            return 1;
+        } else if (balance < money) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+}
+```
+
+
+```
+public class Helper {
+    public void transfer(Account fromAccount, Account toAccount, int amount) throws Exception {
+        if (fromAccount.compareTo(amount) < 0) {
+            throw new Exception("金钱不够");
+        } else {
+            fromAccount.credit(amount);
+            toAccount.debit(amount);
+        }
+    }
+}
+```
+
+
+```
+public class TransferThread extends Thread {
+    public static List<Account> accountList = Arrays.asList(new Account(1, 1000), new Account(2, 1000));
+    @Override
+    public void run() {
+        int i = new Random().nextInt(2);
+        Account fromAccount, toAccount;
+        if (i == 0) {
+            fromAccount = accountList.get(1);
+            toAccount = accountList.get(0);
+        } else {
+            fromAccount = accountList.get(0);
+            toAccount = accountList.get(1);
+        }
+        try {
+            Lock.transferMoney(fromAccount, toAccount, 1);
+        } catch (Exception e) {
+            System.out.println("发生异常-------" + e);
+        }
+    }
+}
+```
+
+
+```
+public class Lock {
+    public static void transferMoney(Account fromAccount, Account toAccount, int amount) throws Exception {
+        int fromId = fromAccount.getId();
+        int toId = toAccount.getId();
+        System.out.println("账户" + fromId + " 向账户 " + toId + " 转账");
+        if (fromId < toId) {
+            synchronized (fromAccount) {
+                synchronized (toAccount) {
+                    new Helper().transfer(fromAccount, toAccount, amount);
+                }
+            }
+        } else if (fromId > toId) {
+            synchronized (toAccount) {
+                synchronized (fromAccount) {
+                    new Helper().transfer(fromAccount, toAccount, amount);
+                }
+            }
+        } else {
+            throw new Exception("from,to不能相等!!!");
+        }
+    }
+}
+```
+
+
+```
+public class DemoMain {
+    public static void main(String[] args) {
+        for (int i = 0; i < 50; i++) {
+            new TransferThread().start();
+        }
+    }
+}
+```
+
 
 
 #### <a href="https://www.jianshu.com/p/570410236ff5">说说synchronized关键字的底层原理？</a>
 synchronized同步语句块的实现，使用的是**monitorenter**和**monitorexit**指令，其中monitorenter指令指向同步代码块的开始位置，monitorexit指令则指明同步代码块的结束位置。 当执行monitorenter指令时，线程试图获取锁，也就是获取monitor(monitor对象存在于每个Java对象的对象头中，synchronized锁便是通过这种方式获取锁的，这也是为什么Java中任意对象都可以作为锁的原因)的持有权。当计数器为0，则可以成功获取，获取后将锁计数器设为1，也就是加1；相应的，在执行monitorexit指令后，将锁计数器设为0，表明锁被释放。如果获取对象锁失败，那当前线程就要阻塞等待，直到锁被另外一个线程释放为止。
 
 
-#### synchronized如何使用？
+#### 你知道synchronized的使用场景吗，它是如何使用的？
 | 分类 | 被锁的对象 | 伪代码 | 解释 | 
 | :----- | :----- | :----- | :----- | 
 | <div style="width: 100px">实例方法</div> | <div style="width: 160px">类的实例对象</div> | public synchronized void method() { ... } | 实例方法，锁住的是该类的实例对象 |

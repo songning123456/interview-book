@@ -351,17 +351,17 @@ CallableStatement用来执行存储过程。存储过程是由数据库存储和
 
 
 #### JDBC连接数据库步骤？
-**加载JDBC驱动程序**——通过Class类的forName方法实现，并将驱动地址放进去成功加载后，会将Driver类的实例注册到DriverManager类中。
+* **加载JDBC驱动程序**——通过Class类的forName方法实现，并将驱动地址放进去成功加载后，会将Driver类的实例注册到DriverManager类中。
 
 
-**提供JDBC连接的URL、创建数据库的连接**——要连接数据库，需要向java.sql.DriverManager请求并获得Connection对象，该对象就代表一个数据库的连接。使用DriverManager的getConnection()方法传入指定的欲连接的数据库的路径、数据库的用户名和密码。
+* **提供JDBC连接的URL、创建数据库的连接**——要连接数据库，需要向java.sql.DriverManager请求并获得Connection对象，该对象就代表一个数据库的连接。使用DriverManager的getConnection()方法传入指定的欲连接的数据库的路径、数据库的用户名和密码。
 ```
  Connection con = DriverManager.getConnection(url,username,password);
  "jdbc:mysql://localhost:3306/test?user=root&password=123&useUnicode=true&characterEncoding=utf-8"
 ```
 
 
-**创建一个Statement**——要执行SQL语句，必须获得java.sql.Statement实例；执行静态SQL语句，通常通过Statement实例实现；执行动态SQL语句，通常通过PreparedStatement实例实现。
+* **创建一个Statement**——要执行SQL语句，必须获得java.sql.Statement实例；执行静态SQL语句，通常通过Statement实例实现；执行动态SQL语句，通常通过PreparedStatement实例实现。
 ```
 String sql = "";
 Statement st = con.createStatement();  
@@ -369,13 +369,13 @@ PreparedStatement pst = con.prepareStatement(sql);
 ```
 
 
-**执行SQL语句**——Statement接口提供了executeQuery、executeUpdate、execute三种方法。executeQuery执行select语句，返回ResultSet结果集；executeUpdate执行insert、update、delete语句。
+* **执行SQL语句**——Statement接口提供了executeQuery、executeUpdate、execute三种方法。executeQuery执行select语句，返回ResultSet结果集；executeUpdate执行insert、update、delete语句。
 ```
 ResultSet rst = pst.executeQuery();
 ```
 
 
-**关闭JDBC对象**——操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。
+* **关闭JDBC对象**——操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。
 
 
 #### #{}和${}的区别是什么？
@@ -394,3 +394,13 @@ ${}是Properties文件中的变量占位符，它可以用于标签属性值和s
 | <div style="width: 300px">自动装配Spring</div> | SpringBoot会根据在类路径中的jar包，类。为jar包里面的类自动配置Bean，这样会极大地减少我们要使用的配置。当然，SpringBoot只考虑大多数的开发场景，并不是所有的场景，若在实际开发中我们需要配置Bean，而SpringBoot没有提供支持，则可以自定义自动配置 | 
 | <div style="width: 300px">准生产的应用监控</div> | SpringBoot提供基于HTTP SSH Telnet对运行时的项目进行监控 | 
 | <div style="width: 300px">无代码生产和XML配置</div> | Spring Boot不是借助于代码生成来实现的，而是通过条件注解来实现的，这是Spring4.x提供的新特性 | 
+
+
+#### @SpringBootApplication包含哪些注解？
+* **@ComponentScan**——扫描当前包及其子包下被@Component，@Controller，@Service，@Repository注解标记的类并纳入到Spring容器进行管理。
+
+
+* **@SpringBootConfiguration**——继承自@Configuration，二者功能一致，标注当前类是配置类，并会将当前类内声明的一个或多个以@Bean注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。
+
+
+* **@EnableAutoConfiguration**——启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。

@@ -15,7 +15,7 @@
 
 
 #### Java创建对象的有几种方式？
-**使用new关键字**——这是我们最常见的也是最简单的创建对象的方式，通过这种方式我们还可以调用任意的够赞函数(无参的和有参的)。
+* **使用new关键字**——这是我们最常见的也是最简单的创建对象的方式，通过这种方式我们还可以调用任意的够赞函数(无参的和有参的)。
 
 
 ```
@@ -23,7 +23,7 @@ Student student = new Student();
 ```
 
 
-**使用Class类的newInstance方法**——我们也可以使用Class类的newInstance方法创建对象，这个newInstance方法调用无参的构造器创建对象。
+* **使用Class类的newInstance方法**——我们也可以使用Class类的newInstance方法创建对象，这个newInstance方法调用无参的构造器创建对象。
 
 
 ```
@@ -33,7 +33,7 @@ Student student = Student.class.newInstance();
 ```
 
 
-**使用Constructor类的newInstance方法**——本方法和Class类的newInstance方法很像，java.lang.reflect.Constructor类里也有一个newInstance方法可以创建对象。我们可以通过这个newInstance方法调用有参数的和私有的构造函数。
+* **使用Constructor类的newInstance方法**——本方法和Class类的newInstance方法很像，java.lang.reflect.Constructor类里也有一个newInstance方法可以创建对象。我们可以通过这个newInstance方法调用有参数的和私有的构造函数。
 
 
 ```
@@ -42,7 +42,7 @@ Student student = constructor.newInstance();
 ```
 
 
-**使用Clone的方法**——无论何时我们调用一个对象的clone方法，JVM就会创建一个新的对象，将前面的对象的内容全部拷贝进去，用clone方法创建对象并不会调用任何构造函数。要使用clone方法，我们必须先实现Cloneable接口并实现其定义的clone方法。这也是原型模式的应用。
+* **使用Clone的方法**——无论何时我们调用一个对象的clone方法，JVM就会创建一个新的对象，将前面的对象的内容全部拷贝进去，用clone方法创建对象并不会调用任何构造函数。要使用clone方法，我们必须先实现Cloneable接口并实现其定义的clone方法。这也是原型模式的应用。
 
 
 ```
@@ -50,7 +50,7 @@ Student student2 = <Student>student.clone();
 ```
 
 
-**使用反序列化**——当我们序列化和反序列化一个对象，JVM会给我们创建一个单独的对象。在反序列化时，JVM创建对象并不会调用任何构造函数。为了反序列化一个对象，我们需要让我们的类实现Serializable接口。
+* **使用反序列化**——当我们序列化和反序列化一个对象，JVM会给我们创建一个单独的对象。在反序列化时，JVM创建对象并不会调用任何构造函数。为了反序列化一个对象，我们需要让我们的类实现Serializable接口。
 
 
 ```
@@ -60,19 +60,19 @@ Student student = (Student)in.readObject();
 
 
 #### 变量命名规范？
-除第一个单词外，其他单词首字母大写。
+* 除第一个单词外，其他单词首字母大写。
 
 
-变量名不应该以下划线或美元符号开头。
+* 变量名不应该以下划线或美元符号开头。
 
 
-临时变量通常被取名为I、j、k、m和n，他们一般用于整型；c、d、e他们一般用于字符型。
+* 临时变量通常被取名为I、j、k、m和n，他们一般用于整型；c、d、e他们一般用于字符型。
 
 
-对不易清楚识别出该变量类型的变量应使用类型名或类型名的缩写作其后缀。
+* 对不易清楚识别出该变量类型的变量应使用类型名或类型名的缩写作其后缀。
 
 
-#### JDK常用的包？
+#### JDK常有哪些用的包？
 | 包名 | 解释 | 
 | :----- | :----- | 
 | java.lang | 这个是系统的基础类，比如String、Math、Integer、System和Thread，提供常用功能 | 
@@ -82,7 +82,7 @@ Student student = (Student)in.readObject();
 | java.sql | 这个是数据库操作的类，Connection、Statememt、ResultSet等 | 
 
 
-#### Object中定义的方法？
+#### 你知道Object中定义了哪些方法？
 | 方法 | 解释 | 
 | :----- | :----- | 
 | public Boolean equals (Object obj) | 比较当前对象与obj是否为同一对象 | 
@@ -94,7 +94,7 @@ Student student = (Student)in.readObject();
 | public final native void wait() | ———— | 
 
 
-#### ==和equals区别？
+#### ==和equals区别？以及hashCode和equals方法的关系？
 | —— | == | equals | 
 | :----- | :----- | :----- | 
 | 功能不同 | 判断两个变量或实例是不是指向同一个内存空间 | 判断两个变量或实例所指向的内存空间的值是不是相同 | 
@@ -102,18 +102,16 @@ Student student = (Student)in.readObject();
 | 运行速度不同 | 快 | 慢 | 
 
 
-#### hashCode和equals方法的关系？
 equals相等，hashcode必相等；hashcode相等，equals可能不相等。
 
 
-#### ”static”关键字是什么意思？Java中是否可以覆盖(override)一个private或者是static的方法？
-“static”关键字表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。
+#### static关键字是什么意思？Java中是否可以覆盖(override)一个private或者是static的方法？是否可以在static环境中访问非static变量？
+static关键字表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。
 
 
 Java中static方法不能被覆盖，因为方法覆盖是基于运行时动态绑定的，而static方法是编译时静态绑定的。static方法跟类的任何实例都不相关，所以概念上不适用。
 
 
-#### 是否可以在static环境中访问非static变量？
 static变量在Java中是属于类的，它在所有的实例中的值是一样的。当类被Java虚拟机载入的时候，会对static变量进行初始化。如果你的代码尝试不用实例来访问非static的变量，编译器会报错，因为这些变量还没有被创建出来，还没有跟任何实例关联上。
 
 
@@ -147,20 +145,6 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 | 发生在父子类中；方法名、参数列表必须相同；返回值类型小于等于父类；抛出的异常小于等于父类；访问修饰符大于等于父类；如果父类方法访问修饰符为private则子类中就不是重写 | 发生在同一个类中；方法名必须相同；参数类型不同、个数不同、顺序不同；方法返回值和访问修饰符可以不同；发生在编译时 | 
 
 
-#### 构造器Constructor是否可被重写(Override)?
-构造器不能被重写，不能用static修饰构造器，只能用public、private、protected这三个权限修饰符，且不能有返回语句。
-
-
-#### Java中，什么是构造函数？什么是构造函数重载？什么是复制构造函数？
-当新对象被创建的时候，构造函数会被调用。每一个类都有构造函数。在程序员没有给类提供构造函数的情况下，Java编译器会为这个类创建一个默认的构造函数。
-
-
-Java中构造函数重载和方法重载很相似。可以为一个类创建多个构造函数。每一个构造函数必须有它自己唯一的参数列表。
-
-
-Java不支持像C++中那样的复制构造函数，这个不同点是因为如果你不自己写构造函数的情况下，Java不会创建默认的复制构造函数。
-
-
 #### 访问控制符public,protected,private,以及默认(default)的区别？
 | 修饰符 | 当前类 | 同包 | 子类 | 其他包 | 
 | :----- | :----- | :----- | :----- | :----- | 
@@ -171,10 +155,6 @@ Java不支持像C++中那样的复制构造函数，这个不同点是因为如�
 
 
 类的成员不写访问修饰时默认为default。默认对于同一个包中的其他类相当于公开(public)，对于不是同一个包中的其他类相当于私有(private)。受保护(protected)对子类相当于公开，对不是同一包中的没有父子关系的类相当于私有。Java中，外部类的修饰符只能是public或默认，类的成员(包括内部类)的修饰符可以是以上四种。
-
-
-#### Java支持多继承么？
-不支持，Java不支持多继承。每个类都只能继承一个类，但是可以实现多个接口。
 
 
 #### 接口和抽象类的区别是什么？
@@ -189,13 +169,6 @@ Java不支持像C++中那样的复制构造函数，这个不同点是因为如�
 | ———— | 可以在不提供接口方法实现的情况下实现接口 | 
 | 成员函数默认是public的 | 成员函数可以是private，protected或者是public | 
 | 绝对抽象的，不可以被实例化 | 不可以被实例化，但是，如果它包含main方法的话是可以被调用的 |
-
-
-#### 什么是值传递和引用传递？
-对象被值传递，意味着传递了对象的一个副本。因此，就算是改变了对象副本，也不会影响源对象的值。
-
-
-对象被引用传递，意味着传递的并不是实际的对象，而是对象的引用。因此，外部对引用对象所做的改变会反映到所有的对象上。
 
 
 #### Java中Exception和Error有什么区别？
@@ -213,23 +186,6 @@ Java不支持像C++中那样的复制构造函数，这个不同点是因为如�
 | 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等) | 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复 | 
 | 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等 | 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等 | 
 | 需要try catch处理或throws声明抛出异常 | 语法上不需要声明抛出异常 | 
-
-
-#### throw和throws有什么区别？
-| throw | throws | 
-| :----- | :----- | 
-| 用来在程序中明确的抛出异常 | 用来表明方法不能处理的异常 | 
-
-
-每一个方法都必须要指定哪些异常不能处理，所以方法的调用者才能够确保处理可能发生的异常，多个异常是用逗号分隔的。
-
-
-#### 异常处理的时候，finally代码块的重要性是什么？
-无论是否抛出异常，finally代码块总是会被执行。就算是没有catch语句同时又抛出异常的情况下，finally代码块仍然会被执行。最后要说的是，finally代码块主要用来释放资源，比如：I/O缓冲区，数据库连接。
-
-
-#### 异常处理完成以后，Exception对象会发生什么变化？
-Exception对象会在下一个垃圾回收过程中被回收掉。
 
 
 #### final关键字、finally代码块和finalize()方法有什么区别？
@@ -269,8 +225,33 @@ Exception对象会在下一个垃圾回收过程中被回收掉。
 因为集合可以存储的对象类型是任意的，在取出进行向下转型时，容易发生ClassCastException。所以JDK1.5以后就有了解决这个问题的技术-泛型。将运行时期的ClassCastException异常转移到编译时期通过编译失败体现。避免了强制转换的麻烦。
 
 
-#### 泛型的擦除是什么？因为泛型擦除导致的异常怎么解决避免？
-根据异常捕获的原则，一定是子类在前面，父类在后面。所以java为了避免这样的情况，禁止在catch子句中使用泛型变量，异常声明中可以使用类型变量。
+#### 自定义一个注解的过程？
+* **创建@Annotation类**
 
 
+* **@Target**——指定该注解的作用目标
 
+
+```
+@Target(ElementType.TYPE)   // 接口 类 枚举 注解
+@Target(ElementType.FIELD)  // 字段 枚举的常量
+@Target(ElementType.METHOD) // 方法
+@Target(ElementType.PARAMETER)  // 方法参数
+@Target(ElementType.CONSTRUCTOR)    // 构造函数
+@Target(ElementType.LOCAL_VARIABLE) // 局部变量
+@Target(ElementType.ANNOTATION_TYPE)    // 注解
+@Target(ElementType.PACKAGE)    // 包
+```
+
+
+* **@Retention**——指定该注解的保留策略
+
+
+```
+@Retention(RetentionPolicy.SOURCE)  // 注解仅存在于源码中，在class字节码文件中不包含
+@Retention(RetentionPolicy.CLASS)   // 默认的保存策略，注解会在class字节码文件中存在，但运行时无法获得
+@Retention(RetentionPolicy.RUNTIME) // 注解会在class字节码文件中存在，在运行时可以通过反射获取到
+```
+
+
+* **@Inherited**——指定该注解是否可以被继承
