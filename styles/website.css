@@ -1,0 +1,17 @@
+pre {
+    white-space: pre !important;
+    overflow-y: scroll !important;
+    max-height: 30vh !important;
+}
+
+.markdown-section ul {
+    padding-left: .9em !important;
+}
+
+.treeview__container {
+    margin-bottom: 0 !important;
+}
+
+.treeview__container-title {
+    display: none;
+}

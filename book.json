@@ -4,6 +4,8 @@
     "back-to-top-button",
     "chapter-fold",
     "code",
+    "lightbox",
+    "page-treeview",
     "splitter",
     "-lunr",
     "-search",
@@ -17,6 +19,11 @@
       "elements": [
         ".gitbook-link"
       ]
+    },
+    "page-treeview": {
+      "copyright": "Copyright &#169; aleen42",
+      "minHeaderCount": "2",
+      "minHeaderDeep": "2"
     },
     "sharing": {
       "douban": true,
@@ -32,8 +39,11 @@
         "messenger","qq", "qzone","viber","whatsapp"
       ]
     },
-    "title": "interview",
-    "description": "interview of sonin",
-    "author": "sonin"
+    "title": "面试",
+    "description": "面试宝典",
+    "author": "sonin",
+    "styles": {
+      "website": "styles/website.css"
+    }
   }
 }
