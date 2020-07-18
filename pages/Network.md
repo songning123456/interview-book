@@ -182,7 +182,7 @@
     </tr>
     <tr>
         <td>505</td>
-        <td>不支持的http版本</td>
+        <td>不支持的HTTP版本</td>
     </tr>
 </table>
 
@@ -190,7 +190,7 @@
 #### HTTP响应的结构是怎么样的？
 | 组成部分 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 200px">状态码(Status Code)</div> | 描述了响应的状态。可以用来检查是否成功的完成了请求。请求失败的情况下，状态码可用来找出失败的原因。如果Servlet没有返回状态码，默认会返回成功的状态码HttpServletResponse.SC_OK | 
+| <div style="width: 200px">状态码(Status Code)</div> | 描述了响应的状态。可以用来检查是否成功的完成了请求。请求失败的情况下，状态码可用来找出失败的原因。如果Servlet没有返回状态码，默认会返回成功的状态码HTTPServletResponse.SC_OK | 
 | <div style="width: 200px">HTTP头部(HTTP Header)</div> | 它们包含了更多关于响应的信息。比如：头部可以指定认为响应过期的过期日期，或者是指定用来给用户安全的传输实体内容的编码格式。如何在Serlet中检索HTTP的头部看这里 | 
 | <div style="width: 200px">主体(Body)</div> | 它包含了响应的内容。它可以包含HTML代码，图片，等等。主体是由传输在HTTP消息中紧跟在头部后面的数据字节组成的 | 
 
@@ -200,16 +200,16 @@ HTTP隧道是一种利用HTTP或者是HTTPS把多种网络协议封装起来进�
 
 
 #### HTTP和TCP的区别？
-TCP是底层通讯协议，定义的是数据传输和连接方式的规范；HTTP是应用层协议，定义的是传输数据的内容的规范。
+* TCP是底层通讯协议，定义的是数据传输和连接方式的规范；HTTP是应用层协议，定义的是传输数据的内容的规范。
 
 
-HTTP协议中的数据是利用TCP协议传输的，所以支持HTTP也就一定支持TCP。
+* HTTP协议中的数据是利用TCP协议传输的，所以支持HTTP也就一定支持TCP。
 
 
-HTTP支持的是www服务，而TCP/IP是协议，它是Internet国际互联网络的基础。
+* HTTP支持的是www服务，而TCP/IP是协议，它是Internet国际互联网络的基础。
 
 
-TCP/IP是网络中使用的基本的通信协议。它包括上百个各种功能的协议，如：远程登录、文件传输和电子邮件等，而TCP协议和IP协议是保证数据完整传输的两个基本的重要协议。通常说TCP/IP是Internet协议族，而不单单是TCP和IP。
+* TCP/IP是网络中使用的基本的通信协议。它包括上百个各种功能的协议，如：远程登录、文件传输和电子邮件等，而TCP协议和IP协议是保证数据完整传输的两个基本的重要协议。通常说TCP/IP是Internet协议族，而不单单是TCP和IP。
 
 
 #### 什么是cookie？session和cookie有什么区别？
@@ -253,33 +253,26 @@ URL编码是负责把URL里面的空格和其他的特殊字符替换成对应�
 | <div style="width: 120px">单向加密</div> | 提取数据的特征码 | 定长输出，不可逆，可检验数据的完整性 | 无法保证数据的保密性 | MD5、SHA1、CRC-32 | 
 
 
-#### HTTPS的工作原理？为啥用HTTPS就可以加密通信？
-浏览器把自己支持的加密规则发送给网站。
+#### <a href="https://www.cnblogs.com/joylee/p/htmlprotocol.html">聊聊HTTP协议的工作原理？</a>
+![HTTP](/images/Network/HTTP.png)
 
 
-网站从这套加密规则里选出来一套加密算法和hash算法，然后把自己的身份信息用证书的方式发回给浏览器，证书里有网站地址、加密公钥、证书颁发机构。
+
+#### <a href="https://segmentfault.com/a/1190000018992153">聊聊HTTPS协议的工作原理？</a>
+![HTTPS](/images/Network/HTTPS.png)
 
 
-浏览器验证证书的合法性，然后浏览器地址栏上会出现一把小锁；浏览器接着生成一串随机数密码，然后用证书里的公钥进行加密，这块走的是非对称加密；用约定好的hash算法生成握手消息的hash值，然后用密码对消息进行加密，然后把所有东西都发给网站，这块走的是对称加密。
-
-
-网站从消息里面可以取出来公钥加密后的随机密码，用本地的私钥对消息解密取出来密码，然后用密码解密浏览器发来的握手消息，计算消息的hash值，并验证与浏览器发送过来的hash值是否一致，最后用密码加密一段握手消息，发给浏览器。
-
-
-浏览器解密握手消息，然后生成的随机密码，然后用对称加密来进行进行加密。(常用的非对称加密是RSA算法，对称加密是AES、RC4等，hash算法就是MD5。)计算消息的hash值，如果跟网站发来的hash一样，握手就结束，之后所有的数据都会由之前浏览器。
-
-
-#### 浏览器的同源策略？
+#### 你知道浏览器的同源策略吗？
 | URL | 解释 | 是否允许通信 | 
 | :----- | :----- | :----- | 
-| `http://www.a.com/a.js` <br> `http://www.a.com/b.js` | 同一域名下 | √ | 
-| `http://www.a.com/lab/a.js` <br> `http://www.a.com/script/b.js` | 同一域名下不同文件夹 | √ | 
-| `http://www.a.com:8000/a.js` <br> `http://www.a.com/b.js` | 同一域名，不同端口 | × | 
-| `http://www.a.com/a.js` <br> `https://www.a.com/b.js` | 同一域名，不同协议 | × | 
-| `http://www.a.com/a.js` <br> `http://70.32.92.74/b.js` | 域名和域名对应ip | × | 
-| `http://www.a.com/a.js` <br> `http://script.a.com/b.js` | 主域相同，子域不同 | × | 
-| `http://www.a.com/a.js` <br> `http://a.com/b.js` | 同一域名，不同二级域名 | × | 
-| `http://www.cnblogs.com/a.js` <br> `http://www.a.com/b.js` | 不同域名 | × | 
+| `HTTP://www.a.com/a.js` <br> `HTTP://www.a.com/b.js` | 同一域名下 | √ | 
+| `HTTP://www.a.com/lab/a.js` <br> `HTTP://www.a.com/script/b.js` | 同一域名下不同文件夹 | √ | 
+| `HTTP://www.a.com:8000/a.js` <br> `HTTP://www.a.com/b.js` | 同一域名，不同端口 | × | 
+| `HTTP://www.a.com/a.js` <br> `HTTPs://www.a.com/b.js` | 同一域名，不同协议 | × | 
+| `HTTP://www.a.com/a.js` <br> `HTTP://70.32.92.74/b.js` | 域名和域名对应ip | × | 
+| `HTTP://www.a.com/a.js` <br> `HTTP://script.a.com/b.js` | 主域相同，子域不同 | × | 
+| `HTTP://www.a.com/a.js` <br> `HTTP://a.com/b.js` | 同一域名，不同二级域名 | × | 
+| `HTTP://www.cnblogs.com/a.js` <br> `HTTP://www.a.com/b.js` | 不同域名 | × | 
 <span style="color: red">如果是协议和端口造成的跨域问题“前台”是无能为力的。</span>
 
 
@@ -289,8 +282,8 @@ URL编码是负责把URL里面的空格和其他的特殊字符替换成对应�
 *“URL的首部”指 window.location.protocol + window.location.host，也可以理解为“Domains, protocols and ports must match”。*
 
 
-#### <a href="https://www.cnblogs.com/PheonixHkbxoic/p/5760838.html">前端解决跨域的方案？</a>
-**CORS**——它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
+#### <a href="HTTPs://www.cnblogs.com/PheonixHkbxoic/p/5760838.html">前端解决跨域的方案？</a>
+* **CORS**——它允许浏览器向跨源服务器，发出XMLHTTPRequest请求，从而克服了AJAX只能同源使用的限制。整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
 
 
 ```
@@ -299,12 +292,12 @@ var xdr = new XDomainRequest();
 xdr.onload = function(){
     console.log(xdr.responseText);
 }
-xdr.open('get', 'http://www.baidu.com');
+xdr.open('get', 'HTTP://www.baidu.com');
 ...
 xdr.send(null);
 
 // 其它浏览器
-var xhr =  new XMLHttpRequest();
+var xhr =  new XMLHTTPRequest();
 xhr.onreadystatechange = function () {
     if(xhr.readyState == 4){
         if(xhr.status >= 200 && xhr.status < 304 || xhr.status == 304){
@@ -312,7 +305,7 @@ xhr.onreadystatechange = function () {
         }
     }
 }
-xhr.open('get', 'http://www.baidu.com');
+xhr.open('get', 'HTTP://www.baidu.com');
 ...
 xhr.send(null);
 ```
@@ -321,7 +314,7 @@ xhr.send(null);
 ```
 // 实现跨浏览器的CORS
 function createCORS(method, url){
-    var xhr = new XMLHttpRequest();
+    var xhr = new XMLHTTPRequest();
     if('withCredentials' in xhr){
         xhr.open(method, url, true);
     }else if(typeof XDomainRequest != 'undefined'){
@@ -332,7 +325,7 @@ function createCORS(method, url){
     }
     return xhr;
 }
-var request = createCORS('get', 'http://www.baidu.com');
+var request = createCORS('get', 'HTTP://www.baidu.com');
 if(request){
     request.onload = function(){
         ...
@@ -342,7 +335,7 @@ if(request){
 ```
 
 
-#### <a href="https://blog.csdn.net/lzuacm/article/details/50945225">TCP和UDP的区别？</a>
+#### <a href="HTTPs://blog.csdn.net/lzuacm/article/details/50945225">TCP和UDP的区别？</a>
 | TCP | UDP | 
 | :----- | :----- | 
 | 面向连接 | 无连接 | 
@@ -356,29 +349,106 @@ if(request){
 | 金融领域 | 游戏和娱乐场所 | 
 
 
-#### <a href="https://blog.csdn.net/huwei2003/article/details/45476743">DDos攻击及预防？</a>
-确保服务器的系统文件是最新的版本，并及时更新系统补丁。
+#### <a href="HTTPs://blog.csdn.net/huwei2003/article/details/45476743">DDos攻击及预防？</a>
+* 确保服务器的系统文件是最新的版本，并及时更新系统补丁。
 
 
-关闭不必要的服务。
+* 关闭不必要的服务。
 
 
-限制同时打开的SYN半连接数目，缩短SYN半连接的time out时间，限制SYN/ICMP流量。
+* 限制同时打开的SYN半连接数目，缩短SYN半连接的time out时间，限制SYN/ICMP流量。
 
 
-正确设置防火墙。
+* 正确设置防火墙。
 
 
-认真检查网络设备和主机/服务器系统的日志。只要日志出现漏洞或是时间变更，那这台机器就可能遭到了攻击。
+* 认真检查网络设备和主机/服务器系统的日志。只要日志出现漏洞或是时间变更，那这台机器就可能遭到了攻击。
 
 
-限制在防火墙外与网络文件共享。这样会给黑客截取系统文件的机会，主机的信息暴露给黑客，无疑是给了对方入侵的机会。
+* 限制在防火墙外与网络文件共享。这样会给黑客截取系统文件的机会，主机的信息暴露给黑客，无疑是给了对方入侵的机会。
 
 
-充分利用网络设备保护网络资源。
+* 充分利用网络设备保护网络资源。
 
 
-用足够的机器承受黑客攻击。
+* 用足够的机器承受黑客攻击。
 
 
-检查访问者的来源。
+* 检查访问者的来源。
+
+
+#### 你能聊聊TCP/IP四种网络模型吗？OSI七层网络模型也说一下？
+![TCP](/images/Network/TCP.PNG)
+
+
+* **应用层(Application Layer)**——包含所有的高层协议，包括：虚拟终端协议(TELNET，TELecommunications NETwork)、文件传输协议(FTP，File Transfer Protocol)、电子邮件传输协议(SMTP，Simple Mail Transfer Protocol)、域名服务(DNS，Domain Name Service)、网上新闻传输协议(NNTP，Net News Transfer Protocol)和超文本传送协议(HTTP，HyperText Transfer Protocol)等。
+
+
+* **传输层(Transport Layer-TCP/UDP)**——使源端和目的端机器上的对等实体可以进行会话。在这一层定义了两个端到端的协议：传输控制协议(TCP，Transmission Control Protocol)和用户数据报协议(UDP，User Datagram Protocol)。TCP是面向连接的协议，它提供可靠的报文传输和对上层应用的连接服务。为此，除了基本的数据传输外，它还有可靠性保证、流量控制、多路复用、优先权和安全性控制等功能。UDP是面向无连接的不可靠传输的协议，主要用于不需要TCP的排序和流量控制等功能的应用程序。
+
+
+* **网络层(Internet Layer)**——是整个体系结构的关键部分，其功能是使主机可以把分组发往任何网络，并使分组独立地传向目标。这些分组可能经由不同的网络，到达的顺序和发送的顺序也可能不同。高层如果需要顺序收发，那么就必须自行处理对分组的排序。互联网层使用因特网协议(IP，Internet Protocol)。
+
+
+* **网络访问层(Network Access Layer)**——在TCP/IP参考模型中并没有详细描述，只是指出主机必须使用某种协议与网络相连。
+
+
+
+![OSI](/images/Network/OSI.PNG)
+
+
+* **物理层**——主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。它的主要作用是传输比特流(就是由1、0转化为电流强弱来进行传输,到达目的地后在转化为1、0，也就是我们常说的模数转换与数模转换)。这一层的数据叫做比特。
+
+
+* **数据链路层**——主要将从物理层接收的数据进行MAC地址(网卡的地址)的封装与解封装。常把这一层的数据叫做帧。在这一层工作的设备是交换机，数据通过交换机来传输。
+
+
+* **网络层**——主要将从下层接收到的数据进行IP地址(例192.168.0.1)的封装与解封装。在这一层工作的设备是路由器，常把这一层的数据叫做数据包。
+
+
+* **传输层**——定义了一些传输数据的协议和端口号(WWW端口80等)，如：TCP(传输控制协议，传输效率低，可靠性强，用于传输可靠性要求高，数据量大的数据)，UDP(用户数据报协议，与TCP特性恰恰相反，用于传输可靠性要求不高，数据量小的数据，如QQ聊天数据就是通过这种方式传输的)。 主要是将从下层接收的数据进行分段进行传输，到达目的地址后在进行重组。 常常把这一层数据叫做段。
+
+
+* **会话层**——通过传输层(端口号：传输端口与接收端口)建立数据传输的通路。主要在你的系统之间发起会话或或者接受会话请求(设备之间需要互相认识可以是IP也可以是MAC或者是主机名)。
+
+
+* **表示层**——主要是进行对接收的数据进行解释、加密与解密、压缩与解压缩等(也就是把计算机能够识别的东西转换成人能够能识别的东西(如图片、声音等))。
+
+
+* **应用层**——主要是一些终端的应用，比如说FTP(各种文件下载)，WEB(IE浏览)，QQ之类的(你就把它理解成我们在电脑屏幕上可以看到的东西，就是终端应用)。
+
+
+#### 浏览器请求www.baidu.com的全过程大概是怎样的？
+![请求](/images/Network/request.png)
+
+
+* 请求www.baidu.com地址，这个时候找DNS服务器，DNS服务器解析域名之后，返回一个ip地址，比如172.194.26.108。
+
+
+* 判断本机和访问的IP是不是同一个子网，用子网掩码坐与运算。通常不在一个子网，就发送数据包给网关，也就是路由器。 通过浏览器访问网站，走应用层的HTTP协议，把浏览器发出的请求打包为数据包。把HTTP协议请求，有请求头，空行，请求数据，就构成HTTP请求报文，封装到一个应用层数据包里。
+
+
+* 接下来走到传输层，按照TCP协议，TCP协议会让你设置端口，发送方端口随机选择，接收端一般默认80端口。这时会把应用层数据包封装到TCP数据包，再加一个TCP头，TCP头放了端口信息。
+
+
+* 走网络层，会把TCP头和TCP数据包，放到IP数据包里，再做了一个IP头，IP头包括本机和目标机器的IP地址。通过IP 协议，判断两个IP不在一个子网内，则将数据包通过以太网协议广播到网关，通过网关在发生出去。
+
+
+* 最后走到数据链路层，把IP头和IP数据包封装到以太网数据包，再增加一个以太网数据包头，头里放了本机网卡MAC地址和网关MAC地址。但以太网数据包有1500字节的限制，超过要切分为多个数据包，每个数据包包含以太网头、IP头和切割后的IP数据包。以太网数据包通过交换机发送到网关，然后通过路由器转发到别的子网或者别的路由器，以此类推，通过N个路由器或网关转发，最终到达目标服务器，比如172.194.26.108。目标服务器接收到以太网数据包后，从IP数据包，拿出TCP数据包，再从TCP数据包取出HTTP数据包，读取出HTTP数据包里各种协议内容，比如html页面，或者业务处理，然后再把响应结果封装成HTTP响应报文，封装到HTTP数据包里，再封装TCP数据包，封装IP数据包，封装以太网数据包，再通过网关发送回去，完成整个请求过程。
+
+
+#### TCP握手为啥是三次而不是二次或者四次呢？
+![TCP握手](/images/Network/shakehand.png)
+
+
+建立三次握手的时候，TCP报头用到了下面几个东西，ACK、SYN、FIN。第一次握手，客户端发送连接请求报文，此时SYN=1、ACK=0，这就是说这是个连接请求，seq=x，接着客户端处于SYN_SENT状态，等待服务器响应。第二次握手，服务端收到SYN=1的请求报文，需要返回一个确认报文，ack=x+1，SYN=1，ACK=1，seq=y，发送给客户端，自己处于SYN_RECV状态。第三次握手，客户端收到了报文，将ack=y+1，ACK=1，seq=x+1。
+
+
+假设两次握手就ok了。要是客户端第一次握手过去，结果卡在某个地方了，没到服务端；完了客户端再次重试发送了第一次握手过去，服务端收到了，ok了，大家来回来去，三次握手建立了连接。结果，尴尬的是，后来那个卡在哪儿的老的第一次握手发到了服务器，服务器直接就返回一个第二次握手，这个时候服务器开辟了资源准备客户端发送数据啥的，结果呢？客户端根本就不会理睬这个发回去的二次握手，因为之前都通信过了。但是如果是三次握手，那个二次握手发回去，客户端发现根本不对，就会发送个复位的报文过去，让服务器撤销开辟的资源，别等着了。
+
+
+如果四次挥手的话。第一次挥手，客户端发送报文，FIN=1，seq=u，此时进入FIN-WAIT-1状态。第二次挥手，服务端收到报文，这时候进入CLOSE_WAIT状态，返回一个报文，ACK=1，ack=u+1，seq=v。客户端收到这个报文之后，直接进入FIN-WAIT-2状态，此时客户端到服务端的连接就释放了。第三次挥手，服务端发送连接释放报文，FIN=1，ack=u+1，seq=w，服务端进入LAST-ACK状态。第四次挥手，客户端收到连接释放报文之后，发应答报文，ACK=1，ack=w+1，seq=u+1，进入TIME_WAIT状态，等待一会儿客户端进入CLOSED状态，服务端收到报文之后就进入CLOSED状态。
+
+
+#### <a href="https://blog.csdn.net/m0_38109046/article/details/89449305">能聊聊BIO,NIO,AIO分别都是啥？有什么区别？</a>
+![BIO&NIO](/images/Network/BIO&NIO.jpg)

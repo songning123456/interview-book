@@ -104,3 +104,14 @@ select user.id as user_id, user.user_name, class.id as class_id, class.class_nam
 select user.id as user_id, user.user_name, class.id as class_id, class.class_name from user inner join class on user.id = class.id
 ```
 ![inner join](/images/Database/inner-join.PNG)
+
+
+#### 你知道Mysql主从复制的原理吗？
+![主从复制](/images/Database/master-slave.png)
+
+
+* master在每个事务更新数据完成之前，将该操作记录串行地写入到binlog文件中。
+
+
+* slave开启一个I/O Thread，该线程在master打开一个普通连接，主要工作是binlog dump process。如果读取的进度已经跟上了master，就进入睡眠状态并等待master产生新的事件。I/O线程最终的目的是将这些事件写入到中继日志中。
+
