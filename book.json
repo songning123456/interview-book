@@ -12,7 +12,8 @@
     "search-pro",
     "popup",
     "-sharing",
-    "sharing-plus"
+    "sharing-plus",
+    "auto-scroll-table"
   ],
   "pluginsConfig": {
     "hide-element": {
