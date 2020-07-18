@@ -85,21 +85,21 @@ Student student = (Student)in.readObject();
 #### 你知道Object中定义了哪些方法？
 | 方法 | 解释 | 
 | :----- | :----- | 
-| public Boolean equals (Object obj) | 比较当前对象与obj是否为同一对象 | 
-| public String toString() | 返回当前对象的字符串表达形式 | 
-| public native int hashCode() | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象 | 
-| protected void finalize() throws Throwable | 对象销毁时被调用 | 
-| public final native void notify() | native型方法指由C++语言编写的方法，Java解析器对其先进性转义后才执行 | 
-| public final native void notifyAll() | ———— | 
-| public final native void wait() | ———— | 
+| <div style="width: 300px">public Boolean equals (Object obj)</div> | 比较当前对象与obj是否为同一对象 | 
+| <div style="width: 300px">public String toString()</div> | 返回当前对象的字符串表达形式 | 
+| <div style="width: 300px">public native int hashCode()</div> | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象 | 
+| <div style="width: 300px">protected void finalize() throws Throwable</div> | 对象销毁时被调用 | 
+| <div style="width: 300px">public final native void notify()</div> | native型方法指由C++语言编写的方法，Java解析器对其先进性转义后才执行 | 
+| <div style="width: 300px">public final native void notifyAll()</div> | ———— | 
+| <div style="width: 300px">public final native void wait()</div> | ———— | 
 
 
 #### ==和equals区别？以及hashCode和equals方法的关系？
 | —— | == | equals | 
 | :----- | :----- | :----- | 
-| 功能不同 | 判断两个变量或实例是不是指向同一个内存空间 | 判断两个变量或实例所指向的内存空间的值是不是相同 | 
-| 定义不同 | 在JAVA中只是一个运算符合 | 在JAVA中是一个方法 | 
-| 运行速度不同 | 快 | 慢 | 
+| <div style="width: 150px">功能不同</div> | 判断两个变量或实例是不是指向同一个内存空间 | 判断两个变量或实例所指向的内存空间的值是不是相同 | 
+| <div style="width: 150px">定义不同</div> | 在JAVA中只是一个运算符合 | 在JAVA中是一个方法 | 
+| <div style="width: 150px">运行速度不同</div> | 快 | 慢 | 
 
 
 equals相等，hashcode必相等；hashcode相等，equals可能不相等。
@@ -197,25 +197,25 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
     </tr>
     <tr>
         <td rowspan="3">final</td> 
-        <td>类</td> 
+        <td style="width: 150px">类</td> 
         <td>一个类被final修饰，那么这个类就是最终类，不能派生出新的子类，不能作为父类被继承，该类中的所有方法都不能被重写，但是final类中的成员变量是可以改变的，要想final类中的成员变量的不可以改变，必须给成员变量添加final修饰。因此，一个类不能同时被final和abstract修饰，这两个关键字相互矛盾。</td>    
     </tr>
     <tr>
-        <td>方法</td> 
+        <td style="width: 150px">方法</td> 
         <td>修饰方法，那么这个方法是最终方法，不允许任何子类重写该方法，但子类仍可以使用该方法，注意：final参数用来表示这个参数在这个函数内部不允许被修改。</td>       
     </tr>
     <tr>
-        <td>属性</td> 
+        <td style="width: 150px">属性</td> 
         <td>被final修饰的变量不可变。这里的不可变有两重含义：引用不可变和对象不可变。final指的是引用不可变，即它只能指向初始化时指向的那个对象，而不关心指向对象内容的变化。因此，被final修饰的变量必须初始化，该变量其实就是常量。</td>      
     </tr>
     <tr>
         <td>finally</td> 
-        <td>try/catch语句块</td> 
+        <td style="width: 150px">try/catch语句块</td> 
         <td>finally代码块中的语句一定会被执行，经常被用来释放资源，如IO流和数据库资源的释放</td>       
     </tr>
     <tr>
         <td>finalize</td> 
-        <td>Object类的一个方法 protected void finalize() throws Throwable{}</td> 
+        <td style="width: 150px">Object类的一个方法 protected void finalize() throws Throwable{}</td> 
         <td>在垃圾回收器执行时会调用被回收对象的finalize()方法，可以覆盖此方法来实现对其资源的回收。注意：一旦垃圾回收器准备释放某个对象占用的空间，将首先调该对象的finalize()方法，并且在下一次垃圾回收动作发生时，才真正将该对象占用的内存回收</td>      
     </tr>
 </table>

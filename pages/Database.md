@@ -1,20 +1,17 @@
 #### 数据库性能优化？
-添加适当的索引，索引对查询速度影响很大，必须添加索引。主键索引、唯一索引、普通索引、全文索引。
+* 添加适当的索引，索引对查询速度影响很大，必须添加索引。主键索引、唯一索引、普通索引、全文索引。
 
 
-添加适当存储过程、触发器、事务等。
+* 对sql语句的一些优化(查询执行速度比较慢的sql语句)。
 
 
-读写分离(主从数据库)。
+* 读写分离(主从数据库)。
 
 
-对sql语句的一些优化(查询执行速度比较慢的sql语句)。
+* 分表分区(分表把一张大表分成多张表；分区把一张表里面的分配到不同的区域存储)。
 
 
-分表分区(分表把一张大表分成多张表；分区把一张表里面的分配到不同的区域存储)。
-
-
-对mysql服务器硬件的升级操作。
+* 对mysql服务器硬件的升级操作。
 
 
 #### 数据库事务的特性？
@@ -66,25 +63,25 @@
 
 
 #### 常用SQL语句的优化？
-SELECT子句中避免使用 *，尽量应该根据业务需求按字段进行查询。
+* SELECT子句中避免使用 *，尽量应该根据业务需求按字段进行查询。
 
 
-尽量多使用COMMIT，如对大数据量的分段批量提交释放了资源，减轻了服务器压力。
+* 尽量多使用COMMIT，如对大数据量的分段批量提交释放了资源，减轻了服务器压力。
 
 
-用UNION-ALL替换UNION，因为UNION-ALL不会过滤重复数据，所执行效率要快于UNION，并且UNION可以自动排序，而UNION-ALL不会。
+* 用UNION-ALL替换UNION，因为UNION-ALL不会过滤重复数据，所执行效率要快于UNION，并且UNION可以自动排序，而UNION-ALL不会。
 
 
-避免在索引列上使用计算和函数，这样索引就不能使用。
+* 避免在索引列上使用计算和函数，这样索引就不能使用。
 
 
-用 >= 替换 >。
+* 用 >= 替换 >。
 
 
-用 NOT EXISTS 或 (外连接+判断为空) 方案替换 NOT IN 操作符。
+* 用 NOT EXISTS 或 (外连接+判断为空) 方案替换 NOT IN 操作符。
 
 
-LIKE操作符。
+* LIKE操作符。
 
 
 #### left join、inner join和right join的区别？
@@ -98,7 +95,7 @@ LIKE操作符。
 ![用户-课程表](/images/Database/test-join.PNG)
 
 
-**left join**
+* **left join**
 
 
 ```sql
@@ -107,7 +104,7 @@ select user.id as user_id, user.user_name, class.id as class_id, class.class_nam
 ![left join](/images/Database/left-join.PNG)
 
 
-**right join**
+* **right join**
 
 
 ```sql
@@ -116,7 +113,7 @@ select user.id as user_id, user.user_name, class.id as class_id, class.class_nam
 ![right join](/images/Database/right-join.PNG)
 
 
-**inner join**
+* **inner join**
 
 
 ```sql
