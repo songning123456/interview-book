@@ -499,5 +499,35 @@ if(request){
 如果四次挥手的话。第一次挥手，客户端发送报文，FIN=1，seq=u，此时进入FIN-WAIT-1状态。第二次挥手，服务端收到报文，这时候进入CLOSE_WAIT状态，返回一个报文，ACK=1，ack=u+1，seq=v。客户端收到这个报文之后，直接进入FIN-WAIT-2状态，此时客户端到服务端的连接就释放了。第三次挥手，服务端发送连接释放报文，FIN=1，ack=u+1，seq=w，服务端进入LAST-ACK状态。第四次挥手，客户端收到连接释放报文之后，发应答报文，ACK=1，ack=w+1，seq=u+1，进入TIME_WAIT状态，等待一会儿客户端进入CLOSED状态，服务端收到报文之后就进入CLOSED状态。
 
 
+#### TCP粘包/拆包的原因及解决方法？
+<table>
+<tr>
+    <th>————</th>
+    <th>拆包</th>
+    <th>粘包</th>
+</tr>
+<tr>
+    <td rowspan="2">原因</td>
+    <td>应用程序写入数据大于TCP缓冲区剩余空间大小</td>
+    <td>应用程序写入数据小于TCP缓冲区大小，TCP将多次写入缓冲区的数据一次发送出去</td>
+</tr>
+<tr>
+    <td>应用程序写入数据大于MSS(最大报文长度)，会发生拆包现象</td>
+    <td>接收数据端的应用层没有及时读取接收缓冲区中的数据</td>
+</tr>
+<tr>
+    <td>解决办法</td>
+    <td colspan="2">消息定长(FixedLengthFrameDecoder类)——发送端将每个数据包封装为固定长度(不够的可以通过补0填充)，这样接收端每次从接收缓冲区中读取固定长度的数据就自然而然的把每个数据包拆分开来；<br>
+    将消息分为消息头和消息体(LengthFieldBasedFrameDecoder类)——发送端给每个数据包添加包首部，首部中应该至少包含数据包的长度，这样接收端在接收到数据后，通过读取包首部的长度字段，便知道每一个数据包的实际长度了；<br>
+    包尾增加特殊字符分割——行分隔符类LineBasedFrameDecoder或自定义分隔符类DelimiterBasedFrameDecoder
+    </td>
+</tr>
+</table>
+
+
 #### <a href="https://blog.csdn.net/m0_38109046/article/details/89449305">能聊聊BIO,NIO,AIO分别都是啥？有什么区别？</a>
 ![BIO&NIO](/images/Network/BIO&NIO.jpg)
+
+
+#### <a href="https://www.cnblogs.com/200911/articles/10432551.html">你知道Netty的零拷贝技术吗？</a>
+![零拷贝](/images/Network/Zero-Copy.png)
