@@ -8,183 +8,184 @@
 | PUT | 向指定资源位置上传最新内容 | 
 | DELETE | 请求服务器删除所标识的资源 | 
 
-
-<table>
-    <tr>
-        <td rowspan="2">1xx</td>
-        <td rowspan="2" style="width: 200px">该类型状态码表示接收到请求并且继续处理</td>
-        <td>100</td>
-        <td>客户端必须继续发出请求</td>
-    </tr>
-    <tr>
-        <td>101</td>
-        <td>客户端要求服务器根据请求转换HTTP协议版本</td>
-    </tr>
-    <tr>
-        <td rowspan="7">2xx</td>
-        <td rowspan="7" style="width: 200px">该类型状态码表示动作被成功接收、理解和接受</td>
-        <td>200</td>
-        <td>表明该请求被成功地完成，所请求的资源发送到客户端</td>
-    </tr>
-    <tr>
-        <td>201</td>
-        <td>提示知道新文件的URL</td>
-    </tr>
-    <tr>
-        <td>202</td>
-        <td>接受并处理，但处理未完成</td>
-    </tr>
-    <tr>
-        <td>203</td>
-        <td>返回信息不确定或不完整</td>
-    </tr>
-    <tr>
-        <td>204</td>
-        <td>收到请求，但返回信息为空</td>
-    </tr>
-    <tr>
-        <td>205</td>
-        <td>服务器完成了请求，用户必须复位当前已经浏览过的文件</td>
-    </tr>
-    <tr>
-        <td>206</td>
-        <td>服务器已经完成了部分用户的GET请求</td>
-    </tr>
-    <tr>
-        <td rowspan="8">3xx</td>
-        <td rowspan="8" style="width: 200px">该类型状态码表示为了完成指定的动作，必须接受进一步处理</td>
-        <td>300</td>
-        <td>请求的资源可在多处获得</td>
-    </tr>
-    <tr>
-        <td>301</td>
-        <td>本网页被永久性转移到另一个URL</td>
-    </tr>
-    <tr>
-        <td>302</td>
-        <td>请求的网页被重定向到新的地址</td>
-    </tr>
-    <tr>
-        <td>303</td>
-        <td>建议用户访问其他URL或访问方式</td>
-    </tr>
-    <tr>
-        <td>304</td>
-        <td>自从上次请求后，请求的网页未修改过</td>
-    </tr>
-    <tr>
-        <td>305</td>
-        <td>请求的资源必须从服务器指定的地址获得</td>
-    </tr>
-    <tr>
-        <td>306</td>
-        <td>前一版本HTTP中使用的代码，现已不再使用</td>
-    </tr>
-    <tr>
-        <td>307</td>
-        <td>声明请求的资源临时性删除</td>
-    </tr>
-    <tr>
-        <td rowspan="18">4xx</td>
-        <td rowspan="18" style="width: 200px">该类型状态码表示请求包含错误语法或不能正确执行</td>
-        <td>400</td>
-        <td>客户端请求有语法错误</td>
-    </tr>
-    <tr>
-        <td>401</td>
-        <td>请求未经授权</td>
-    </tr>
-    <tr>
-        <td>402</td>
-        <td>保留有效ChargeTo头响应</td>
-    </tr>
-    <tr>
-        <td>403</td>
-        <td>禁止访问，服务器收到请求，但拒绝提供服务</td>
-    </tr>
-    <tr>
-        <td>404</td>
-        <td>可连接服务器，但服务器无法取得所请求的网页，请求资源不存在</td>
-    </tr>
-    <tr>
-        <td>405</td>
-        <td>用户在Request-Line字段定义的方法不被允许</td>
-    </tr>
-    <tr>
-        <td>406</td>
-        <td>根据用户发送的Accept，请求资源不可访问</td>
-    </tr>
-    <tr>
-        <td>407</td>
-        <td>类似401，用户必须首先在代理服务器上取得授权</td>
-    </tr>
-    <tr>
-        <td>408</td>
-        <td>客户端没有在用户指定的时间内完成请求</td>
-    </tr>
-    <tr>
-        <td>409</td>
-        <td>对当前资源状态，请求不能完成</td>
-    </tr>
-    <tr>
-        <td>410</td>
-        <td>服务器上不再有此资源</td>
-    </tr>
-    <tr>
-        <td>411</td>
-        <td>服务器拒绝用户定义的Content-Length属性请求</td>
-    </tr>
-    <tr>
-        <td>412</td>
-        <td>一个或多个请求头字段在当前请求中错误</td>
-    </tr>
-    <tr>
-        <td>413</td>
-        <td>请求的资源大于服务器允许的大小</td>
-    </tr>
-    <tr>
-        <td>414</td>
-        <td>请求的资源URL长于服务器允许的长度</td>
-    </tr>
-    <tr>
-        <td>415</td>
-        <td>请求资源不支持请求项目格式</td>
-    </tr>
-    <tr>
-        <td>416</td>
-        <td>请求中包含Range请求头字段，在当前请求资源范围内没有range指示值</td>
-    </tr>
-    <tr>
-        <td>417</td>
-        <td>服务器不满足请求Expect头字段指定的期望值</td>
-    </tr>
-    <tr>
-        <td rowspan="6">5xx</td>
-        <td rowspan="6" style="width: 200px">该类型状态码表示服务器或网关错误</td>
-        <td>500</td>
-        <td>服务器错误</td>
-    </tr>
-    <tr>
-        <td>501</td>
-        <td>服务器不支持请求的功能</td>
-    </tr>
-    <tr>
-        <td>502</td>
-        <td>网关错误</td>
-    </tr>
-    <tr>
-        <td>503</td>
-        <td>无法获得服务</td>
-    </tr>
-    <tr>
-        <td>504</td>
-        <td>网关超时</td>
-    </tr>
-    <tr>
-        <td>505</td>
-        <td>不支持的HTTP版本</td>
-    </tr>
-</table>
+<div class="custom-table-height">
+    <table>
+        <tr>
+            <td rowspan="2">1xx</td>
+            <td rowspan="2" style="width: 200px">该类型状态码表示接收到请求并且继续处理</td>
+            <td>100</td>
+            <td>客户端必须继续发出请求</td>
+        </tr>
+        <tr>
+            <td>101</td>
+            <td>客户端要求服务器根据请求转换HTTP协议版本</td>
+        </tr>
+        <tr>
+            <td rowspan="7">2xx</td>
+            <td rowspan="7" style="width: 200px">该类型状态码表示动作被成功接收、理解和接受</td>
+            <td>200</td>
+            <td>表明该请求被成功地完成，所请求的资源发送到客户端</td>
+        </tr>
+        <tr>
+            <td>201</td>
+            <td>提示知道新文件的URL</td>
+        </tr>
+        <tr>
+            <td>202</td>
+            <td>接受并处理，但处理未完成</td>
+        </tr>
+        <tr>
+            <td>203</td>
+            <td>返回信息不确定或不完整</td>
+        </tr>
+        <tr>
+            <td>204</td>
+            <td>收到请求，但返回信息为空</td>
+        </tr>
+        <tr>
+            <td>205</td>
+            <td>服务器完成了请求，用户必须复位当前已经浏览过的文件</td>
+        </tr>
+        <tr>
+            <td>206</td>
+            <td>服务器已经完成了部分用户的GET请求</td>
+        </tr>
+        <tr>
+            <td rowspan="8">3xx</td>
+            <td rowspan="8" style="width: 200px">该类型状态码表示为了完成指定的动作，必须接受进一步处理</td>
+            <td>300</td>
+            <td>请求的资源可在多处获得</td>
+        </tr>
+        <tr>
+            <td>301</td>
+            <td>本网页被永久性转移到另一个URL</td>
+        </tr>
+        <tr>
+            <td>302</td>
+            <td>请求的网页被重定向到新的地址</td>
+        </tr>
+        <tr>
+            <td>303</td>
+            <td>建议用户访问其他URL或访问方式</td>
+        </tr>
+        <tr>
+            <td>304</td>
+            <td>自从上次请求后，请求的网页未修改过</td>
+        </tr>
+        <tr>
+            <td>305</td>
+            <td>请求的资源必须从服务器指定的地址获得</td>
+        </tr>
+        <tr>
+            <td>306</td>
+            <td>前一版本HTTP中使用的代码，现已不再使用</td>
+        </tr>
+        <tr>
+            <td>307</td>
+            <td>声明请求的资源临时性删除</td>
+        </tr>
+        <tr>
+            <td rowspan="18">4xx</td>
+            <td rowspan="18" style="width: 200px">该类型状态码表示请求包含错误语法或不能正确执行</td>
+            <td>400</td>
+            <td>客户端请求有语法错误</td>
+        </tr>
+        <tr>
+            <td>401</td>
+            <td>请求未经授权</td>
+        </tr>
+        <tr>
+            <td>402</td>
+            <td>保留有效ChargeTo头响应</td>
+        </tr>
+        <tr>
+            <td>403</td>
+            <td>禁止访问，服务器收到请求，但拒绝提供服务</td>
+        </tr>
+        <tr>
+            <td>404</td>
+            <td>可连接服务器，但服务器无法取得所请求的网页，请求资源不存在</td>
+        </tr>
+        <tr>
+            <td>405</td>
+            <td>用户在Request-Line字段定义的方法不被允许</td>
+        </tr>
+        <tr>
+            <td>406</td>
+            <td>根据用户发送的Accept，请求资源不可访问</td>
+        </tr>
+        <tr>
+            <td>407</td>
+            <td>类似401，用户必须首先在代理服务器上取得授权</td>
+        </tr>
+        <tr>
+            <td>408</td>
+            <td>客户端没有在用户指定的时间内完成请求</td>
+        </tr>
+        <tr>
+            <td>409</td>
+            <td>对当前资源状态，请求不能完成</td>
+        </tr>
+        <tr>
+            <td>410</td>
+            <td>服务器上不再有此资源</td>
+        </tr>
+        <tr>
+            <td>411</td>
+            <td>服务器拒绝用户定义的Content-Length属性请求</td>
+        </tr>
+        <tr>
+            <td>412</td>
+            <td>一个或多个请求头字段在当前请求中错误</td>
+        </tr>
+        <tr>
+            <td>413</td>
+            <td>请求的资源大于服务器允许的大小</td>
+        </tr>
+        <tr>
+            <td>414</td>
+            <td>请求的资源URL长于服务器允许的长度</td>
+        </tr>
+        <tr>
+            <td>415</td>
+            <td>请求资源不支持请求项目格式</td>
+        </tr>
+        <tr>
+            <td>416</td>
+            <td>请求中包含Range请求头字段，在当前请求资源范围内没有range指示值</td>
+        </tr>
+        <tr>
+            <td>417</td>
+            <td>服务器不满足请求Expect头字段指定的期望值</td>
+        </tr>
+        <tr>
+            <td rowspan="6">5xx</td>
+            <td rowspan="6" style="width: 200px">该类型状态码表示服务器或网关错误</td>
+            <td>500</td>
+            <td>服务器错误</td>
+        </tr>
+        <tr>
+            <td>501</td>
+            <td>服务器不支持请求的功能</td>
+        </tr>
+        <tr>
+            <td>502</td>
+            <td>网关错误</td>
+        </tr>
+        <tr>
+            <td>503</td>
+            <td>无法获得服务</td>
+        </tr>
+        <tr>
+            <td>504</td>
+            <td>网关超时</td>
+        </tr>
+        <tr>
+            <td>505</td>
+            <td>不支持的HTTP版本</td>
+        </tr>
+    </table>
+</div>
 
 
 #### HTTP响应的结构是怎么样的？
@@ -195,11 +196,7 @@
 | <div style="width: 200px">主体(Body)</div> | 它包含了响应的内容。它可以包含HTML代码，图片，等等。主体是由传输在HTTP消息中紧跟在头部后面的数据字节组成的 | 
 
 
-#### 什么是HTTP隧道？
-HTTP隧道是一种利用HTTP或者是HTTPS把多种网络协议封装起来进行通信的技术。因此，HTTP协议扮演了一个打通用于通信的网络协议的管道的包装器的角色。把其他协议的请求掩盖成HTTP的请求就是HTTP隧道。
-
-
-#### HTTP和TCP的区别？
+#### 你知道HTTP和TCP的区别吗？
 * TCP是底层通讯协议，定义的是数据传输和连接方式的规范；HTTP是应用层协议，定义的是传输数据的内容的规范。
 
 
@@ -239,10 +236,6 @@ cookie是Web服务器发送给浏览器的一块信息。浏览器会在本地�
 | 参数直接暴露在URL上，所以不能用来传递敏感信息 | 安全 | 
 | 通过URL传递 | 放在request body中 | 
 | 不支持 | 进行文件上传 | 
-
-
-#### 什么是URL编码和URL解码？
-URL编码是负责把URL里面的空格和其他的特殊字符替换成对应的十六进制表示，反之就是解码。
 
 
 #### 客户端传输的数据如何保证安全性？
@@ -410,7 +403,7 @@ if(request){
 ```
 
 
-#### <a href="HTTPs://blog.csdn.net/lzuacm/article/details/50945225">TCP和UDP的区别？</a>
+#### <a href="HTTPs://blog.csdn.net/lzuacm/article/details/50945225">你知道TCP和UDP的区别吗？</a>
 | TCP | UDP | 
 | :----- | :----- | 
 | 面向连接 | 无连接 | 

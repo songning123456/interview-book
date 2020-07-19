@@ -15,3 +15,10 @@ pre {
 .treeview__container-title {
     display: none;
 }
+
+
+.custom-table-height {
+    display: block;
+    max-height: 30vh;
+    overflow-y: auto;
+}

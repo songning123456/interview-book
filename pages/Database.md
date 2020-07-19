@@ -85,6 +85,9 @@
 
 
 #### left join、inner join和right join的区别？
+![join-method](/images/Database/join-method.jpg)
+
+
 | 名称 | 解释 | 
 | :----- | :----- | 
 | left join | 返回包括左表中的所有记录和右表中联结字段相等的记录 | 
