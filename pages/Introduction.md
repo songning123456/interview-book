@@ -46,7 +46,7 @@
 #### 项目的优化？
 <div class="custom-table-height">
     <table>
-        <tr >
+        <tr>
             <td rowspan="7">代码优化</td>
             <td rowspan="3">代码结构层次的优化(目的：更加方便代码的维护--可维护性、可读性)</td>
             <td>代码注释(代码规范)</td>
