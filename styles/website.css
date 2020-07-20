@@ -22,3 +22,7 @@ pre {
     max-height: 30vh;
     overflow-y: auto;
 }
+
+.chapter:hover {
+    background-color: #F5F7F9;
+}
