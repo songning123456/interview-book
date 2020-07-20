@@ -52,6 +52,147 @@
 | 程序暂停执行指定的时间，让出cpu该其他线程，但是他的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态，在调用sleep()方法的过程中，线程不会释放对象锁 | 线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备 | 
 
 
+#### 现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
+**join()方法**
+
+
+方法一
+```
+// Thread1
+public class Thread1 implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 0; i < 2; i++) {
+            System.out.println(Thread.currentThread().getName() + "=====>" + i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+// Thread2
+public class Thread2 implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 0; i < 2; i++) {
+            System.out.println(Thread.currentThread().getName() + "=====>" + i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+// Thread3
+public class Thread3 implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 0; i < 2; i++) {
+            System.out.println(Thread.currentThread().getName() + "=====>" + i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+// 测试方法
+public class TestJoin1Main {
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(new Thread1(), "线程1");
+        Thread thread2 = new Thread(new Thread2(), "线程2");
+        Thread thread3 = new Thread(new Thread3(), "线程3");
+        try {
+            thread1.start();
+            thread1.join();
+            thread2.start();
+            thread2.join();
+            thread3.start();
+            thread3.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// 结果
+线程1=====>0
+线程1=====>1
+线程2=====>0
+线程2=====>1
+线程3=====>0
+线程3=====>1
+```
+
+
+方法二
+```
+// 测试方法
+public class TestJoin2Main {
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 2; i++) {
+                System.out.println(Thread.currentThread().getName() + "=====>" + i);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "线程1");
+        Thread thread2 = new Thread(() -> {
+            try {
+                thread1.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < 2; i++) {
+                System.out.println(Thread.currentThread().getName() + "=====>" + i);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "线程2");
+        Thread thread3 = new Thread(() -> {
+            try {
+                thread2.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < 2; i++) {
+                System.out.println(Thread.currentThread().getName() + "=====>" + i);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "线程3");
+        thread1.start();
+        thread2.start();
+        thread3.start();
+    }
+}
+
+// 结果
+线程1=====>0
+线程1=====>1
+线程2=====>0
+线程2=====>1
+线程3=====>0
+线程3=====>1
+```
+
+
 #### 多线程之间是如何进行信息交互的？
 | 方法 | 解释 | 
 | :----- | :----- | 
