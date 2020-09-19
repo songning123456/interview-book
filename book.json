@@ -1,44 +1,61 @@
 {
-  "plugins": [
-    "hide-element",
-    "lightbox",
-    "page-treeview",
-    "-lunr",
-    "-search",
-    "search-pro",
-    "-sharing",
-    "sharing-plus"
-  ],
-  "pluginsConfig": {
-    "hide-element": {
-      "elements": [
-        ".gitbook-link"
-      ]
-    },
-    "page-treeview": {
-      "copyright": "Copyright &#169; aleen42",
-      "minHeaderCount": "2",
-      "minHeaderDeep": "2"
-    },
-    "sharing": {
-      "douban": true,
-      "facebook": false,
-      "google": false,
-      "pocket": false,
-      "qq": true,
-      "qzone": true,
-      "twitter": false,
-      "weibo": true,
-      "all": [
-        "douban", "facebook", "google", "instapaper", "linkedin","twitter", "weibo",
-        "messenger","qq", "qzone","viber","whatsapp"
-      ]
-    },
-    "title": "面试",
-    "description": "面试宝典",
-    "author": "sonin",
-    "styles": {
-      "website": "styles/website.css"
+    "plugins": [
+        "hide-element",
+        "lightbox",
+        "page-treeview",
+        "-lunr",
+        "-search",
+        "search-pro",
+        "-sharing",
+        "sharing-plus",
+        "back-to-top-button",
+        "code",
+        "splitter",
+        "chapter-fold",
+        "popup",
+        "custom-favicon"
+    ],
+    "pluginsConfig": {
+        "hide-element": {
+            "elements": [
+                ".gitbook-link"
+            ]
+        },
+        "page-treeview": {
+            "copyright": "Copyright &#169; aleen42",
+            "minHeaderCount": "2",
+            "minHeaderDeep": "2"
+        },
+        "sharing": {
+            "douban": true,
+            "facebook": false,
+            "google": false,
+            "pocket": false,
+            "qq": true,
+            "qzone": true,
+            "twitter": false,
+            "weibo": true,
+            "all": [
+                "douban",
+                "facebook",
+                "google",
+                "instapaper",
+                "linkedin",
+                "twitter",
+                "weibo",
+                "messenger",
+                "qq",
+                "qzone",
+                "viber",
+                "whatsapp"
+            ]
+        },
+        "favicon": "images/Title/favicon.ico",
+        "title": "面试",
+        "description": "面试宝典",
+        "author": "sonin",
+        "styles": {
+            "website": "styles/website.css"
+        }
     }
-  }
 }
