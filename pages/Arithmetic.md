@@ -705,6 +705,60 @@ public int[] nextGreaterElement(int[] nums) {
 ```
 
 
+#### 单调队列-滑动窗口最大值
+![maxSlidingWindow](/images/Arithmetic/maxSlidingWindow.PNG)
+
+
+* 解法
+
+
+```
+public class Solution {
+
+    static class MonotonicQueue {
+
+        private Deque<Integer> data;
+
+        MonotonicQueue() {
+            data = new ArrayDeque<>();
+        }
+
+        public void push(int n) {
+            while (!data.isEmpty() && data.getLast() < n) {
+                data.removeLast();
+            }
+            data.addLast(n);
+        }
+
+        public int max() {
+            return data.getFirst();
+        }
+
+        public void pop(int n) {
+            if (!data.isEmpty() && data.getFirst() == n) {
+                data.removeFirst();
+            }
+        }
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        MonotonicQueue window = new MonotonicQueue();
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i < k - 1) {
+                window.push(nums[i]);
+            } else {
+                window.push(nums[i]);
+                res.add(window.max());
+                window.pop(nums[i - k + 1]);
+            }
+        }
+        return res.stream().mapToInt(Integer::valueOf).toArray();
+    }
+}
+```
+
+
 
 
 
