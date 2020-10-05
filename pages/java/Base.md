@@ -89,9 +89,9 @@ Student student = (Student)in.readObject();
 | <div style="width: 300px">public String toString()</div> | 返回当前对象的字符串表达形式 | 
 | <div style="width: 300px">public native int hashCode()</div> | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象 | 
 | <div style="width: 300px">protected void finalize() throws Throwable</div> | 对象销毁时被调用 | 
-| <div style="width: 300px">public final native void notify()</div> | native型方法指由C++语言编写的方法，Java解析器对其先进性转义后才执行 | 
-| <div style="width: 300px">public final native void notifyAll()</div> | ———— | 
-| <div style="width: 300px">public final native void wait()</div> | ———— | 
+| <div style="width: 300px">public final native void notify()</div> | 唤醒在此对象监视器上等待的单个线程。如果所有线程都在此对象上等待，则会选择唤醒其中一个线程。选择是任意性的，并在对实现做出决定时发生。线程通过调用其中一个wait方法，在对象的监视器上等待 | 
+| <div style="width: 300px">public final native void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程。线程通过调用其中一个wait方法，在对象的监视器上等待 | 
+| <div style="width: 300px">public final native void wait()</div> | 导致调用者线程等待，直到另一个线程调用notify()或者notifyAll()方法，或者指定的等待时间到达 | 
 
 
 #### ==和equals区别？以及hashCode和equals方法的关系？
