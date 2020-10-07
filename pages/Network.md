@@ -218,7 +218,7 @@ if ($host != 'veryyoung.me') {
 | 组成部分 | 解释 | 
 | :----- | :----- | 
 | <div style="width: 200px">状态码(Status Code)</div> | 描述了响应的状态。可以用来检查是否成功的完成了请求。请求失败的情况下，状态码可用来找出失败的原因。如果Servlet没有返回状态码，默认会返回成功的状态码HTTPServletResponse.SC_OK | 
-| <div style="width: 200px">HTTP头部(HTTP Header)</div> | 它们包含了更多关于响应的信息。比如：头部可以指定认为响应过期的过期日期，或者是指定用来给用户安全的传输实体内容的编码格式。如何在Serlet中检索HTTP的头部看这里 | 
+| <div style="width: 200px">HTTP头部(HTTP Header)</div> | 它们包含了更多关于响应的信息。比如：头部可以指定认为响应过期的过期日期，或者是指定用来给用户安全的传输实体内容的编码格式。如何在Servlet中检索HTTP的头部看这里 | 
 | <div style="width: 200px">主体(Body)</div> | 它包含了响应的内容。它可以包含HTML代码，图片，等等。主体是由传输在HTTP消息中紧跟在头部后面的数据字节组成的 | 
 
 
