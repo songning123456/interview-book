@@ -3,7 +3,7 @@
  
  ---
 
-* [Java部分](/pages/Java.md)
+* [Java专题](/pages/Java.md)
  * [基础](/pages/java/Base.md)
  * [集合](/pages/java/Collection.md)
  * [线程](/pages/java/Thread.md)
@@ -14,8 +14,9 @@
 * [数据库](/pages/Database.md)
 * [SSM框架](/pages/SSM.md)
 <!-- * [中间件](/pages/Middleware.md) -->
+* [Redis](/pages/Redis.md)
 * [微服务](/pages/MicroService.md)
-* [算法](/pages/Arithmetic.md)
+* [算法专题](/pages/Arithmetic.md)
  * [动态规划](/pages/arithmetic/DynamicProgramming.md)
  * [二叉搜索树](/pages/arithmetic/BinarySearchTree.md)
  * [回溯法](/pages/arithmetic/Backtracking.md)
