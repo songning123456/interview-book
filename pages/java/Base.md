@@ -128,7 +128,7 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 | double | 8 |
 
 
-自动装箱是Java编译器在基本数据类型和对应的对象包装类型之间做的一个转化。比如：把int转化成Integer，double转化成double等等。反之就是自动拆箱。
+自动装箱是Java编译器在基本数据类型和对应的对象包装类型之间做的一个转化。比如：把int转化成Integer，double转化成Double等等。反之就是自动拆箱。
 
 
 #### String和StringBuffer、StringBuilder的区别？
