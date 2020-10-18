@@ -20,7 +20,7 @@
 
 
 在Account中包含一个唯一的，不可变的值。比如说账号等。通过对这个值对对象进行排序(snowFlakeId)。
-```
+```java
 @Data
 public class Account {
     private Integer id;
@@ -62,7 +62,7 @@ public class Account {
 ```
 
 
-```
+```java
 public class Helper {
     public void transfer(Account fromAccount, Account toAccount, int amount) throws Exception {
         if (fromAccount.compareTo(amount) < 0) {
@@ -76,7 +76,7 @@ public class Helper {
 ```
 
 
-```
+```java
 public class TransferThread extends Thread {
     public static List<Account> accountList = Arrays.asList(new Account(1, 1000), new Account(2, 1000));
     @Override
@@ -100,7 +100,7 @@ public class TransferThread extends Thread {
 ```
 
 
-```
+```java
 public class Lock {
     public static void transferMoney(Account fromAccount, Account toAccount, int amount) throws Exception {
         int fromId = fromAccount.getId();
@@ -126,7 +126,7 @@ public class Lock {
 ```
 
 
-```
+```java
 public class DemoMain {
     public static void main(String[] args) {
         for (int i = 0; i < 50; i++) {
@@ -165,7 +165,7 @@ synchronized同步语句块的实现，使用的是**monitorenter**和**monitore
 * **修饰非静态方法**
 
 
-```
+```java
 class Demo {
     private int i;
     Demo(int i) {
@@ -262,7 +262,6 @@ class Demo {
 
 
 ```
-...
 public void run() {
     if (Thread.currentThread().getName().equals("thread0")){
         demo.staticGetI(Thread.currentThread().getName());
@@ -270,7 +269,6 @@ public void run() {
         demo.getI(Thread.currentThread().getName());
     }
 } 
-...
 ```
 <span style="color: red">不会产生互斥。因为虽然是一个对象调用，但是两个方法的锁类型不同，调用的静态方法实际上是类对象在调用，即这两个方法产生的并不是同一个对象锁，因此不会互斥，会并发执行。</span>
 
