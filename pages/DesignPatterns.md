@@ -157,7 +157,7 @@
 * **饿汉式**
 
 
-```
+```java
 public class Singleton {
     private Singleton() {};
     private static Singleton single = new Singleton();
@@ -171,7 +171,7 @@ public class Singleton {
 * **懒汉式**
 
 
-```
+```java
 public class Singleton {
     private Singleton() {}
     private static Singleton single=null;
@@ -188,7 +188,7 @@ public class Singleton {
 * **线程安全**
 
 
-```
+```java
 public class Singleton {
     private Singleton() {}
     private static Singleton single;
@@ -210,7 +210,7 @@ public class Singleton {
 * **基于JDK的动态代理**
 
 
-```
+```java
 public interface IJdkSubject {
     void jdkProxyMethod(String param);
 }
@@ -262,7 +262,7 @@ JDK Proxy success
 * **基于CGLIB的动态代理**
 
 
-```
+```java
 public class CglibSubject {
     public void cglibProxyMethod() {
         System.out.println("cglib Proxy success");
