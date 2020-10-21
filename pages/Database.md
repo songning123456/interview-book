@@ -62,7 +62,7 @@
 * B+树索引的关键字检索效率比较平均，不像B树那样波动幅度大，在有大量重复键值情况下，哈希索引的效率也是极低的，因为存在所谓的哈希碰撞问题。
 
 
-#### <a href="https://www.cnblogs.com/wdss/p/11186411.html">mysql索引查询失效的情况？</a>
+#### <a href="https://www.cnblogs.com/wdss/p/11186411.html">Mysql索引查询失效的情况？</a>
 * like以%开头，索引无效；当like前缀没有%，后缀有%时，索引有效；
 
 
