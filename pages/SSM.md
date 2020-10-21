@@ -48,6 +48,21 @@
 ![SpringBean](/images/SSM/SpringBean.jpeg)
 
 
+#### <a href="https://blog.csdn.net/knknknkn8023/article/details/107130806">你知道SpringBean的生命周期？</a>
+
+
+* 实例化 Instantiation
+
+
+* 属性赋值 Populate
+
+
+* 初始化 Initialization
+
+
+* 销毁 Destruction
+
+
 #### Spring中bean实例化有哪几种方式(依赖注入)?
 * **Set方法**
 
