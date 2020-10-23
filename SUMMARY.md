@@ -30,12 +30,3 @@
 * [自我/项目概述](/pages/Introduction.md)
 * [后记](/pages/Ending.md)
 
-
-| 名称 | 解释 |
-| :----- | :----- |
-| <div style="width: 80px;font-weight: bold;"></div> | |
-| <div style="width: 80px;font-weight: bold;"></div> | |
-| <div style="width: 80px;font-weight: bold;"></div> | |
-| <div style="width: 80px;font-weight: bold;"></div> | |
-| <div style="width: 80px;font-weight: bold;"></div> | |
-
