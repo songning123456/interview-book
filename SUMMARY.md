@@ -13,8 +13,8 @@
 * [网络](/pages/Network.md)
 * [数据库](/pages/Database.md)
 * [SSM框架](/pages/SSM.md)
-<!-- * [中间件](/pages/Middleware.md) -->
 * [Redis](/pages/Redis.md)
+* [Zookeeper](/pages/Zookeeper.md)
 * [微服务](/pages/MicroService.md)
 * [算法专题](/pages/Arithmetic.md)
  * [动态规划](/pages/arithmetic/DynamicProgramming.md)
