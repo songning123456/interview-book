@@ -31,5 +31,6 @@
  * [综合](/pages/arithmetic/Composite.md)
 * [服务部署](/pages/Deploy.md)
 * [自我/项目概述](/pages/Introduction.md)
+* [面试技巧](/pages/InterviewSkill.md)
 * [后记](/pages/Ending.md)
 
