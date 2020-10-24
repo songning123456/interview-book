@@ -129,3 +129,128 @@ class Solution {
     }
 }
 ```
+
+
+#### 计数质数
+![countPrimes](/images/Arithmetic/countPrimes.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public int countPrimes(int n) {
+        boolean[] isPrim = new boolean[n];
+        Arrays.fill(isPrim, true);
+        for (int i = 2; i * i < n; i++) {
+            if (isPrim[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    isPrim[j] = false;
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrim[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+```
+
+
+#### 超级次方
+![superPow](/images/Arithmetic/superPow.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    private int base = 1337;
+    
+    private int myPow(int a, int k) {
+        a %= base;
+        int res = 1;
+        for (int i = 0; i < k; i++) {
+            res *= a;
+            res %= base;
+        }
+        return res;
+    }
+
+    public int superPow(int a, int[] b) {
+        if (b.length == 0) {
+            return 1;
+        }
+        int last = b[b.length - 1];
+        b = Arrays.copyOfRange(b, 0, b.length - 1);
+        int part1 = myPow(a, last);
+        int part2 = myPow(superPow(a, b), 10);
+        return (part1 * part2) % base;
+    }
+}
+```
+
+
+#### 接雨水
+![trap](/images/Arithmetic/trap.PNG)
+
+
+* 暴力解法
+
+
+```java
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length;
+        int ans = 0;
+        for (int i = 1; i < n - 1; i++) {
+            int leftMax = 0, rightMax = 0;
+            for (int j = i; j < n; j++) {
+                rightMax = Math.max(rightMax, height[j]);
+            }
+            for (int j = i; j >= 0; j--) {
+                leftMax = Math.max(leftMax, height[j]);
+            }
+            ans += Math.min(leftMax, rightMax) - height[i];
+        }
+        return ans;
+    }
+}
+```
+
+
+* 备忘录解法
+
+
+```java
+class Solution {
+    public int trap(int[] height) {
+        if (height.length == 0) {
+            return 0;
+        }
+        int n = height.length;
+        int ans = 0;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+
+        leftMax[0] = height[0];
+        rightMax[n - 1] = height[n - 1];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(height[i], leftMax[i - 1]);
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(height[i], rightMax[i + 1]);
+        }
+        for (int i = 1; i < n - 1; i++) {
+            ans += Math.min(leftMax[i], rightMax[i]) - height[i];
+        }
+        return ans;
+    }
+}
+```
