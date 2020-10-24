@@ -249,3 +249,55 @@ class Solution {
 }
 ```
 
+
+#### 判断子序列
+![isSubsequence](/images/Arithmetic/isSubsequence.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    private int leftBound(ArrayList<Integer> arr, int tar) {
+        int lo = 0, hi = arr.size();
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (tar > arr.get(mid)) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+
+    public boolean isSubsequence(String s, String t) {
+        int m = s.length(), n = t.length();
+        Map<Character, List<Integer>> indexMap = new LinkedHashMap<>();
+        for (int i = 0; i < n; i++) {
+            Character character = t.charAt(i);
+            indexMap.computeIfAbsent(character, k -> new ArrayList<>());
+            indexMap.get(character).add(i);
+        }
+        int j = 0;
+        for (int i = 0; i < m; i++) {
+            Character character = s.charAt(i);
+            if (indexMap.get(character) == null) {
+                return false;
+            }
+            int pos = leftBound((ArrayList<Integer>) indexMap.get(character), j);
+            if (pos == indexMap.get(character).size() || pos == -1) {
+                return false;
+            }
+            j = indexMap.get(character).get(pos) + 1;
+        }
+        return true;
+    }
+}
+```
+
+
+
+
+
