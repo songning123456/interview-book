@@ -5,6 +5,7 @@
 * [双指针](/pages/arithmetic/DoublePoint.md)
 * [区间调度](/pages/arithmetic/IntervalDispatch.md)
 * [单调栈/队列](/pages/arithmetic/MonotonousStackAndQueue.md)
+* [阶乘](/pages/arithmetic/Factorial.md)
 * [综合](/pages/arithmetic/Composite.md)
 
 
