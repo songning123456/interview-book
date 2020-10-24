@@ -36,7 +36,7 @@ public void slidingWindow(String s, String t) {
 ```
 
 
-#### 滑动窗口-排列
+#### 排列
 ![checkInclusion](/images/Arithmetic/checkInclusion.PNG)
 
 
@@ -84,7 +84,7 @@ class Solution {
 ```
 
 
-#### 滑动窗口-最小覆盖子串
+#### 最小覆盖子串
 ![minWindow](/images/Arithmetic/minWindow.PNG)
 
 
@@ -133,7 +133,7 @@ class Solution {
 ```
 
 
-#### 滑动窗口-异位词
+#### 异位词
 ![findAnagrams](/images/Arithmetic/findAnagrams.PNG)
 
 
@@ -181,7 +181,7 @@ class Solution {
 ```
 
 
-#### 滑动窗口-无重复最长子串
+#### 无重复最长子串
 ![lengthOfLongestSubstring](/images/Arithmetic/lengthOfLongestSubstring.PNG)
 
 

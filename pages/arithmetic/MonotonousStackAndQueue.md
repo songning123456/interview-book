@@ -20,7 +20,7 @@ public int[] nextGreaterElement(int[] nums) {
 ```
 
 
-#### 单调栈-下一个更大元素I
+#### 下一个更大元素I
 ![nextGreaterElementI](/images/Arithmetic/nextGreaterElementI.PNG)
 
 
@@ -43,7 +43,7 @@ public int[] nextGreaterElement(int[] nums1, int[] nums2) {
 ```
 
 
-#### 单调栈-下一个更大元素II
+#### 下一个更大元素II
 ![nextGreaterElements2](/images/Arithmetic/nextGreaterElements2.PNG)
 
 
@@ -67,7 +67,7 @@ public int[] nextGreaterElement(int[] nums) {
 ```
 
 
-#### 单调队列-滑动窗口最大值
+#### 滑动窗口最大值
 ![maxSlidingWindow](/images/Arithmetic/maxSlidingWindow.PNG)
 
 

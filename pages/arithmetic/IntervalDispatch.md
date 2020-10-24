@@ -1,4 +1,4 @@
-#### 区间调度-交集
+#### 交集
 ![intervalIntersection](/images/Arithmetic/intervalIntersection.PNG)
 
 
@@ -33,7 +33,7 @@ class Solution {
 ```
 
 
-#### 区间调度-并集
+#### 并集
 ![merge](/images/Arithmetic/merge.PNG)
 
 

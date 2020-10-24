@@ -2,7 +2,7 @@
 ![trailingZeroes](/images/Arithmetic/trailingZeroes.PNG)
 
 
-* 解法一
+* 解法
 
 
 ```java
@@ -24,7 +24,7 @@ class Solution {
 ![preimageSizeFZF](/images/Arithmetic/preimageSizeFZF.PNG)
 
 
-* 解法一
+* 解法
 
 
 ```java

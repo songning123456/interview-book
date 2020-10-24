@@ -18,6 +18,7 @@
 * [Dubbo](/pages/Dubbo.md)
 * [微服务](/pages/MicroService.md)
 * [算法专题](/pages/Arithmetic.md)
+ * [贪心算法](/pages/arithmetic/Greedy.md)
  * [动态规划](/pages/arithmetic/DynamicProgramming.md)
  * [二叉搜索树](/pages/arithmetic/BinarySearchTree.md)
  * [回溯法](/pages/arithmetic/Backtracking.md)

@@ -20,7 +20,7 @@ public void backtrack(路径, 选择列表) {
 ```
 
 
-#### 回溯法-全排列
+#### 全排列
 ![backTrack](/images/Arithmetic/backTrack.PNG)
 
 
@@ -56,7 +56,7 @@ class Solution {
 ```
 
 
-#### 回溯法-全排列II
+#### 全排列II
 ![permuteUnique](/images/Arithmetic/permuteUnique.PNG)
 
 
@@ -68,7 +68,7 @@ class Solution {
 ```
 
 
-#### 回溯法-子集
+#### 子集
 ![subsets](/images/Arithmetic/subsets.PNG)
 
 
@@ -97,7 +97,7 @@ class Solution {
 ```
 
 
-#### 回溯法-子集II
+#### 子集II
 ![subsetsWithDup](/images/Arithmetic/subsetsWithDup.PNG)
 
 
@@ -109,7 +109,7 @@ class Solution {
 ```
 
 
-#### 回溯法-组合
+#### 组合
 ![combine](/images/Arithmetic/combine.PNG)
 
 
@@ -140,7 +140,7 @@ class Solution {
 ```
 
 
-#### 回溯法-组合II
+#### 组合II
 ![combinationSum2](/images/Arithmetic/combinationSum2.PNG)
 
 
@@ -152,7 +152,7 @@ class Solution {
 ```
 
 
-#### 回溯法-N皇后
+#### N皇后
 ![solveNQueens](/images/Arithmetic/solveNQueens.PNG)
 
 

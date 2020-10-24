@@ -23,7 +23,7 @@ for 状态1 in 状态1的所有取值:
 ```
 
 
-#### 动态规划-斐波那契数列
+#### 斐波那契数列
 ![fib](/images/Arithmetic/fib.PNG)
 
 
@@ -71,7 +71,7 @@ public int fib(int N) {
 ```
 
 
-#### 动态规划-凑零钱问题
+#### 凑零钱问题
 ![coinChange](/images/Arithmetic/coinChange.PNG)
 
 
@@ -141,11 +141,11 @@ public int coinChange(int[] coins, int amount) {
 ```
 
 
-#### 动态规划-最长递增子序列
+#### 最长递增子序列
 ![lengthOfLIS](/images/Arithmetic/lengthOfLIS.PNG)
 
 
-* 解法一
+* 解法
 
 
 ```
@@ -168,7 +168,7 @@ public int lengthOfLIS(int[] nums) {
 ```
 
 
-#### 动态规划-最大子序和
+#### 最大子序和
 ![maxSubArray](/images/Arithmetic/maxSubArray.PNG)
 
 
@@ -216,7 +216,7 @@ public int maxSubArray(int[] nums) {
 ```
 
 
-#### 动态规划-编辑距离
+#### 编辑距离
 ![minDistance](/images/Arithmetic/minDistance.PNG)
 
 
@@ -279,11 +279,11 @@ public int minDistance(String word1, String word2) {
 ```
 
 
-#### 动态规划-鸡蛋掉落
+#### 鸡蛋掉落
 ![superEggDrop](/images/Arithmetic/superEggDrop.PNG)
 
 
-* 解法一
+* 解法
 
 
 ```
@@ -326,11 +326,11 @@ private int binaryValley(int floors, int eggs, int[][] dp) {
 ```
 
 
-#### 动态规划-最长公共子序列
+#### 最长公共子序列
 ![longestCommonSubsequence](/images/Arithmetic/longestCommonSubsequence.PNG)
 
 
-* 解法一
+* 解法
 
 
 ```

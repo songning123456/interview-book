@@ -1,4 +1,4 @@
-#### 双指针-环形链表
+#### 环形链表
 ![hasCycle](/images/Arithmetic/hasCycle.PNG)
 
 
@@ -34,7 +34,7 @@ public class Solution {
 ```
 
 
-#### 双指针-环形链表II
+#### 环形链表II
 ![detectCycle](/images/Arithmetic/detectCycle.PNG)
 
 

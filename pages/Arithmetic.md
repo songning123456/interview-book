@@ -1,3 +1,4 @@
+* [贪心算法](/pages/arithmetic/Greedy.md)
 * [动态规划](/pages/arithmetic/DynamicProgramming.md)
 * [二叉搜索树](/pages/arithmetic/BinarySearchTree.md)
 * [回溯法](/pages/arithmetic/Backtracking.md)

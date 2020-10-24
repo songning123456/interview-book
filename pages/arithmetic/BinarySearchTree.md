@@ -48,7 +48,7 @@ public class TreeNode {
 ```
 
 
-#### 二叉搜索树-验证
+#### 验证
 ![isValidBST](/images/Arithmetic/isValidBST.PNG)
 
 
@@ -75,7 +75,7 @@ Boolean isValidBST(TreeNode root, TreeNode min, TreeNode max) {
 ```
 
 
-#### 二叉搜索树-相同的树
+#### 相同的树
 ![isSameTree](/images/Arithmetic/isSameTree.PNG)
 
 
@@ -99,7 +99,7 @@ public boolean isSameTree(TreeNode p, TreeNode q) {
 ```
 
 
-#### 二叉搜索树-搜索
+#### 搜索
 ![searchBST](/images/Arithmetic/searchBST.PNG)
 
 
@@ -123,7 +123,7 @@ public TreeNode searchBST(TreeNode root, int val) {
 ```
 
 
-#### 二叉搜索树-删除
+#### 删除
 ![deleteNode](/images/Arithmetic/deleteNode.PNG)
 
 
@@ -162,7 +162,7 @@ private TreeNode getMinNode(TreeNode node) {
 ```
 
 
-#### 二叉搜索树-插入
+#### 插入
 ![insertIntoBST](/images/Arithmetic/insertIntoBST.PNG)
 
 
