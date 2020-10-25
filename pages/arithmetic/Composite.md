@@ -312,3 +312,61 @@ class Solution {
     }
 }
 ```
+
+
+#### 回文链表
+![isPalindrome](/images/Arithmetic/isPalindrome.PNG)
+
+
+* 解法
+
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode slow, fast;
+        slow = fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        if (fast != null) {
+            slow = slow.next;
+        }
+        ListNode left = head;
+        ListNode right = reverse(slow);
+        while (right != null) {
+            if (left.val != right.val) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
+
+    private ListNode reverse(ListNode a) {
+        ListNode prev, cur, next;
+        prev = null;
+        cur = a;
+        while (cur != null) {
+            next = cur.next;
+            // 逐个结点反转
+            cur.next = prev;
+            // 更新指针位置
+            prev = cur;
+            cur = next;
+        }
+        // 返回反转后的头结点
+        return prev;
+    }
+}
+```
