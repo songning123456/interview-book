@@ -430,3 +430,42 @@ class Solution {
     }
 }
 ```
+
+
+#### 有效的括号
+![isValid](/images/Arithmetic/isValid.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> left = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char character = s.charAt(i);
+            if (character == '(' || character == '{' || character == '[') {
+                left.push(character);
+            } else {
+                if (!left.empty() && leftOf(character) == left.peek()) {
+                    left.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return left.empty();
+    }
+
+    private char leftOf(Character c) {
+        if (c == ')') {
+            return '(';
+        } else if (c == '}') {
+            return '{';
+        } else {
+            return '[';
+        }
+    }
+}
+```
