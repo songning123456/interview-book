@@ -1,17 +1,17 @@
 #### Java的四个基本特性？
 | 特性 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 80px">抽象</div> | 就是把现实生活中的某一类东西提取出来，用程序代码表示，我们通常叫做类或者接口。抽象包括两个方面：一个是数据抽象，一个是过程抽象。数据抽象也就是对象的属性，过程抽象是对象的行为特征 | 
-| <div style="width: 80px">封装</div> | 把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行封装隐藏，封装分为属性的封装和方法的封装 | 
-| <div style="width: 80px">继承</div> | 是对有着共同特性的多类事物，进行再抽象成一个类。这个类就是多类事物的父类，父类的意义在于抽取多类事物的共性 | 
-| <div style="width: 80px">多态</div> | 允许不同类的对象对同一消息做出响应。方法的重载、类的覆盖正体现了多态 | 
+| <div style="width: 80px">抽象</div> | 就是把现实生活中的某一类东西提取出来，用程序代码表示，我们通常叫做类或者接口。抽象包括两个方面：一个是数据抽象，一个是过程抽象。数据抽象也就是对象的属性，过程抽象是对象的行为特征。 | 
+| <div style="width: 80px">封装</div> | 把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行封装隐藏，封装分为属性的封装和方法的封装。 | 
+| <div style="width: 80px">继承</div> | 是对有着共同特性的多类事物，进行再抽象成一个类。这个类就是多类事物的父类，父类的意义在于抽取多类事物的共性。 | 
+| <div style="width: 80px">多态</div> | 允许不同类的对象对同一消息做出响应。方法的重载、类的覆盖正体现了多态。 | 
 
 
 #### 面向对象和面向过程的区别？
 | 类别 | 优点 | 缺点 | 
 | :----- | :----- | :----- | 
-| <div style="width: 80px">面向过程</div> | 性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源；比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素 | 没有面向对象易维护、易复用、易扩展 | 
-| <div style="width: 80px">面向对象</div> | 易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统更加灵活、更加易于维护 | 性能比面向过程低 |
+| <div style="width: 80px">面向过程</div> | 性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源；比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。 | 没有面向对象易维护、易复用、易扩展。 | 
+| <div style="width: 80px">面向对象</div> | 易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统更加灵活、更加易于维护。 | 性能比面向过程低。 |
 
 
 #### Java创建对象的有几种方式？
@@ -75,30 +75,30 @@ Student student = (Student)in.readObject();
 #### JDK常有哪些用的包？
 | 包名 | 解释 | 
 | :----- | :----- | 
-| java.lang | 这个是系统的基础类，比如String、Math、Integer、System和Thread，提供常用功能 | 
-| java.io | 这里面是所有输入输出有关的类，比如文件操作等 | 
-| java.net | 这里面是与网络有关的类，比如URL、URLConnection等 | 
-| java.util | 这个是系统辅助类，特别是集合类Collection、List、Map等 | 
-| java.sql | 这个是数据库操作的类，Connection、Statememt、ResultSet等 | 
+| java.lang | 这个是系统的基础类，比如String、Math、Integer、System和Thread，提供常用功能。 | 
+| java.io | 这里面是所有输入输出有关的类，比如文件操作等。 | 
+| java.net | 这里面是与网络有关的类，比如URL、URLConnection等。 | 
+| java.util | 这个是系统辅助类，特别是集合类Collection、List、Map等。 | 
+| java.sql | 这个是数据库操作的类，Connection、Statememt、ResultSet等。 | 
 
 
 #### 你知道Object中定义了哪些方法？
 | 方法 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 300px">public Boolean equals (Object obj)</div> | 比较当前对象与obj是否为同一对象 | 
-| <div style="width: 300px">public String toString()</div> | 返回当前对象的字符串表达形式 | 
-| <div style="width: 300px">public native int hashCode()</div> | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象 | 
-| <div style="width: 300px">protected void finalize() throws Throwable</div> | 对象销毁时被调用 | 
-| <div style="width: 300px">public final native void notify()</div> | 唤醒在此对象监视器上等待的单个线程。如果所有线程都在此对象上等待，则会选择唤醒其中一个线程。选择是任意性的，并在对实现做出决定时发生。线程通过调用其中一个wait方法，在对象的监视器上等待 | 
-| <div style="width: 300px">public final native void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程。线程通过调用其中一个wait方法，在对象的监视器上等待 | 
-| <div style="width: 300px">public final native void wait()</div> | 导致调用者线程等待，直到另一个线程调用notify()或者notifyAll()方法，或者指定的等待时间到达 | 
+| <div style="width: 300px">public Boolean equals (Object obj)</div> | 比较当前对象与obj是否为同一对象。 | 
+| <div style="width: 300px">public String toString()</div> | 返回当前对象的字符串表达形式。 | 
+| <div style="width: 300px">public native int hashCode()</div> | 返回对象的Hash码。Hash码的标志对象的唯一值，Hash码相同的对象是同一对象。 | 
+| <div style="width: 300px">protected void finalize() throws Throwable</div> | 对象销毁时被调用。 | 
+| <div style="width: 300px">public final native void notify()</div> | 唤醒在此对象监视器上等待的单个线程。如果所有线程都在此对象上等待，则会选择唤醒其中一个线程。选择是任意性的，并在对实现做出决定时发生。线程通过调用其中一个wait方法，在对象的监视器上等待。 | 
+| <div style="width: 300px">public final native void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程。线程通过调用其中一个wait方法，在对象的监视器上等待。 | 
+| <div style="width: 300px">public final native void wait()</div> | 导致调用者线程等待，直到另一个线程调用notify()或者notifyAll()方法，或者指定的等待时间到达。 | 
 
 
 #### ==和equals区别？以及hashCode和equals方法的关系？
 | —— | == | equals | 
 | :----- | :----- | :----- | 
-| <div style="width: 150px">功能不同</div> | 判断两个变量或实例是不是指向同一个内存空间 | 判断两个变量或实例所指向的内存空间的值是不是相同 | 
-| <div style="width: 150px">定义不同</div> | 在JAVA中只是一个运算符合 | 在JAVA中是一个方法 | 
+| <div style="width: 150px">功能不同</div> | 判断两个变量或实例是不是指向同一个内存空间。 | 判断两个变量或实例所指向的内存空间的值是不是相同。 | 
+| <div style="width: 150px">定义不同</div> | 在JAVA中只是一个运算符合。 | 在JAVA中是一个方法。 | 
 | <div style="width: 150px">运行速度不同</div> | 快 | 慢 | 
 
 
@@ -134,15 +134,15 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 #### String和StringBuffer、StringBuilder的区别？
 | ———— | 可变性 | 线程安全性 | 性能 | 
 | :----- | :----- | :----- | :----- | 
-| String | 用字符数组保存字符串，private final char value[]，所以String对象是不可变的 | 对象是不可变的，也就可以理解为常量，线程安全 | 每次对String类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String对象 | 
-| StringBuffer | 继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[] value，是可变的 | 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的 | 本身进行操作，而不是生成新的对象并改变对象引用 | 
-| StringBuilder | 同StringBuffer | 并没有对方法进行加同步锁，所以是非线程安全的 | StringBuilder相比使用StringBuffer仅能获得10%~15%左右的性能提升 | 
+| String | 用字符数组保存字符串，private final char value[]，所以String对象是不可变的。 | 对象是不可变的，也就可以理解为常量，线程安全。 | 每次对String类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String对象。 | 
+| StringBuffer | 继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[] value，是可变的。 | 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。 | 本身进行操作，而不是生成新的对象并改变对象引用。 | 
+| StringBuilder | 同StringBuffer。 | 并没有对方法进行加同步锁，所以是非线程安全的。 | StringBuilder相比使用StringBuffer仅能获得10%~15%左右的性能提升。 | 
 
 
 #### Java中的方法重写(Override)和方法重载(Overload)是什么意思？
 | 重写(Override) | 重载(Overload) | 
 | :----- | :----- | 
-| 发生在父子类中；方法名、参数列表必须相同；返回值类型小于等于父类；抛出的异常小于等于父类；访问修饰符大于等于父类；如果父类方法访问修饰符为private则子类中就不是重写 | 发生在同一个类中；方法名必须相同；参数类型不同、个数不同、顺序不同；方法返回值和访问修饰符可以不同；发生在编译时 | 
+| 发生在父子类中；方法名、参数列表必须相同；返回值类型小于等于父类；抛出的异常小于等于父类；访问修饰符大于等于父类；如果父类方法访问修饰符为private则子类中就不是重写。 | 发生在同一个类中；方法名必须相同；参数类型不同、个数不同、顺序不同；方法返回值和访问修饰符可以不同；发生在编译时。 | 
 
 
 #### 访问控制符public,protected,private,以及默认(default)的区别？
@@ -160,15 +160,15 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 #### 接口和抽象类的区别是什么？
 | 接口 | 抽象类 | 
 | :----- | :----- | 
-| 不能有构造方法 | 可以有构造方法 | 
-| 可以有普通成员变量 | 不能有普通成员变量 | 
-| 所有的方法隐含的都是抽象的 | 可以同时包含抽象和非抽象的方法 | 
-| 声明的变量默认都是final的 | 可以包含非final的变量 | 
-| 类可以实现很多个接口 | 类只能继承一个抽象类 | 
-| 类如果要实现一个接口，它必须要实现接口声明的所有方法 | 类可以不实现抽象类声明的所有方法，当然，在这种情况下，类也必须得声明成是抽象的 | 
-| ———— | 可以在不提供接口方法实现的情况下实现接口 | 
-| 成员函数默认是public的 | 成员函数可以是private，protected或者是public | 
-| 绝对抽象的，不可以被实例化 | 不可以被实例化，但是，如果它包含main方法的话是可以被调用的 |
+| 不能有构造方法。 | 可以有构造方法。 | 
+| 可以有普通成员变量。 | 不能有普通成员变量。 | 
+| 所有的方法隐含的都是抽象的。 | 可以同时包含抽象和非抽象的方法。 | 
+| 声明的变量默认都是final的。 | 可以包含非final的变量。 | 
+| 类可以实现很多个接口。 | 类只能继承一个抽象类。| 
+| 类如果要实现一个接口，它必须要实现接口声明的所有方法。 | 类可以不实现抽象类声明的所有方法，当然，在这种情况下，类也必须得声明成是抽象的。 | 
+| ———— | 可以在不提供接口方法实现的情况下实现接口。 | 
+| 成员函数默认是public的。 | 成员函数可以是private，protected或者是public。 | 
+| 绝对抽象的，不可以被实例化。 | 不可以被实例化，但是，如果它包含main方法的话是可以被调用的。 |
 
 
 #### Java中Exception和Error有什么区别？
@@ -177,15 +177,15 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 
 | Exception | Error | 
 | :----- | :----- | 
-| 表示程序可以处理的异常，可以捕获且可能恢复。遇到这类异常，应该尽可能处理异常，使程序恢复运行，而不应该随意终止异常 | Error类一般是指与虚拟机相关的问题，如系统崩溃、虚拟机错误、内存空间不足、方法调用栈溢等。对于这类错误的导致的应用程序中断，仅靠程序本身无法恢复和和预防，遇到这样的错误，建议让程序终止 | 
+| 表示程序可以处理的异常，可以捕获且可能恢复。遇到这类异常，应该尽可能处理异常，使程序恢复运行，而不应该随意终止异常。 | Error类一般是指与虚拟机相关的问题，如系统崩溃、虚拟机错误、内存空间不足、方法调用栈溢等。对于这类错误的导致的应用程序中断，仅靠程序本身无法恢复和和预防，遇到这样的错误，建议让程序终止。 | 
 
 
 #### Java中的两种异常类型是什么？他们有什么区别？
 | 受检查的(checked)异常 | 不受检查的(unchecked)异常 | 
 | :----- | :----- | 
-| 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等) | 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复 | 
-| 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等 | 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等 | 
-| 需要try catch处理或throws声明抛出异常 | 语法上不需要声明抛出异常 | 
+| 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等)。 | 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复。 | 
+| 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等。 | 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等。 | 
+| 需要try catch处理或throws声明抛出异常。 | 语法上不需要声明抛出异常。 | 
 
 
 #### final关键字、finally代码块和finalize()方法有什么区别？
@@ -211,12 +211,12 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
     <tr>
         <td>finally</td> 
         <td style="width: 150px">try/catch语句块</td> 
-        <td>finally代码块中的语句一定会被执行，经常被用来释放资源，如IO流和数据库资源的释放</td>       
+        <td>finally代码块中的语句一定会被执行，经常被用来释放资源，如IO流和数据库资源的释放。</td>       
     </tr>
     <tr>
         <td>finalize</td> 
-        <td style="width: 150px">Object类的一个方法 protected void finalize() throws Throwable{}</td> 
-        <td>在垃圾回收器执行时会调用被回收对象的finalize()方法，可以覆盖此方法来实现对其资源的回收。注意：一旦垃圾回收器准备释放某个对象占用的空间，将首先调该对象的finalize()方法，并且在下一次垃圾回收动作发生时，才真正将该对象占用的内存回收</td>      
+        <td style="width: 150px">Object类的一个方法 protected void finalize() throws Throwable{}。</td> 
+        <td>在垃圾回收器执行时会调用被回收对象的finalize()方法，可以覆盖此方法来实现对其资源的回收。注意：一旦垃圾回收器准备释放某个对象占用的空间，将首先调该对象的finalize()方法，并且在下一次垃圾回收动作发生时，才真正将该对象占用的内存回收。</td>      
     </tr>
 </table>
 

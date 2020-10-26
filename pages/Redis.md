@@ -21,11 +21,11 @@ Redis是一个支持持久化的内存数据库，通过持久化机制把内存
 #### 缓存雪崩、缓存穿透、缓存预热、缓存更新、缓存降级问题？
 | 问题 | 定义 | 解决办法 | 
 | :----- | :----- | :----- | 
-| <div style="width: 65px;font-weight: bold;">缓存雪崩</div> | <div style="width: 300px">由于原有缓存失效，新缓存未到期间(例如我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积的缓存过期)，所有原本应该访问缓存的请求都去查询数据库了，而对数据库CPU和内存造成巨大压力，严重的会造成数据库宕机。从而形成一系列连锁反应，造成整个系统崩溃</div> | 大多数系统设计者考虑用加锁(最多的解决方案)或者队列的方式保证来保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上。还有一个简单方案就是将缓存失效时间分散开 |
-| <div style="width: 65px;font-weight: bold;">缓存穿透</div> | <div style="width: 300px">用户查询数据，在数据库没有，自然在缓存中也不会有。这样就导致用户查询的时候，在缓存中找不到，每次都要去数据库再查询一遍，然后返回空(相当于进行了两次无用的查询)。这样请求就绕过缓存直接查数据库，这也是经常提的缓存命中率问题</div> | 最常见的则是采用布隆过滤器，将所有可能存在的数据哈希到一个足够大的bitmap中，一个一定不存在的数据会被这个bitmap拦截掉，从而避免了对底层存储系统的查询压力。另外也有一个更为简单粗暴的方法，如果一个查询返回的数据为空(不管是数据不存在，还是系统故障)，我们仍然把这个空结果进行缓存，但它的过期时间会很短，最长不超过五分钟。通过这个直接设置的默认值存放到缓存，这样第二次到缓冲中获取就有值了，而不会继续访问数据库，这种办法最简单粗暴。5TB的硬盘上放满了数据，请写一个算法将这些数据进行排重。如果这些数据是一些32bit大小的数据该如何解决？如果是64bit的呢？对于空间的利用到达了一种极致，那就是Bitmap和布隆过滤器(Bloom Filter)。Bitmap典型的缺点是，Bitmap对于每个元素只能记录1bit信息，如果还想完成额外的功能，恐怕只能靠牺牲更多的空间和时间来完成了 |
-| <div style="width: 65px;font-weight: bold;">缓存预热</div> | <div style="width: 300px">系统上线后，将相关的缓存数据直接加载到缓存系统。这样就可以避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据</div> | 直接写个缓存刷新页面，上线时手工操作下；数据量不大，可以在项目启动的时候自动进行加载；定时刷新缓存 |
-| <div style="width: 65px;font-weight: bold;">缓存更新</div> | <div style="width: 300px">除了缓存服务器自带的缓存失效策略之外(Redis默认的有6种策略可供选择)，我们还可以根据具体的业务需求进行自定义的缓存淘汰</div> | 定时去清理过期的缓存；当有用户请求过来时，再判断这个请求所用到的缓存是否过期，过期的话就去底层系统得到新数据并更新缓存。两者各有优劣，第一种的缺点是维护大量缓存的key是比较麻烦的，第二种的缺点就是每次用户请求过来都要判断缓存失效，逻辑相对比较复杂 |
-| <div style="width: 65px;font-weight: bold;">缓存降级</div> | <div style="width: 300px">当访问量剧增、服务出现问题(如响应时间慢或不响应)或非核心服务影响到核心流程的性能时，仍然需要保证服务还是可用的，即使是有损服务。系统可以根据一些关键数据进行自动降级，也可以配置开关实现人工降级。降级的最终目的是保证核心服务可用，即使是有损的</div> | 服务降级的目的，是为了防止Redis服务故障，导致数据库跟着一起发生雪崩问题。因此，对于不重要的缓存数据，可以采取服务降级策略，例如一个比较常见的做法就是Redis出现问题，不去数据库查询，而是直接返回默认值给用户 |
+| <div style="width: 65px;font-weight: bold;">缓存雪崩</div> | <div style="width: 300px">由于原有缓存失效，新缓存未到期间(例如我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积的缓存过期)，所有原本应该访问缓存的请求都去查询数据库了，而对数据库CPU和内存造成巨大压力，严重的会造成数据库宕机。从而形成一系列连锁反应，造成整个系统崩溃。</div> | 大多数系统设计者考虑用加锁(最多的解决方案)或者队列的方式保证来保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上。还有一个简单方案就是将缓存失效时间分散开。 |
+| <div style="width: 65px;font-weight: bold;">缓存穿透</div> | <div style="width: 300px">用户查询数据，在数据库没有，自然在缓存中也不会有。这样就导致用户查询的时候，在缓存中找不到，每次都要去数据库再查询一遍，然后返回空(相当于进行了两次无用的查询)。这样请求就绕过缓存直接查数据库，这也是经常提的缓存命中率问题。</div> | 最常见的则是采用布隆过滤器，将所有可能存在的数据哈希到一个足够大的bitmap中，一个一定不存在的数据会被这个bitmap拦截掉，从而避免了对底层存储系统的查询压力。另外也有一个更为简单粗暴的方法，如果一个查询返回的数据为空(不管是数据不存在，还是系统故障)，我们仍然把这个空结果进行缓存，但它的过期时间会很短，最长不超过五分钟。通过这个直接设置的默认值存放到缓存，这样第二次到缓冲中获取就有值了，而不会继续访问数据库，这种办法最简单粗暴。5TB的硬盘上放满了数据，请写一个算法将这些数据进行排重。如果这些数据是一些32bit大小的数据该如何解决？如果是64bit的呢？对于空间的利用到达了一种极致，那就是Bitmap和布隆过滤器(Bloom Filter)。Bitmap典型的缺点是，Bitmap对于每个元素只能记录1bit信息，如果还想完成额外的功能，恐怕只能靠牺牲更多的空间和时间来完成了。 |
+| <div style="width: 65px;font-weight: bold;">缓存预热</div> | <div style="width: 300px">系统上线后，将相关的缓存数据直接加载到缓存系统。这样就可以避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据。</div> | 直接写个缓存刷新页面，上线时手工操作下；数据量不大，可以在项目启动的时候自动进行加载；定时刷新缓存。 |
+| <div style="width: 65px;font-weight: bold;">缓存更新</div> | <div style="width: 300px">除了缓存服务器自带的缓存失效策略之外(Redis默认的有6种策略可供选择)，我们还可以根据具体的业务需求进行自定义的缓存淘汰。</div> | 定时去清理过期的缓存；当有用户请求过来时，再判断这个请求所用到的缓存是否过期，过期的话就去底层系统得到新数据并更新缓存。两者各有优劣，第一种的缺点是维护大量缓存的key是比较麻烦的，第二种的缺点就是每次用户请求过来都要判断缓存失效，逻辑相对比较复杂。 |
+| <div style="width: 65px;font-weight: bold;">缓存降级</div> | <div style="width: 300px">当访问量剧增、服务出现问题(如响应时间慢或不响应)或非核心服务影响到核心流程的性能时，仍然需要保证服务还是可用的，即使是有损服务。系统可以根据一些关键数据进行自动降级，也可以配置开关实现人工降级。降级的最终目的是保证核心服务可用，即使是有损的。</div> | 服务降级的目的，是为了防止Redis服务故障，导致数据库跟着一起发生雪崩问题。因此，对于不重要的缓存数据，可以采取服务降级策略，例如一个比较常见的做法就是Redis出现问题，不去数据库查询，而是直接返回默认值给用户。 |
 
 
 #### 热点数据和冷数据是什么？
@@ -44,12 +44,12 @@ Redis是一个支持持久化的内存数据库，通过持久化机制把内存
 #### Memcache与Redis的区别都有哪些？
 | —— | Redis | Memcache | 
 | :----- | :----- | :----- | 
-| <div style="width: 140px;font-weight: bold;">存储方式</div> | 部份存在硬盘上，redis可以持久化其数据 | 数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小 |
-| <div style="width: 140px;font-weight: bold;">数据支持类型</div> | 支持更为丰富的数据类型 ，提供list，set，zset，hash等数据结构的存储 | 所有的值均是简单的字符串 |
-| <div style="width: 140px;font-weight: bold;">底层模型/通信应用协议</div> | 直接自己构建了VM 机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求 | —— |
-| <div style="width: 140px;font-weight: bold;">value值大小不同</div> | 最大可以达到512M | 只有1MB |
+| <div style="width: 140px;font-weight: bold;">存储方式</div> | 部份存在硬盘上，Redis可以持久化其数据。 | 数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。 |
+| <div style="width: 140px;font-weight: bold;">数据支持类型</div> | 支持更为丰富的数据类型 ，提供list，set，zset，hash等数据结构的存储。 | 所有的值均是简单的字符串。 |
+| <div style="width: 140px;font-weight: bold;">底层模型/通信应用协议</div> | 直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。 | —— |
+| <div style="width: 140px;font-weight: bold;">value值大小不同</div> | 最大可以达到512M。 | 只有1MB。 |
 | <div style="width: 140px;font-weight: bold;">速度</div> | 快 | 慢 |
-| <div style="width: 140px;font-weight: bold;">数据备份</div> | 支持master-slave模式的数据备份 | —— |
+| <div style="width: 140px;font-weight: bold;">数据备份</div> | 支持master-slave模式的数据备份。| —— |
 
 
 #### 单线程的Redis为什么这么快？
@@ -61,21 +61,21 @@ Redis是一个支持持久化的内存数据库，通过持久化机制把内存
 #### Redis的数据类型，以及每种数据类型的使用场景？
 | 名称 | 解释 |
 | :----- | :----- |
-| <div style="width: 80px;font-weight: bold;">string</div> | 最常规的set/get操作，value可以是string也可以是数字。一般做一些复杂的计数功能的缓存 |
-| <div style="width: 80px;font-weight: bold;">hash</div> | 这里value存放的是结构化的对象，比较方便的就是操作其中的某个字段。博主在做单点登录的时候，就是用这种数据结构存储用户信息，以cookieId作为key，设置30分钟为缓存过期时间，能很好的模拟出类似session的效果 |
-| <div style="width: 80px;font-weight: bold;">list</div> | 使用list的数据结构，可以做简单的消息队列的功能。另外还有一个就是，可以利用lrange命令，做基于redis的分页功能，性能极佳，用户体验好。本人还用一个场景，很合适—取行情信息。就也是个生产者和消费者的场景。LIST可以很好的完成排队，先进先出的原则 |
-| <div style="width: 80px;font-weight: bold;">set</div> | 因为set堆放的是一堆不重复值的集合。所以可以做全局去重的功能。为什么不用JVM自带的set进行去重？因为我们的系统一般都是集群部署，使用JVM自带的set，比较麻烦，难道为了一个做一个全局去重，再起一个公共服务，太麻烦了 |
-| <div style="width: 80px;font-weight: bold;">sorted set</div> | sorted set多了一个权重参数score，集合中的元素能够按score进行排列。可以做排行榜应用，取TOP N操作 |
+| <div style="width: 80px;font-weight: bold;">string</div> | 最常规的set/get操作，value可以是string也可以是数字。一般做一些复杂的计数功能的缓存。 |
+| <div style="width: 80px;font-weight: bold;">hash</div> | 这里value存放的是结构化的对象，比较方便的就是操作其中的某个字段。博主在做单点登录的时候，就是用这种数据结构存储用户信息，以cookieId作为key，设置30分钟为缓存过期时间，能很好的模拟出类似session的效果。 |
+| <div style="width: 80px;font-weight: bold;">list</div> | 使用list的数据结构，可以做简单的消息队列的功能。另外还有一个就是，可以利用lrange命令，做基于redis的分页功能，性能极佳，用户体验好。本人还用一个场景，很合适—取行情信息。就也是个生产者和消费者的场景。LIST可以很好的完成排队，先进先出的原则。 |
+| <div style="width: 80px;font-weight: bold;">set</div> | 因为set堆放的是一堆不重复值的集合。所以可以做全局去重的功能。为什么不用JVM自带的set进行去重？因为我们的系统一般都是集群部署，使用JVM自带的set，比较麻烦，难道为了一个做一个全局去重，再起一个公共服务，太麻烦了。 |
+| <div style="width: 80px;font-weight: bold;">sorted set</div> | sorted set多了一个权重参数score，集合中的元素能够按score进行排列。可以做排行榜应用，取TOP N操作。 |
 
 
 #### Redis有哪些适合的使用场景？
 | 名称 | 解释 |
 | :----- | :----- |
-| <div style="width: 150px;font-weight: bold;">会话缓存(Session Cache)</div> | 最常用的一种使用Redis的情景是会话缓存(session cache)，用Redis缓存会话比其他存储(如Memcached)的优势在于Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？幸运的是，随着Redis这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件 |
-| <div style="width: 150px;font-weight: bold;">全页缓存(FPC)</div> | 除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。此外，对WordPress的用户来说，Pantheon有一个非常好的插件wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面 |
-| <div style="width: 150px;font-weight: bold;">队列</div> | Redis在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队列 平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言(如 Python)对list的push/pop操作。如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis 作为broker，你可以从这里去查看 |
-| <div style="width: 150px;font-weight: bold;">排行榜/计数器</div> | Redis在内存中对数字进行递增或递减的操作实现的非常好。集合(Set)和有序集合(SortedSet)也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行:ZRANGE user_scores 0 10 WITHSCORES Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到 |
-| <div style="width: 150px;font-weight: bold;">发布/订阅</div> | 最后(但肯定不是最不重要的)是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统 |
+| <div style="width: 150px;font-weight: bold;">会话缓存(Session Cache)</div> | 最常用的一种使用Redis的情景是会话缓存(session cache)，用Redis缓存会话比其他存储(如Memcached)的优势在于Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？幸运的是，随着Redis这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。 |
+| <div style="width: 150px;font-weight: bold;">全页缓存(FPC)</div> | 除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。此外，对WordPress的用户来说，Pantheon有一个非常好的插件wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。 |
+| <div style="width: 150px;font-weight: bold;">队列</div> | Redis在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队列 平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言(如 Python)对list的push/pop操作。如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis 作为broker，你可以从这里去查看。 |
+| <div style="width: 150px;font-weight: bold;">排行榜/计数器</div> | Redis在内存中对数字进行递增或递减的操作实现的非常好。集合(Set)和有序集合(SortedSet)也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行:ZRANGE user_scores 0 10 WITHSCORES Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。 |
+| <div style="width: 150px;font-weight: bold;">发布/订阅</div> | 最后(但肯定不是最不重要的)是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统。 |
 
 
 #### Redis的过期策略以及内存淘汰机制？
@@ -107,12 +107,12 @@ maxmemory-policy volatile-lru
 
 | <div style="width: 190px">maxmemory-policy参数</div> | 解释 |
 | :----- | :----- |
-| <div style="width: 190px;font-weight: bold;">volatile-lru</div> | 从已设置过期时间的数据集(server.db[i].expires)中挑选最近最少使用的数据淘汰 |
-| <div style="width: 190px;font-weight: bold;">volatile-ttl</div> | 从已设置过期时间的数据集(server.db[i].expires)中挑选将要过期的数据淘汰 |
-| <div style="width: 190px;font-weight: bold;">volatile-random</div> | 从已设置过期时间的数据集(server.db[i].expires)中任意选择数据淘汰 |
-| <div style="width: 190px;font-weight: bold;">allkeys-lru</div> | 从数据集(server.db[i].dict)中挑选最近最少使用的数据淘汰 |
-| <div style="width: 190px;font-weight: bold;">allkeys-random</div> | 从数据集(server.db[i].dict)中任意选择数据淘汰 |
-| <div style="width: 190px;font-weight: bold;">no-enviction</div> | 禁止驱逐数据，新写入操作会报错 |
+| <div style="width: 190px;font-weight: bold;color:red;">volatile-lru(默认)</div> | 从已设置过期时间的数据集(server.db[i].expires)中挑选最近最少使用的数据淘汰。 |
+| <div style="width: 190px;font-weight: bold;">volatile-ttl</div> | 从已设置过期时间的数据集(server.db[i].expires)中挑选将要过期的数据淘汰。 |
+| <div style="width: 190px;font-weight: bold;">volatile-random</div> | 从已设置过期时间的数据集(server.db[i].expires)中任意选择数据淘汰。 |
+| <div style="width: 190px;font-weight: bold;">allkeys-lru</div> | 从数据集(server.db[i].dict)中挑选最近最少使用的数据淘汰。 |
+| <div style="width: 190px;font-weight: bold;">allkeys-random</div> | 从数据集(server.db[i].dict)中任意选择数据淘汰。 |
+| <div style="width: 190px;font-weight: bold;">no-enviction</div> | 禁止驱逐数据，新写入操作会报错。 |
 
 
 如果没有设置expire的key，不满足先决条件(prerequisites)；那么volatile-lru，volatile-random和volatile-ttl策略的行为和noeviction(不删除)基本上一致。

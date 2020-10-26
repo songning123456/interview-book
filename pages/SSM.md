@@ -1,31 +1,13 @@
 #### 能说说使用Spring的好处吗?
 * 降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
-
-
 * 可以使用容易提供的众多服务，如事务管理，消息服务等。
-
-
 * 容器提供单例模式支持。
-
-
 * 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
-
-
 * 容器提供了众多的辅助类，能加快应用的开发。
-
-
 * Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
-
-
 * Spring属于低侵入式设计，代码的污染极低。
-
-
 * 独立于各种应用服务器。
-
-
 * Spring的DI机制降低了业务对象替换的复杂性。
-
-
 * Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
@@ -38,8 +20,8 @@
 | 观察者模式 | ApplicationListener | 
 | 工厂模式-简单工厂模式 | getBean() | 
 | 工厂模式-工厂方法模式 | `<bean factory-method="getInstance"></bean>` | 
-| 适配器模式 | 在AOP实现中的Advice和interceptor之间的转换 | 
-| 装饰者模式 | 一种是类名中含有Wrapper，另一种是类名中含有Decorator | 
+| 适配器模式 | 在AOP实现中的Advice和interceptor之间的转换。 | 
+| 装饰者模式 | 一种是类名中含有Wrapper，另一种是类名中含有Decorator。 | 
 | 代理模式 | Spring AOP | 
 | 策略模式 | 实例化对象 | 
 
@@ -49,17 +31,9 @@
 
 
 #### <a href="https://blog.csdn.net/knknknkn8023/article/details/107130806">你知道SpringBean的生命周期吗？</a>
-
-
 * 实例化 Instantiation
-
-
 * 属性赋值 Populate
-
-
 * 初始化 Initialization
-
-
 * 销毁 Destruction
 
 
@@ -158,11 +132,11 @@ public class DaoFactory {
 #### SpringBean有哪些作用域？是否是线程安全的？
 | 类别 | 是否线程安全 | 作用域 | 
 | :----- | :----- | 
-| <div style="width: 150px">singleton(默认)</div> | <div style="width: 100px">不确定</div> | 单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例 | 
-| <div style="width: 150px">prototype</div> | <div style="width: 100px">安全</div> | 原型模式，每次通过容器的getBean方法获取prototype定义的Bean时，都将产生一个新的Bean实例，一般来说下面几种作用域，在开发的时候一般都不会用，99.99%的时候都是用singleton单例作用域 | 
-| <div style="width: 150px">request</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，即每次HTTP请求将会产生不同的Bean实例。只有在Web应用中使用Spring时，该作用域才有效，在请求完成以后，bean会失效并被垃圾回收器回收 | 
-| <div style="width: 150px">session</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP Session，使用session定义的Bean豆浆产生一个新实例。同样只有在Web应用中使用Spring时，该作用域才有效，在session过期后，bean会随之失效 | 
-| <div style="width: 150px">globalSession</div> | <div style="width: 100px">不确定</div> | 每个全局的HTTP Session，使用session定义的Bean都将产生一个新实例。典型情况下，仅在使用portlet context的时候有效。同样只有在Web应用中使用Spring时，该作用域才有效 | 
+| <div style="width: 150px">singleton(默认)</div> | <div style="width: 100px">不确定</div> | 单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例。 | 
+| <div style="width: 150px">prototype</div> | <div style="width: 100px">安全</div> | 原型模式，每次通过容器的getBean方法获取prototype定义的Bean时，都将产生一个新的Bean实例，一般来说下面几种作用域，在开发的时候一般都不会用，99.99%的时候都是用singleton单例作用域。 | 
+| <div style="width: 150px">request</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，即每次HTTP请求将会产生不同的Bean实例。只有在Web应用中使用Spring时，该作用域才有效，在请求完成以后，bean会失效并被垃圾回收器回收。 | 
+| <div style="width: 150px">session</div> | <div style="width: 100px">不确定</div> | 对于每次HTTP Session，使用session定义的Bean豆浆产生一个新实例。同样只有在Web应用中使用Spring时，该作用域才有效，在session过期后，bean会随之失效。 | 
+| <div style="width: 150px">globalSession</div> | <div style="width: 100px">不确定</div> | 每个全局的HTTP Session，使用session定义的Bean都将产生一个新实例。典型情况下，仅在使用portlet context的时候有效。同样只有在Web应用中使用Spring时，该作用域才有效。 | 
 
 
 线程安全这个问题，要从单例与原型Bean分别进行说明。对于原型Bean，每次创建一个新对象，也就是线程之间并不存在Bean共享，自然是不会有线程安全的问题。对于单例Bean，所有线程都共享一个单例实例Bean，因此是存在资源的竞争。如果单例Bean，是一个无状态Bean，也就是线程中的操作不会对Bean的成员执行查询以外的操作，那么这个单例Bean是线程安全的。比如SpringMVC的Controller、Service、Dao等，这些Bean大多是无状态的，只关注于方法本身。对于有状态的Bean，Spring官方提供的Bean，一般提供了通过ThreadLocal去解决线程安全的方法，比如RequestContextHolder、TransactionSynchronizationManager、LocaleContextHolder等。
@@ -212,47 +186,37 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 #### <a href="https://blog.csdn.net/qq_26323323/article/details/81908955">Spring事务的传播行为？</a>
 | 传播行为 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 280px">PROPAGATION_REQUIRED</div> | 表示当前方法必须运行在事务中。如果当前事务存在，方法将会在该事务中运行。否则，会启动一个新的事务 | 
-| <div style="width: 280px">PROPAGATION_SUPPORTS</div> | 表示当前方法不需要事务上下文，但是如果存在当前事务的话，那么该方法会在这个事务中运行 | 
-| <div style="width: 280px">PROPAGATION_MANDATORY</div> | 表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常 | 
-| <div style="width: 280px">PROPAGATION_REQUIRED_NEW</div> | 表示当前方法必须运行在它自己的事务中。一个新的事务将被启动。如果存在当前事务，在该方法执行期间，当前事务会被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager | 
-| <div style="width: 280px">PROPAGATION_NOT_SUPPORTED</div> | 表示该方法不应该运行在事务中。如果存在当前事务，在该方法运行期间，当前事务将被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager | 
-| <div style="width: 280px">PROPAGATION_NEVER</div> | 表示当前方法不应该运行在事务上下文中。如果当前正有一个事务在运行，则会抛出异常 | 
-| <div style="width: 280px">PROPAGATION_NESTED</div> | 表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与PROPAGATION_REQUIRED一样。注意各厂商对这种传播行为的支持是有所差异的。可以参考资源管理器的文档来确认它们是否支持嵌套事务 |
+| <div style="width: 280px">PROPAGATION_REQUIRED</div> | 表示当前方法必须运行在事务中。如果当前事务存在，方法将会在该事务中运行。否则，会启动一个新的事务。 | 
+| <div style="width: 280px">PROPAGATION_SUPPORTS</div> | 表示当前方法不需要事务上下文，但是如果存在当前事务的话，那么该方法会在这个事务中运行。 | 
+| <div style="width: 280px">PROPAGATION_MANDATORY</div> | 表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常。 | 
+| <div style="width: 280px">PROPAGATION_REQUIRED_NEW</div> | 表示当前方法必须运行在它自己的事务中。一个新的事务将被启动。如果存在当前事务，在该方法执行期间，当前事务会被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager。 | 
+| <div style="width: 280px">PROPAGATION_NOT_SUPPORTED</div> | 表示该方法不应该运行在事务中。如果存在当前事务，在该方法运行期间，当前事务将被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager。 | 
+| <div style="width: 280px">PROPAGATION_NEVER</div> | 表示当前方法不应该运行在事务上下文中。如果当前正有一个事务在运行，则会抛出异常。 | 
+| <div style="width: 280px">PROPAGATION_NESTED</div> | 表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与PROPAGATION_REQUIRED一样。注意各厂商对这种传播行为的支持是有所差异的。可以参考资源管理器的文档来确认它们是否支持嵌套事务。 |
 
 
 #### SpringMVC工作原理？
 ![SpringMVC](/images/SSM/SpringMVC.jpeg)
 
 
-**步骤1** 客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet。
-
-
-**步骤2** DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)。
-
-
-**步骤3&&4** DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用。
-
-
-**步骤5** Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet。
-
-
-**步骤6** Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View。
-
-
-**步骤7** DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
+* **步骤1**——客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet。
+* **步骤2**——DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)。
+* **步骤3&&4**——DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用。
+* **步骤5**——Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet。
+* **步骤6**——Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View。
+* **步骤7**——DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
 
 
 #### SpringMVC常用的注解？
 | 名称 | 解释 | 
 | :----- | :----- | 
-| @Controller | Controller控制器是通过服务接口定义的提供访问应用程序的一种行为，它解释用户的输入，将其转换成一个模型然后将试图呈献给用户。Spring MVC使用@Controller定义控制器，它还允许自动检测定义在类路径下的组件并自动注册。如想自动检测生效，需在XML头文件下引入spring-context | 
-| @RequestMapping | 既可以作用在类级别，也可以作用在方法级别 | 
-| @PathVariable | @PathVariable中的参数可以是任意的简单类型，如int, long, Date等等。Spring会自动将其转换成合适的类型或者抛出TypeMismatchException异常 | 
-| @RequestParam | @RequestParam将请求的参数绑定到方法中的参数上。其实，即使不配置该参数，注解也会默认使用该参数。如果想自定义指定参数的话，如果将@RequestParam的required属性设置为false(如@RequestParam(value="id",required=false)) | 
-| @RequestBody | 方法参数应该被绑定到HTTP请求Body上 | 
-| @ResponseBody | 将返回类型直接输入到HTTP response body中 | 
-| @RestController | 创建REST类型的控制器与@Controller类型 | 
+| @Controller | Controller控制器是通过服务接口定义的提供访问应用程序的一种行为，它解释用户的输入，将其转换成一个模型然后将试图呈献给用户。Spring MVC使用@Controller定义控制器，它还允许自动检测定义在类路径下的组件并自动注册。如想自动检测生效，需在XML头文件下引入spring-context。 | 
+| @RequestMapping | 既可以作用在类级别，也可以作用在方法级别。 | 
+| @PathVariable | @PathVariable中的参数可以是任意的简单类型，如int, long, Date等等。Spring会自动将其转换成合适的类型或者抛出TypeMismatchException异常。 | 
+| @RequestParam | @RequestParam将请求的参数绑定到方法中的参数上。其实，即使不配置该参数，注解也会默认使用该参数。如果想自定义指定参数的话，如果将@RequestParam的required属性设置为false(如@RequestParam(value="id",required=false))。 | 
+| @RequestBody | 方法参数应该被绑定到HTTP请求Body上。 | 
+| @ResponseBody | 将返回类型直接输入到HTTP response body中。 | 
+| @RestController | 创建REST类型的控制器与@Controller类型。 | 
 
 
 #### SpringMVC单例，高并发情况下，如何保证线程安全？
@@ -325,9 +289,9 @@ Class.forName()用来载入跟数据库建立连接的驱动。
 #### PreparedStatement比Statement有什么优势？
 | Statement | PreparedStatement | 
 | :----- | :----- | 
-| 每次执行sql语句，相关数据库都要执行sql语句的编译 | PreparedStatement是预编译的，对于批量处理可以大大提高效率，也叫JDBC存储过程 | 
-| 在对数据库只执行一次性存取的时侯，用Statement对象进行处理 | 对象的开销比Statement大，对于一次性操作并不会带来额外的好处 | 
-| 是'+'字符串拼接，安全性较低 | 用'?'传参,可以防止sql注入，具有安全性 | 
+| 每次执行sql语句，相关数据库都要执行sql语句的编译。 | PreparedStatement是预编译的，对于批量处理可以大大提高效率，也叫JDBC存储过程。 | 
+| 在对数据库只执行一次性存取的时侯，用Statement对象进行处理。 | 对象的开销比Statement大，对于一次性操作并不会带来额外的好处。 | 
+| 是'+'字符串拼接，安全性较低。 | 用'?'传参,可以防止sql注入，具有安全性。 | 
 
 
 #### 什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？
@@ -336,11 +300,7 @@ CallableStatement用来执行存储过程。存储过程是由数据库存储和
 
 #### 数据库连接池的优点？
 * 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃。
-
-
 * 数据库连接不需要每次都去创建或销毁，节约了资源。
-
-
 * 数据库连接不需要每次都去创建，响应时间更快。
 
 
@@ -382,19 +342,15 @@ ${}是Properties文件中的变量占位符，它可以用于标签属性值和s
 
 | 特征 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 300px">独立运行Spring项目</div> | Spring Boot可以以jar包形式独立运行，运行一个Spring Boot项目只需要通过java -jar xx.jar来运行 | 
-| <div style="width: 300px">内嵌servlet容器</div> | Spring Boot可以选择内嵌Tomcat、jetty或者Undertow，这样我们无须以war包形式部署项目 | 
-| <div style="width: 300px">提供starter简化Maven配置</div> | Spring提供了一系列的start pom来简化Maven的依赖加载。例如，当你使用了spring-boot-starter-web，会自动加入依赖包 | 
-| <div style="width: 300px">自动装配Spring</div> | SpringBoot会根据在类路径中的jar包，类。为jar包里面的类自动配置Bean，这样会极大地减少我们要使用的配置。当然，SpringBoot只考虑大多数的开发场景，并不是所有的场景，若在实际开发中我们需要配置Bean，而SpringBoot没有提供支持，则可以自定义自动配置 | 
-| <div style="width: 300px">准生产的应用监控</div> | SpringBoot提供基于HTTP SSH Telnet对运行时的项目进行监控 | 
-| <div style="width: 300px">无代码生产和XML配置</div> | Spring Boot不是借助于代码生成来实现的，而是通过条件注解来实现的，这是Spring4.x提供的新特性 | 
+| <div style="width: 300px">独立运行Spring项目</div> | Spring Boot可以以jar包形式独立运行，运行一个Spring Boot项目只需要通过java -jar xx.jar来运行。 | 
+| <div style="width: 300px">内嵌servlet容器</div> | Spring Boot可以选择内嵌Tomcat、jetty或者Undertow，这样我们无须以war包形式部署项目。 | 
+| <div style="width: 300px">提供starter简化Maven配置</div> | Spring提供了一系列的start pom来简化Maven的依赖加载。例如，当你使用了spring-boot-starter-web，会自动加入依赖包。 | 
+| <div style="width: 300px">自动装配Spring</div> | SpringBoot会根据在类路径中的jar包，类。为jar包里面的类自动配置Bean，这样会极大地减少我们要使用的配置。当然，SpringBoot只考虑大多数的开发场景，并不是所有的场景，若在实际开发中我们需要配置Bean，而SpringBoot没有提供支持，则可以自定义自动配置。 | 
+| <div style="width: 300px">准生产的应用监控</div> | SpringBoot提供基于HTTP SSH Telnet对运行时的项目进行监控。 | 
+| <div style="width: 300px">无代码生产和XML配置</div> | Spring Boot不是借助于代码生成来实现的，而是通过条件注解来实现的，这是Spring4.x提供的新特性。 | 
 
 
 #### @SpringBootApplication包含哪些注解？
 * **@ComponentScan**——扫描当前包及其子包下被@Component，@Controller，@Service，@Repository注解标记的类并纳入到Spring容器进行管理。
-
-
 * **@SpringBootConfiguration**——继承自@Configuration，二者功能一致，标注当前类是配置类，并会将当前类内声明的一个或多个以@Bean注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。
-
-
 * **@EnableAutoConfiguration**——启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。

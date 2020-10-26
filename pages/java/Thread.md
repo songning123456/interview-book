@@ -25,13 +25,13 @@
 #### 概括的解释下线程的几种可用状态？
 | 状态 | 解释 | 
 | :---- | :---- |
-| 就绪(Runnable) | 线程准备运行，不一定立马就能开始执行 |
-| 运行中(Running) | 进程正在执行线程的代码 |
-| 等待中(Waiting) | 线程处于阻塞的状态，等待外部的处理结束 |
-| 睡眠中(Sleeping) | 线程被强制睡眠 |
-| I/O阻塞(Blocked on I/O) | 等待I/O操作完成 |
-| 同步阻塞(Blocked on Synchronization) | 等待获取锁 |
-| 死亡(Dead) | 线程完成了执行 |
+| 就绪(Runnable) | 线程准备运行，不一定立马就能开始执行。 |
+| 运行中(Running) | 进程正在执行线程的代码。 |
+| 等待中(Waiting) | 线程处于阻塞的状态，等待外部的处理结束。 |
+| 睡眠中(Sleeping) | 线程被强制睡眠。 |
+| I/O阻塞(Blocked on I/O) | 等待I/O操作完成。 |
+| 同步阻塞(Blocked on Synchronization) | 等待获取锁。 |
+| 死亡(Dead) | 线程完成了执行。 |
 
 
 #### 怎么停止一个线程？
@@ -47,9 +47,9 @@
 #### sleep和wait的区别？
 | sleep | wait | 
 | :----- | :----- | 
-| Thread类中方法 | Object类中的方法 | 
-| 可以在任何地方使用 | 只能在同步代码块或同步方法中使用 | 
-| 程序暂停执行指定的时间，让出cpu该其他线程，但是他的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态，在调用sleep()方法的过程中，线程不会释放对象锁 | 线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备 | 
+| Thread类中方法。 | Object类中的方法。 | 
+| 可以在任何地方使用。 | 只能在同步代码块或同步方法中使用。 | 
+| 程序暂停执行指定的时间，让出cpu该其他线程，但是他的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态，在调用sleep()方法的过程中，线程不会释放对象锁。 | 线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备。 | 
 
 
 #### 现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
@@ -196,11 +196,11 @@ public class TestJoin2Main {
 #### 多线程之间是如何进行信息交互的？
 | 方法 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 300px">void notify()</div> | 唤醒在此对象监视器上等待的单个线程 | 
-| <div style="width: 300px">void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程 | 
-| <div style="width: 300px">void wait()</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法 | 
-| <div style="width: 300px">void wait(long timeout)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者超过指定的时间量 | 
-| <div style="width: 300px">void wait(long timeout,int nanos)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量 | 
+| <div style="width: 300px">void notify()</div> | 唤醒在此对象监视器上等待的单个线程。 | 
+| <div style="width: 300px">void notifyAll()</div> | 唤醒在此对象监视器上等待的所有线程。 | 
+| <div style="width: 300px">void wait()</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法。 | 
+| <div style="width: 300px">void wait(long timeout)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者超过指定的时间量。 | 
+| <div style="width: 300px">void wait(long timeout,int nanos)</div> | 导致当前的线程等待，直到其他线程调用此对象的notify()方法或notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。 | 
 
 
 #### 多线程的几种通讯方式？
@@ -408,7 +408,7 @@ public class Run {
 线程A要等待某个条件满足时(list.size()==5)，才执行操作。线程B则向list中添加元素，改变list的size。A,B之间如何通信的呢？也就是说，线程A如何知道list.size()已经为5了呢？这里用到了Object类的wait()和notify()方法。当条件未满足时(list.size()!=5)，线程A调用wait()放弃CPU，并进入阻塞状态。不像while轮询那样占用CPU。当条件满足时，线程B调用notify()通知线程A，所谓通知线程A，就是唤醒线程A，并让它进入可运行状态。这种方式的一个好处就是CPU的利用率提高了。但是也有一些缺点：比如，线程B先执行，一下子添加了5个元素并调用了notify()发送了通知，而此时线程A还执行；当线程A执行并调用wait()时，那它永远就不可能被唤醒了。因为，线程B已经发了通知了，以后不再发通知了。这说明：通知过早，会打乱程序的执行逻辑。
 
 
-* **管道通信**——java.io.PipedInputStream 和 java.io.PipedOutputStream
+* **管道通信**——java.io.PipedInputStream 和 java.io.PipedOutputStream。
 
 
 #### 说说线程池的创建方式？
@@ -519,42 +519,44 @@ for (int i = 0; i < 10; i++) {
 #### 能说说线程池的核心配置参数？ThreadPoolExecutor有哪些拒绝策略？
 | 参数 | 默认值 | 解释 | 
 | :----- | :----- | :----- | 
-| corePoolSize(核心线程数) | 1 | 1.核心线程会一直存在，即使没有任务执行； <br> 2.当线程数小于核心线程数的时候，即使有空闲线程，也会一直创建线程直到达到核心线程数； <br> 3.设置allowCoreThreadTimeout=true(默认false)时，核心线程会超时关闭 | 
-| queueCapacity(任务队列容量) | Integer.MAX_VALUE | 也叫阻塞队列，当核心线程都在运行，此时再有任务进来，会进入任务队列，排队等待线程执行 | 
-| maxPoolSize(最大线程数) | Integer.MAX_VALUE | 1.线程池里允许存在的最大线程数量； <br> 2.当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务； <br> 3.线程池里允许存在的最大线程数量。当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务 | 
-| keepAliveTime(线程空闲时间) | 60秒 | 1.当线程空闲时间达到keepAliveTime时，线程会退出(关闭)，直到线程数等于核心线程数； <br> 2.如果设置了allowCoreThreadTimeout=true，则线程会退出直到线程数等于零 | 
+| corePoolSize(核心线程数) | 1 | 1.核心线程会一直存在，即使没有任务执行； <br> 2.当线程数小于核心线程数的时候，即使有空闲线程，也会一直创建线程直到达到核心线程数； <br> 3.设置allowCoreThreadTimeout=true(默认false)时，核心线程会超时关闭。 | 
+| queueCapacity(任务队列容量) | Integer.MAX_VALUE | 也叫阻塞队列，当核心线程都在运行，此时再有任务进来，会进入任务队列，排队等待线程执行。 | 
+| maxPoolSize(最大线程数) | Integer.MAX_VALUE | 1.线程池里允许存在的最大线程数量； <br> 2.当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务； <br> 3.线程池里允许存在的最大线程数量。当任务队列已满，且线程数量大于等于核心线程数时，会创建新的线程执行任务。 | 
+| keepAliveTime(线程空闲时间) | 60秒 | 1.当线程空闲时间达到keepAliveTime时，线程会退出(关闭)，直到线程数等于核心线程数； <br> 2.如果设置了allowCoreThreadTimeout=true，则线程会退出直到线程数等于零。 | 
 | allowCoreThreadTimeout(允许核心线程超时) | false | ———— | 
-| rejectedExecutionHandler(任务拒绝处理器) | AbortPolicy() | 1.当线程数量达到最大线程数，且任务队列已满时，会拒绝任务； <br> 2.调用线程池shutdown()方法后，会等待执行完线程池的任务之后，再shutdown()。如果在调用了shutdown()方法和线程池真正shutdown()之间提交任务，会拒绝新任务 | 
+| rejectedExecutionHandler(任务拒绝处理器) | AbortPolicy() | 1.当线程数量达到最大线程数，且任务队列已满时，会拒绝任务； <br> 2.调用线程池shutdown()方法后，会等待执行完线程池的任务之后，再shutdown()。如果在调用了shutdown()方法和线程池真正shutdown()之间提交任务，会拒绝新任务。 | 
 
 
 | 拒绝策略 | 解释 | 
 | :----- | :----- | 
-| AbortPolicy | 直接抛异常 | 
-| DiscardPolicy | 当前任务会强制调用run先执行，任务将由调用者线程(可能是主线程)去执行。缺点可能会阻塞主线程 | 
-| DiscardOldestPolicy | 抛弃任务队列中最旧任务 | 
-| CallerRunsPolicy | 抛弃当前将要加入队列的任务 | 
-| 自定义 | 如果后续慢慢的队列里没任务了，线程空闲了，超过corePoolSize的线程会自动释放掉，在keepAliveTime之后就会释放 | 
+| AbortPolicy | 直接抛异常。 | 
+| DiscardPolicy | 当前任务会强制调用run先执行，任务将由调用者线程(可能是主线程)去执行。缺点可能会阻塞主线程。 | 
+| DiscardOldestPolicy | 抛弃任务队列中最旧任务。 | 
+| CallerRunsPolicy | 抛弃当前将要加入队列的任务。 | 
+| 自定义 | 如果后续慢慢的队列里没任务了，线程空闲了，超过corePoolSize的线程会自动释放掉，在keepAliveTime之后就会释放。 | 
 
 
 #### JDK提供了多少种阻塞队列？如果在线程池中使用无界阻塞队列会发生什么问题？
 | 阻塞队列 | 解释 | 
 | :----- | :----- | 
-| ArrayBlockingQueue | 一个由数组结构组成的有界阻塞队列 | 
-| LinkedBlockingQueue | 一个由链表结构组成的有界阻塞队列 | 
-| PriorityBlockingQueue | 一个支持优先级排序的无界阻塞队列 | 
-| DelayQueue | 一个使用优先级队列实现的无界阻塞队列 | 
-| SynchronousQueue | 一个不存储元素的阻塞队列 | 
-| LinkedTransferQueue | 一个由链表结构组成的无界阻塞队列 | 
-| LinkedBlockingQueue | 一个由链表结构组成的双向阻塞队列 | 
+| ArrayBlockingQueue | 一个由数组结构组成的有界阻塞队列。 | 
+| LinkedBlockingQueue | 一个由链表结构组成的有界阻塞队列。 | 
+| PriorityBlockingQueue | 一个支持优先级排序的无界阻塞队列。 | 
+| DelayQueue | 一个使用优先级队列实现的无界阻塞队列。 | 
+| SynchronousQueue | 一个不存储元素的阻塞队列。 | 
+| LinkedTransferQueue | 一个由链表结构组成的无界阻塞队列。 | 
+| LinkedBlockingQueue | 一个由链表结构组成的双向阻塞队列。 | 
 
 
 | 线程池 | 默认队列 | 解释 |
 | :----- | :----- | 
-| Executors.newFixedThreadPool(10) | LinkedBlockingQueue | 无限加入队列 |
-| Executors.newScheduledThreadPool(10) | DelayedWorkQueue | 队列如果满了，阻塞 |
-| Executors.newSingleThreadScheduledExecutor() | DelayedWorkQueue | 队列如果满了，阻塞 |
-| Executors.newCachedThreadPool() | SynchronousQueue | 队列如果满了，抛异常 |
-| Executors.newSingleThreadExecutor() | LinkedBlockingQueue | 无限加入队列 |
+| Executors.newFixedThreadPool(10) | LinkedBlockingQueue | 无限加入队列。 |
+| Executors.newScheduledThreadPool(10) | DelayedWorkQueue | 队列如果满了，阻塞。 |
+| Executors.newSingleThreadScheduledExecutor() | DelayedWorkQueue | 队列如果满了，阻塞。 |
+| Executors.newCachedThreadPool() | SynchronousQueue | 队列如果满了，抛异常。 |
+| Executors.newSingleThreadExecutor() | LinkedBlockingQueue | 无限加入队列。 |
+
+
 因为调用异常，会调用超时，线程处理任务时间是超时时间，线程池等待队列，会变得越来越大，此时会导致内存飙升起来，而且还可能导致OOM，内存溢出或者频繁的GC。
 
 
@@ -575,29 +577,29 @@ for (int i = 0; i < 10; i++) {
     <tr>
         <td rowspan="3">任务的性质</td>
         <td style="width: 150px">CPU密集型任务</td>
-        <td>配置尽可能少的线程数量，如配置<span style="color:red">Ncpu+1</span>个线程的线程池</td>
+        <td>配置尽可能少的线程数量，如配置<span style="color:red">Ncpu+1</span>个线程的线程池。</td>
     </tr>
     <tr>
         <td style="width: 150px">IO密集型任务</td>
-        <td>由于需要等待IO操作，线程并不是一直在执行任务，则配置尽可能多的线程，如<span style="color:red">2*Ncpu</span></td>
+        <td>由于需要等待IO操作，线程并不是一直在执行任务，则配置尽可能多的线程，如<span style="color:red">2*Ncpu</span>。</td>
     </tr>
     <tr>
         <td style="width: 150px">混合型任务</td>
-        <td>如果可以拆分，则将其拆分成一个CPU密集型任务和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐率要高于串行执行的吞吐率，如果这两个任务执行时间相差太大，则没必要进行分解。我们可以通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</td>
+        <td>如果可以拆分，则将其拆分成一个CPU密集型任务和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐率要高于串行执行的吞吐率，如果这两个任务执行时间相差太大，则没必要进行分解。我们可以通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数。</td>
     </tr>
     <tr>
       <td>任务的优先级</td>
       <td style="width: 150px">高，中和低</td>
-      <td>使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高的任务先得到执行，需要注意的是如果一直有优先级高的任务提交到队列里，那么优先级低的任务可能永远不能执行</td>
+      <td>使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高的任务先得到执行，需要注意的是如果一直有优先级高的任务提交到队列里，那么优先级低的任务可能永远不能执行。</td>
     </tr>
     <tr>
         <td>任务的执行时间</td>
         <td style="width: 150px">长，中和短</td>
-        <td>交给不同规模的线程池来处理，或者也可以使用优先级队列，让执行时间短的任务先执行</td>
+        <td>交给不同规模的线程池来处理，或者也可以使用优先级队列，让执行时间短的任务先执行。</td>
     </tr>
     <tr>
         <td>任务的依赖性</td>
         <td style="width: 150px">是否依赖其他系统资源，如数据库连接</td>
-        <td>依赖数据库连接池的任务，因为线程提交SQL后需要等待数据库返回结果，如果等待的时间越长CPU空闲时间就越长，那么线程数应该设置越大，这样才能更好的利用CPU</td>
+        <td>依赖数据库连接池的任务，因为线程提交SQL后需要等待数据库返回结果，如果等待的时间越长CPU空闲时间就越长，那么线程数应该设置越大，这样才能更好的利用CPU。</td>
     </tr>
 </table>

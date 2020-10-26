@@ -1,10 +1,10 @@
 #### Java集合类框架的基本接口有哪些？
 | 接口 | 解释 | 
 | :----- | :----- | 
-| Collection | 代表一组对象，每一个对象都是它的子元素  | 
-| Set | 不包含重复元素的Collection | 
-| List | 有顺序的collection，并且可以包含重复元素 | 
-| Map | 可以把键(key)映射到值(value)的对象，键不能重复 | 
+| Collection | 代表一组对象，每一个对象都是它的子元素。  | 
+| Set | 不包含重复元素的Collection。 | 
+| List | 有顺序的collection，并且可以包含重复元素。 | 
+| Map | 可以把键(key)映射到值(value)的对象，键不能重复。 | 
 
 
 #### 为什么集合类没有实现Cloneable和Serializable接口？
@@ -17,9 +17,9 @@ Iterator接口提供了很多对集合元素进行迭代的方法。每一个集
 
 | Iterator | ListIterator |
 | :----- | :----- |
-| 可用来遍历Set和List集合 | <div style="width: 300px">只能用来遍历List</div> |
-| 对集合只能是前向遍历 | <div style="width: 300px">既可以前向也可以后向</div> |
-| 实现了Iterator接口，并包含其他的功能。比如增加元素，替换元素，获取前一个和后一个元素的索引等等 | <div style="width: 300px">————</div> |
+| 可用来遍历Set和List集合。 | <div style="width: 300px">只能用来遍历List。</div> |
+| 对集合只能是前向遍历。 | <div style="width: 300px">既可以前向也可以后向。</div> |
+| 实现了Iterator接口，并包含其他的功能。比如增加元素，替换元素，获取前一个和后一个元素的索引等等。 | <div style="width: 300px">————</div> |
 
 
 #### 快速失败(fail-fast)和安全失败(fail-safe)的区别是什么？
@@ -29,9 +29,9 @@ Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源
 #### HashMap和Hashtable有什么区别？
 | HashMap | Hashtable | 
 | :----- | :----- | 
-| 允许键和值是null | 不允许键或者值是null | 
-| 非同步，适合于单线程环境 | 同步，适合于多线程环境 |
-| 可供应用迭代的键的集合，因此，HashMap是快速失败的 | 对键的列举(Enumeration) |
+| 允许键和值是null。 | 不允许键或者值是null。 | 
+| 非同步，适合于单线程环境。 | 同步，适合于多线程环境。 |
+| 可供应用迭代的键的集合，因此，HashMap是快速失败的。 | 对键的列举(Enumeration)。 |
 
 
 #### <a href="https://www.jianshu.com/p/ee0de4c99f87">你知道HashMap的基本结构吗？讲一下HashMap的put的过程？</a>

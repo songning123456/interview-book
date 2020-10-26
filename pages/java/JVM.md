@@ -11,9 +11,9 @@
 
 | 名称 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 300px">JDK(Java Development Kit)</div> | 整个JAVA的核心，包括了Java运行环境JRE(Java Runtime Environment)、一堆Java工具(javac/java/jdb等)和Java基础的类库(即Java API 包括rt.jar) | 
-| <div style="width: 300px">JRE(Java Runtime Environment)</div> | 运行基于Java语言编写的程序所不可缺少的运行环境 | 
-| <div style="width: 300px">JVM(Java Virtual Machine)</div> | Java虚拟机，它是整个Java实现跨平台的最核心的部分 | 
+| <div style="width: 300px">JDK(Java Development Kit)</div> | 整个JAVA的核心，包括了Java运行环境JRE(Java Runtime Environment)、一堆Java工具(javac/java/jdb等)和Java基础的类库(即Java API 包括rt.jar)。 | 
+| <div style="width: 300px">JRE(Java Runtime Environment)</div> | 运行基于Java语言编写的程序所不可缺少的运行环境。 | 
+| <div style="width: 300px">JVM(Java Virtual Machine)</div> | Java虚拟机，它是整个Java实现跨平台的最核心的部分。 | 
 
 
 #### 在Java中，有哪些对象可以被垃圾回收？
@@ -48,8 +48,8 @@ JVM的内存其实是有限制的，不可能是无限的，昂贵的资源，2�
 #### 你知道内存泄露和内存溢出的区别吗？
 | 定义 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 100px">内存泄露</div> | 应用程序在申请内存后，无法释放已经申请的内存空间.一次内存泄露危害可以忽略，但如果任其发展最终会导致内存溢出(out of memory)。如读取文件后流要进行及时的关闭以及对数据库连接的释放 | 
-| <div style="width: 100px">内存溢出</div> | 指应用程序在申请内存时，没有足够的内存空间供其使用。如我们在项目中对于大批量数据的导入，采用分段批量提交的方式 | 
+| <div style="width: 100px">内存泄露</div> | 应用程序在申请内存后，无法释放已经申请的内存空间.一次内存泄露危害可以忽略，但如果任其发展最终会导致内存溢出(out of memory)。如读取文件后流要进行及时的关闭以及对数据库连接的释放。 | 
+| <div style="width: 100px">内存溢出</div> | 指应用程序在申请内存时，没有足够的内存空间供其使用。如我们在项目中对于大批量数据的导入，采用分段批量提交的方式。 | 
 
 
 #### 聊聊类加载的原理？
@@ -58,16 +58,16 @@ JVM的内存其实是有限制的，不可能是无限的，昂贵的资源，2�
 
 | 机制 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 150px">委托机制</div> | 将加载一个类的请求交给父类加载器，如果这个父类加载器不能够找到或者加载这个类，那么再加载它 | 
-| <div style="width: 150px">可见性</div> | 子类的加载器可以看见所有父类的加载器加载的类，而父类加载器看不到子类加载器加载的类 | 
-| <div style="width: 150px">单一性</div> | 加载一个类一次，这是有委托机制确保子类加载器不会再次加载父类加载器加载过的类 | 
+| <div style="width: 150px">委托机制</div> | 将加载一个类的请求交给父类加载器，如果这个父类加载器不能够找到或者加载这个类，那么再加载它。 | 
+| <div style="width: 150px">可见性</div> | 子类的加载器可以看见所有父类的加载器加载的类，而父类加载器看不到子类加载器加载的类。 | 
+| <div style="width: 150px">单一性</div> | 加载一个类一次，这是有委托机制确保子类加载器不会再次加载父类加载器加载过的类。 | 
 
 
 | 预定义类加载器 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 200px">启动类加载器(BootStrap)</div> | 引导类装入器是用本地代码实现的类装入器，它负责将Java_Runtime_Home/lib下面的核心类库或-Xbootclasspath选项指定的jar包加载到内存中 | 
-| <div style="width: 200px">扩展类加载器(Extension)</div> | 扩展类加载器是用Sun的ExtClassLoader实现的，他负责将Java_Runtime_Home/lib/ext或者是由系统变量-Djava.ext.dir指定位置中的类库加载到内存中 | 
-| <div style="width: 200px">系统类加载器(System)</div> | 由Sun的AppClassLoader实现的，负责将系统类路径java-classpath或者-Djava.class.path变量所指定的目录下的类库加载到内存中 | 
+| <div style="width: 200px">启动类加载器(BootStrap)</div> | 引导类装入器是用本地代码实现的类装入器，它负责将Java_Runtime_Home/lib下面的核心类库或-Xbootclasspath选项指定的jar包加载到内存中。 | 
+| <div style="width: 200px">扩展类加载器(Extension)</div> | 扩展类加载器是用Sun的ExtClassLoader实现的，他负责将Java_Runtime_Home/lib/ext或者是由系统变量-Djava.ext.dir指定位置中的类库加载到内存中。 | 
+| <div style="width: 200px">系统类加载器(System)</div> | 由Sun的AppClassLoader实现的，负责将系统类路径java-classpath或者-Djava.class.path变量所指定的目录下的类库加载到内存中。 | 
 
 
 #### Java代码执行顺序？
@@ -83,13 +83,13 @@ JVM的内存其实是有限制的，不可能是无限的，昂贵的资源，2�
 
 | 区域 | 私有/公有 | 解释 | 
 | :----- | :----- | :----- | 
-| <div style="width: 100px">程序计数器</div> | <div style="width: 100px">私有</div> | 当前线程执行的字节码的行号指示器 | 
-| <div style="width: 100px">Java虚拟机栈</div> | <div style="width: 100px">私有</div> | 存放基本数据类型、对象引用和returnAddress类型 | 
-| <div style="width: 100px">本地方法栈</div> | <div style="width: 100px">私有</div> | 为虚拟机使用到的Native方法服务 | 
-| <div style="width: 100px">Java堆</div> | <div style="width: 100px">公有</div> | 存放对象的实例，也是GC回收器管理的主要区域 | 
-| <div style="width: 100px">方法区</div> | <div style="width: 100px">公有</div> | 存放已被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据 | 
-| <div style="width: 100px">运行时常量池</div> | <div style="width: 100px">————</div> | 方法区的一部分，存放编译期生成的各种字面量和符号引用 | 
-| <div style="width: 100px">直接内存</div> | <div style="width: 100px">————</div> | 不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，容易引起OOM异常，NIO会调用，不受Java堆大小的限制 | 
+| <div style="width: 100px">程序计数器</div> | <div style="width: 100px">私有</div> | 当前线程执行的字节码的行号指示器。 | 
+| <div style="width: 100px">Java虚拟机栈</div> | <div style="width: 100px">私有</div> | 存放基本数据类型、对象引用和returnAddress类型。 | 
+| <div style="width: 100px">本地方法栈</div> | <div style="width: 100px">私有</div> | 为虚拟机使用到的Native方法服务。 | 
+| <div style="width: 100px">Java堆</div> | <div style="width: 100px">公有</div> | 存放对象的实例，也是GC回收器管理的主要区域。 | 
+| <div style="width: 100px">方法区</div> | <div style="width: 100px">公有</div> | 存放已被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据。 | 
+| <div style="width: 100px">运行时常量池</div> | <div style="width: 100px">————</div> | 方法区的一部分，存放编译期生成的各种字面量和符号引用。 | 
+| <div style="width: 100px">直接内存</div> | <div style="width: 100px">————</div> | 不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，容易引起OOM异常，NIO会调用，不受Java堆大小的限制。 | 
 
 
 #### 你知道JVM是如何运行起来的吗？我们的对象是如何分配的？

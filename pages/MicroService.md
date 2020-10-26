@@ -1,8 +1,8 @@
 #### 你们的系统使用了哪种服务框架？为什么要这样技术选型？
 | ———— | Spring Cloud | Dubbo | 
 | :----- | :----- | :----- | 
-| 并发性能 | 使用的是HTTP协议，性能与Dubbo对比稍微差点 | 是一款优秀的RPC框架，并发能力比Spring Cloud强 | 
-| 注册中心 | 有全家桶配置中心: eureka nacos，亦可以选择Zookeeper | 一般选择Zookeeper | 
+| 并发性能 | 使用的是HTTP协议，性能与Dubbo对比稍微差点。 | 是一款优秀的RPC框架，并发能力比Spring Cloud强。 | 
+| 注册中心 | 有全家桶配置中心: eureka nacos，亦可以选择Zookeeper。 | 一般选择Zookeeper。 | 
 | 分布式配置中心 | nacos / Spring Cloud Config | 阿波罗 | 
 | 网关 | Zuul / Spring Cloud Gateway  | 需引入其他网关组件 | 
 | 负载均衡 | ribbon | 自带负载均衡 | 
@@ -13,11 +13,11 @@
 #### 如果让你设计一个RPC框架，该从哪些方向考虑？
 | 要点 | 解释 | 
 | :----- | :----- | 
-| <div style="width: 150px">服务发现与服务注册</div> | 1.如果我们想在Service A中调用Service B，那么我们首先得知道Service B的地址。所以，我们需要有一个服务注册中心，通过这个中心，服务可以把自己的信息注册进来，也可以获取到别的服务的信息；<br> 2.客户端也需要watch服务注册中心的目标服务的地址的变化 | 
-| <div style="width: 150px">网络通信</div> | 1.服务和服务之间的网络通信模型， NIO/IO等等；<br> 2.客户端如何复用与服务端的连接， 而不是每次请求都重新创建一个新连接；<br> 3.客户端收到返回后，如何知道是哪个请求的返回并且做出正确处理 | 
-| <div style="width: 150px">消息的序列化</div> | 服务间通信的消息通过什么方式进行序列化？Hessian，XML、JSON、Protobuf…，甚至Java原生的序列化方式，你总得选择一个 | 
-| <div style="width: 150px">负载均衡</div> | 客户端通过服务注册中心拿到一堆地址，该调哪个呢？最简单的方式，可以通过RR、WRR的方式去做LB | 
-| <div style="width: 150px">容灾</div> | 1.健康监测：在某一个服务节点挂掉的时候， 如何在服务注册中心删去这个服务地址？<br> 2.服务调用超时与重试：在调用一个服务实例的时候，如果超时或者报错，怎么处理？<br> 3.服务限流：如何限制最大并发数？这个又可以从客户端和服务端两个角度分析<br> | 
+| <div style="width: 150px">服务发现与服务注册</div> | 1.如果我们想在Service A中调用Service B，那么我们首先得知道Service B的地址。所以，我们需要有一个服务注册中心，通过这个中心，服务可以把自己的信息注册进来，也可以获取到别的服务的信息；<br> 2.客户端也需要watch服务注册中心的目标服务的地址的变化。 | 
+| <div style="width: 150px">网络通信</div> | 1.服务和服务之间的网络通信模型， NIO/IO等等；<br> 2.客户端如何复用与服务端的连接， 而不是每次请求都重新创建一个新连接；<br> 3.客户端收到返回后，如何知道是哪个请求的返回并且做出正确处理。 | 
+| <div style="width: 150px">消息的序列化</div> | 服务间通信的消息通过什么方式进行序列化？Hessian，XML、JSON、Protobuf…，甚至Java原生的序列化方式，你总得选择一个。 | 
+| <div style="width: 150px">负载均衡</div> | 客户端通过服务注册中心拿到一堆地址，该调哪个呢？最简单的方式，可以通过RR、WRR的方式去做LB。 | 
+| <div style="width: 150px">容灾</div> | 1.健康监测：在某一个服务节点挂掉的时候， 如何在服务注册中心删去这个服务地址？<br> 2.服务调用超时与重试：在调用一个服务实例的时候，如果超时或者报错，怎么处理？<br> 3.服务限流：如何限制最大并发数？这个又可以从客户端和服务端两个角度分析。<br> | 
 
 
 #### 能画一张图说说Spring Cloud的核心架构吗？它又是如何调用的？
@@ -46,14 +46,14 @@ Zookeeper基于CP，不保证高可用，如果Zookeeper正在选主，或者Zoo
 
 | ———— | Zuul1.x | Spring Cloud Gateway |
 | :----- | :----- | :----- | 
-| <div style="width: 200px">实现</div> | 基于Servlet2.x构建，使用阻塞的API | 基于Spring 5、Project Reactor、Spring Boot 2，使用非阻塞式的API |
+| <div style="width: 200px">实现</div> | 基于Servlet2.x构建，使用阻塞的API。| 基于Spring 5、Project Reactor、Spring Boot 2，使用非阻塞式的API。 |
 | <div style="width: 200px">长连接</div> | 不支持 | 支持 |
-| <div style="width: 200px">不适用场景</div> | 后端服务响应慢或者高并发场景下，因为线程数量是固定(有限)的，线程容易被耗尽，导致新请求被拒绝 | 中小流量的项目，使用Zuul1.x更合适 |
+| <div style="width: 200px">不适用场景</div> | 后端服务响应慢或者高并发场景下，因为线程数量是固定(有限)的，线程容易被耗尽，导致新请求被拒绝。 | 中小流量的项目，使用Zuul1.x更合适。 |
 | <div style="width: 200px">限流</div> | 无 | 内置限流过滤器 |
-| <div style="width: 200px">上手难度</div> | 同步编程，上手简单	| 门槛较高，上手难度中等 |
+| <div style="width: 200px">上手难度</div> | 同步编程，上手简单。| 门槛较高，上手难度中等。 |
 | <div style="width: 200px">Spring Cloud集成</div> | 是 | 是 |
 | <div style="width: 200px">Sentinel集成</div> | 是 | 是 |
-| <div style="width: 200px">技术栈沉淀</div> | Zuul1开源近七年，经受考验，稳定成熟 | 未见实际落地案例 |
+| <div style="width: 200px">技术栈沉淀</div> | Zuul1开源近七年，经受考验，稳定成熟。| 未见实际落地案例。|
 | <div style="width: 200px">Github used by</div> | 1007 repositories | 102 repositories |
 | <div style="width: 200px">Github issues</div> | 88 Open / 2736 Closed | 135 Open / 850 Closed |
 | <div style="width: 200px">官方性能对比</div> | 2.09k / 12.56ms | 3.24k / 6.61ms |
