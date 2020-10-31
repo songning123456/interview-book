@@ -469,3 +469,51 @@ class Solution {
     }
 }
 ```
+
+
+#### Nim游戏
+![canWinNim](/images/Arithmetic/canWinNim.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public boolean canWinNim(int n) {
+        return n % 4 != 0;
+    }
+}
+```
+
+
+#### 石子游戏
+![stoneGame](/images/Arithmetic/stoneGame.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        return true;
+    }
+}
+```
+
+
+#### 灯泡开关
+![bulbSwitch](/images/Arithmetic/bulbSwitch.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public int bulbSwitch(int n) {
+        return (int)Math.sqrt(n);
+    }
+}
+```
