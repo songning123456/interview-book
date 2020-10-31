@@ -22,7 +22,7 @@
  * [贪心算法](/pages/arithmetic/Greedy.md)
  * [动态规划](/pages/arithmetic/DynamicProgramming.md)
  * [二叉搜索树](/pages/arithmetic/BinarySearchTree.md)
- * [回溯法](/pages/arithmetic/Backtracking.md)
+ * [回溯法](/pages/arithmetic/DFS.md)
  * [滑动窗口](/pages/arithmetic/SlidingWindow.md)
  * [双指针](/pages/arithmetic/DoublePoint.md)
  * [区间调度](/pages/arithmetic/IntervalDispatch.md)
