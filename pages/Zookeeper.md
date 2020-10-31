@@ -6,25 +6,19 @@ ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服�
 
 
 #### Zookeeper提供了什么？
-* **文件系统**
-
-
-Zookeeper提供一个多层级的节点命名空间(节点称为znode)。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。
-
-
-* **通知机制**
-
-
-client端会对某个znode建立一个watcher事件，当该znode发生变化时，这些client会收到Zookeeper的通知，然后client可以根据znode变化来做出业务上的改变等。
+|名称|解释|
+| :----- | :----- | 
+|<div style="width: 70px;font-weight: bold;">文件系统</div>|Zookeeper提供一个多层级的节点命名空间(节点称为znode)。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。|
+|<div style="width: 70px;font-weight: bold;">通知机制</div>|client端会对某个znode建立一个watcher事件，当该znode发生变化时，这些client会收到Zookeeper的通知，然后client可以根据znode变化来做出业务上的改变等。|
 
 
 #### Zookeeper有哪几种znode？
 | 名称 | 解释 |
 | :----- | :----- |
-| <div style="width: 150px;font-weight: bold;">PERSISTENT-持久化目录节点</div> | 客户端与Zookeeper断开连接后，该节点依旧存在。 |
-| <div style="width: 150px;font-weight: bold;">PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点</div> | 客户端与Zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号。 |
-| <div style="width: 150px;font-weight: bold;">EPHEMERAL-临时目录节点</div> | 客户端与Zookeeper断开连接后，该节点被删除。 |
-| <div style="width: 150px;font-weight: bold;">EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点点</div> | 客户端与Zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号。 |
+| <div style="width: 350px;font-weight: bold;">PERSISTENT-持久化目录节点</div> | 客户端与Zookeeper断开连接后，该节点依旧存在。 |
+| <div style="width: 350px;font-weight: bold;">PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点</div> | 客户端与Zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号。 |
+| <div style="width: 350px;font-weight: bold;">EPHEMERAL-临时目录节点</div> | 客户端与Zookeeper断开连接后，该节点被删除。 |
+| <div style="width: 350px;font-weight: bold;">EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点点</div> | 客户端与Zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号。 |
 
 
 #### Zookeeper做了什么？
@@ -152,3 +146,16 @@ Zookeeper集群的机制是只要超过半数的节点正常，集群就能正�
 * setData()会触发znode上设置的data watch(如果set成功的话)。一个成功的create()操作会触发被创建的znode上的数据watch，以及其父节点上的child watch。而一个成功的delete()操作将会同时触发一个znode的data watch和child watch(因为这样就没有子节点了)，同时也会触发其父节点的child watch。
 * 当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。
 * Watch是轻量级的，其实就是本地JVM的Callback，服务器端只是存了是否有设置了Watcher的布尔类型。
+
+
+#### 为什么我们在分布式系统架构中需要使用Zookeeper集群？
+* **单点问题**
+
+
+单点问题是分布式环境中最常见也是最经典的问题之一，在很多分布式系统中都会存在这样的单点问题。具体地说，单点问题是指在一个分布式系统中，如果某一个组件出现故障就会引起整个系统的可用性大大下降甚至是处于瘫痪状态，那么我们就认为该组件存在单点问题。ZooKeeper 确实已经很好地解决了单点问题。我们已经了解到，基于“过半”设计原则，ZooKeeper 在运行期间，集群中至少有过半的机器保存了最新的数据。因此，只要集群中超过半数的机器还能够正常工作，整个集群就能够对外提供服务。
+
+
+* **容灾**
+
+
+在进行ZooKeeper的容灾方案设计过程中，我们要充分考虑到“过半原则”。也就是说，无论发生什么情况，我们必须保证ZooKeeper集群中有超过半数的机器能够正常工作。
