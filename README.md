@@ -27,6 +27,7 @@
  * [阶乘](/pages/arithmetic/Factorial.md)
  * [二分法查找](/pages/arithmetic/BinarySearch.md)
  * [水塘抽样](/pages/arithmetic/ReservoirSampling.md)
+ * [位操作](/pages/arithmetic/BitManipulation.md)
  * [综合](/pages/arithmetic/Composite.md)
 * [服务部署](/pages/Deploy.md)
 * [自我/项目概述](/pages/Introduction.md)
