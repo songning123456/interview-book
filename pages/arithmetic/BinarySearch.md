@@ -1,4 +1,4 @@
-#### 二分法查找
+#### 二分法
 
 
 * 基本模板
@@ -64,7 +64,7 @@ public class Solution {
 ```
 
 
-#### 基本查找
+#### 二分查找
 ![binarySearch](/images/Arithmetic/binarySearch.PNG)
 
 
@@ -79,10 +79,10 @@ class Solution {
             int mid = left + (right - left) / 2;
             if (nums[mid] < target) {
                 left = mid + 1;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
             } else if (nums[mid] == target) {
                 return mid;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
             }
         }
         return -1;
@@ -107,15 +107,15 @@ class Solution {
         return res;
     }
 
-    int leftBound(int[] nums, int target) {
+    private int leftBound(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] < target) {
                 left = mid + 1;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
             } else if (nums[mid] == target) {
+                right = mid - 1;
+            } else if (nums[mid] > target) {
                 right = mid - 1;
             }
         }
@@ -125,16 +125,16 @@ class Solution {
         return left;
     }
 
-    int rightBound(int[] nums, int target) {
+    private int rightBound(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] < target) {
                 left = mid + 1;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
             } else if (nums[mid] == target) {
                 left = mid + 1;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
             }
         }
         if (right < 0 || nums[right] != target) {
