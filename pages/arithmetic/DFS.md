@@ -21,7 +21,7 @@ public void backtrack(路径, 选择列表) {
 
 
 #### 全排列
-![backTrack](/images/Arithmetic/backTrack.PNG)
+![permute](/images/Arithmetic/permute.PNG)
 
 
 * 解法
@@ -29,18 +29,17 @@ public void backtrack(路径, 选择列表) {
 
 ```java
 class Solution {
-    List<List<Integer>> result = new ArrayList<>();
+    private List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
         LinkedList<Integer> track = new LinkedList<>();
-        backTrack(nums, track);
-        return result;
+        backtrack(nums, track);
+        return res;
     }
 
-    private void backTrack(int[] nums, LinkedList<Integer> track) {
-
-        if (nums.length == track.size()) {
-            result.add(new LinkedList<>(track));
+    private void backtrack(int[] nums, LinkedList<Integer> track) {
+        if (track.size() == nums.length) {
+            res.add(new LinkedList<>(track));
             return;
         }
         for (int num : nums) {
@@ -48,7 +47,7 @@ class Solution {
                 continue;
             }
             track.add(num);
-            backTrack(nums, track);
+            backtrack(nums, track);
             track.removeLast();
         }
     }

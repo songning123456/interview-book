@@ -1,14 +1,6 @@
 #### 动态规划
 
 
-* 状态转移方程步骤
-
-
-```
-明确**base case** -> 明确**状态** -> 明确**选择** -> 定义**dp数组/函数的定义**
-```
-
-
 * 基本模板
 
 
@@ -30,21 +22,26 @@ for 状态1 in 状态1的所有取值:
 * 解法一
 
 
-```
-public int fib(int N) {
-    if (N == 0) {
-        return 0;
+```java
+class Solution {
+   public int fib(int N) {
+        if (N < 1) {
+            return 0;
+        }
+        Map<Integer, Integer> memory = new HashMap<>(2);
+        return helper(memory, N);
     }
-    if (N == 1) {
-        return 1;
+
+    private Integer helper(Map<Integer, Integer> memory, int n) {
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        if (memory.get(n) != null) {
+            return memory.get(n);
+        }
+        memory.put(n, helper(memory, n - 1) + helper(memory, n - 2));
+        return memory.get(n);
     }
-    int[] dp = new int[N + 1];
-    dp[0] = 0;
-    dp[1] = 1;
-    for (int i = 2; i <= N; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[N];
 }
 ```
 
@@ -52,21 +49,46 @@ public int fib(int N) {
 * 解法二
 
 
+```java
+class Solution {
+    public int fib(int N) {
+        if (N == 0) {
+            return 0;
+        }
+        if (N == 1 || N == 2) {
+            return 1;
+        }
+        int[] dp = new int[N + 1];
+        dp[1] = dp[2] = 1;
+        for (int i = 3; i <= N; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[N];
+    }
+}
 ```
-public int fib(int N) {
-    if (N == 0) {
-        return 0;
+
+
+* 解法三
+
+
+```java
+class Solution {
+    public int fib(int N) {
+        if (N == 0) {
+            return 0;
+        }
+        if (N == 1 || N == 2) {
+            return 1;
+        }
+        int prev = 1, cur = 1;
+        for (int i = 3; i <= N; i++) {
+            int sum = prev + cur;
+            prev = cur;
+            cur = sum;
+        }
+        return cur;
     }
-    if (N == 1) {
-        return 1;
-    }
-    int prev = 0, cur = 1;
-    for (int i = 2; i <= N; i++) {
-        int sum = prev + cur;
-        prev = cur;
-        cur = sum;
-    }
-    return cur;
 }
 ```
 
@@ -78,39 +100,36 @@ public int fib(int N) {
 * 解法一
 
 
-```
-public int coinChange(int[] coins, int amount) {
-    return dp(coins, amount);
-}
+```java
+class Solution {
+   private Map<Integer, Integer> dpMap = new HashMap<>();
 
-// 备忘录，避免重复计算
-private Map<Integer, Integer> coinMap = new HashMap<>();
+    public int coinChange(int[] coins, int amount) {
+        return dp(coins, amount);
+    }
 
-private int dp(int[] arr, int n) {
-    // base case
-    if (n == 0) {
-        return 0;
-    }
-    if (n < 0) {
-        return -1;
-    }
-    if (coinMap.containsKey(n)) {
-        return coinMap.get(n);
-    }
-    // 求最小值，所以初始化正无穷
-    int res = Integer.MAX_VALUE;
-    for (int item : arr) {
-        int subProblem = dp(arr, n - item);
-        // 如果子问题无解，则直接跳过
-        if (subProblem != -1) {
+    private int dp(int[] arr, int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n < 0) {
+            return -1;
+        }
+        if (dpMap.containsKey(n)) {
+            return dpMap.get(n);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int item : arr) {
+            int subProblem = dp(arr, n - item);
+            if (subProblem == -1) {
+                continue;
+            }
             res = Math.min(res, 1 + subProblem);
         }
-    }
-    if (res == Integer.MAX_VALUE) {
-        coinMap.put(n, -1);
-        return -1;
-    } else {
-        coinMap.put(n, res);
+        if (res == Integer.MAX_VALUE) {
+            res = -1;
+        }
+        dpMap.put(n, res);
         return res;
     }
 }
@@ -120,22 +139,25 @@ private int dp(int[] arr, int n) {
 * 解法二
 
 
-```
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 0; i < dp.length; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+```java
+class Solution {
+   public int coinChange(int[] coins, int amount) {
+        int[] dpTable = new int[amount + 1];
+        Arrays.fill(dpTable, amount + 1);
+        dpTable[0] = 0;
+        for (int i = 0; i < dpTable.length; i++) {
+            for (int coin : coins) {
+                if (i - coin < 0) {
+                    continue;
+                }
+                dpTable[i] = Math.min(dpTable[i], 1 + dpTable[i - coin]);
             }
         }
-    }
-    if (dp[amount] == amount + 1) {
-        return -1;
-    } else {
-        return dp[amount];
+        if (dpTable[amount] == amount + 1) {
+            return -1;
+        } else {
+            return dpTable[amount];
+        }
     }
 }
 ```
