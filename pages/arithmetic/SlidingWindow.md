@@ -36,7 +36,7 @@ public void slidingWindow(String s, String t) {
 ```
 
 
-#### 排列
+#### 字符串的排列
 ![checkInclusion](/images/Arithmetic/checkInclusion.PNG)
 
 
