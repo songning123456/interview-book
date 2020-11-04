@@ -163,6 +163,26 @@ class Solution {
 ```
 
 
+#### 目标和
+![findTargetSumWays](/images/Arithmetic/findTargetSumWays.PNG)
+
+
+* 解法一(回溯法)
+
+
+```java
+// todo
+```
+
+
+* 解法二(动态规划)
+
+
+```java
+// todo
+```
+
+
 #### 最长递增子序列
 ![lengthOfLIS](/images/Arithmetic/lengthOfLIS.PNG)
 
