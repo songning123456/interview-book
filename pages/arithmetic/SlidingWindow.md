@@ -133,7 +133,7 @@ class Solution {
 ```
 
 
-#### 异位词
+#### 找到字符串中所有字母异位词
 ![findAnagrams](/images/Arithmetic/findAnagrams.PNG)
 
 
@@ -181,7 +181,7 @@ class Solution {
 ```
 
 
-#### 无重复最长子串
+#### 无重复字符的最长子串
 ![lengthOfLongestSubstring](/images/Arithmetic/lengthOfLongestSubstring.PNG)
 
 
