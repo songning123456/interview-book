@@ -7,30 +7,25 @@
 
 ```java
 class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        return intervals.length - intervalSchedule(intervals);
+    }
 
-    private int intervalSchedule(int[][] intvs) {
-        if (intvs.length == 0) {
+    private int intervalSchedule(int[][] intervals) {
+        if (intervals.length == 0) {
             return 0;
         }
-        // 按 end 升序排序
-        Arrays.sort(intvs, Comparator.comparingInt(a -> a[1]));
-        // 至少有一个区间不相交
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o[1]));
         int count = 1;
-        // 排序后，第一个区间就是 x
-        int xEnd = intvs[0][1];
-        for (int[] interval : intvs) {
+        int xEnd = intervals[0][1];
+        for (int[] interval : intervals) {
             int start = interval[0];
             if (start >= xEnd) {
-                // 找到下一个选择的区间了
                 count++;
                 xEnd = interval[1];
             }
         }
         return count;
-    }
-
-    public int eraseOverlapIntervals(int[][] intervals) {
-        return intervals.length - intervalSchedule(intervals);
     }
 }
 ```
@@ -45,29 +40,21 @@ class Solution {
 
 ```java
 class Solution {
-    private int intervalSchedule(int[][] intvs) {
-        if (intvs.length == 0) {
+    public int findMinArrowShots(int[][] points) {
+        if (points.length == 0) {
             return 0;
         }
-        // 按 end 升序排序
-        Arrays.sort(intvs, Comparator.comparingInt(a -> a[1]));
-        // 至少有一个区间不相交
+        Arrays.sort(points, Comparator.comparingInt(o -> o[1]));
         int count = 1;
-        // 排序后，第一个区间就是 x
-        int xEnd = intvs[0][1];
-        for (int[] interval : intvs) {
-            int start = interval[0];
+        int xEnd = points[0][1];
+        for (int[] point : points) {
+            int start = point[0];
             if (start > xEnd) {
-                // 找到下一个选择的区间了
                 count++;
-                xEnd = interval[1];
+                xEnd = point[1];
             }
         }
         return count;
-    }
-
-    public int findMinArrowShots(int[][] points) {
-        return intervalSchedule(points);
     }
 }
 ```
@@ -96,5 +83,30 @@ class Solution {
 }
 ```
 
+
+#### 跳跃游戏 II
+![jump](/images/Arithmetic/jump.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int end = 0, farthest = 0;
+        int jumps = 0;
+        for (int i = 0; i < n - 1; i++) {
+            farthest = Math.max(nums[i] + i, farthest);
+            if (end == i) {
+                jumps++;
+                end = farthest;
+            }
+        }
+        return jumps;
+    }
+}
+```
 
 
