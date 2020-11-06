@@ -571,43 +571,57 @@ class Solution {
 * 解法
 
 
+```java
+class Solution {
+    public int superEggDrop(int K, int N) {
+        int[][] dp = new int[N + 1][K + 1];
+        for (int i = 0; i < N + 1; i++) {
+            for (int j = 0; j < K + 1; j++) {
+                dp[i][j] = 0;
+            }
+        }
+        for (int j = 1; j <= K; j++) {
+            dp[1][j] = 1;
+        }
+        for (int i = 1; i <= N; i++) {
+            dp[i][1] = i;
+        }
+        for (int i = 2; i <= N; i++) {
+            for (int j = 2; j <= K; j++) {
+                dp[i][j] = binaryValley(i, j, dp);
+            }
+        }
+        return dp[N][K];
+    }
+    
+    private int binaryValley(int floors, int eggs, int[][] dp) {
+        int left = 1;
+        int right = floors;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            int broken = dp[mid - 1][eggs - 1];
+            int notBroken = dp[floors - mid][eggs];
+            if (notBroken > broken) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return Math.max(dp[right - 1][eggs - 1], dp[floors - right][eggs]) + 1;
+    }
+}
 ```
-public int superEggDrop(int K, int N) {
-    int[][] dp = new int[N + 1][K + 1];
-    for (int i = 0; i < N + 1; i++) {
-        for (int j = 0; j < K + 1; j++) {
-            dp[i][j] = 0;
-        }
-    }
-    for (int j = 1; j <= K; j++) {
-        dp[1][j] = 1;
-    }
-    for (int i = 1; i <= N; i++) {
-        dp[i][1] = i;
-    }
-    for (int i = 2; i <= N; i++) {
-        for (int j = 2; j <= K; j++) {
-            dp[i][j] = binaryValley(i, j, dp);
-        }
-    }
-    return dp[N][K];
-}
 
-private int binaryValley(int floors, int eggs, int[][] dp) {
-    int left = 1;
-    int right = floors;
-    while (left < right) {
-        int mid = left + (right - left) / 2;
-        int broken = dp[mid - 1][eggs - 1];
-        int notBroken = dp[floors - mid][eggs];
-        if (notBroken > broken) {
-            left = mid + 1;
-        } else {
-            right = mid;
-        }
-    }
-    return Math.max(dp[right - 1][eggs - 1], dp[floors - right][eggs]) + 1;
-}
+
+#### 戳气球
+![maxCoins](/images/Arithmetic/maxCoins.PNG)
+
+
+* 解法
+
+
+```java
+// todo
 ```
 
 
