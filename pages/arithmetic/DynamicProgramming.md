@@ -497,6 +497,120 @@ class Solution {
 ```
 
 
+#### 石子游戏
+![stoneGame](/images/Arithmetic/stoneGame.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        int n = piles.length;
+        int[][][] dp = new int[n][n][2];
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                dp[i][j][0] = 0;
+                dp[i][j][1] = 0;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            dp[i][i][0] = piles[i];
+            dp[i][i][1] = 0;
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = 0; j <= n - i; j++) {
+                int k = i + j - 1;
+                int left = piles[j] + dp[j + 1][k][1];
+                int right = piles[k] + dp[j][k - 1][1];
+                if (left > right) {
+                    dp[j][k][0] = left;
+                    dp[j][k][1] = dp[j + 1][k][0];
+                } else {
+                    dp[j][k][0] = right;
+                    dp[j][k][1] = dp[j][k - 1][0];
+                }
+            }
+        }
+        int[] res = dp[0][n - 1];
+        return res[0] - res[1] > 0;
+    }
+}
+```
+
+
+#### 四键键盘
+![fourKeyboard](/images/Arithmetic/fourKeyboard.png)
+
+
+* 解法
+
+
+```java
+// todo
+```
+
+
+#### 正则表达式匹配
+![isMatch](/images/Arithmetic/isMatch.PNG)
+
+
+* 解法
+
+
+```java
+// todo
+```
+
+
+#### 鸡蛋掉落
+![superEggDrop](/images/Arithmetic/superEggDrop.PNG)
+
+
+* 解法
+
+
+```
+public int superEggDrop(int K, int N) {
+    int[][] dp = new int[N + 1][K + 1];
+    for (int i = 0; i < N + 1; i++) {
+        for (int j = 0; j < K + 1; j++) {
+            dp[i][j] = 0;
+        }
+    }
+    for (int j = 1; j <= K; j++) {
+        dp[1][j] = 1;
+    }
+    for (int i = 1; i <= N; i++) {
+        dp[i][1] = i;
+    }
+    for (int i = 2; i <= N; i++) {
+        for (int j = 2; j <= K; j++) {
+            dp[i][j] = binaryValley(i, j, dp);
+        }
+    }
+    return dp[N][K];
+}
+
+private int binaryValley(int floors, int eggs, int[][] dp) {
+    int left = 1;
+    int right = floors;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        int broken = dp[mid - 1][eggs - 1];
+        int notBroken = dp[floors - mid][eggs];
+        if (notBroken > broken) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return Math.max(dp[right - 1][eggs - 1], dp[floors - right][eggs]) + 1;
+}
+```
+
+
 #### 编辑距离
 ![minDistance](/images/Arithmetic/minDistance.PNG)
 
@@ -560,53 +674,6 @@ class Solution {
         }
         return dp[m][n];
     }
-}
-```
-
-
-#### 鸡蛋掉落
-![superEggDrop](/images/Arithmetic/superEggDrop.PNG)
-
-
-* 解法
-
-
-```
-public int superEggDrop(int K, int N) {
-    int[][] dp = new int[N + 1][K + 1];
-    for (int i = 0; i < N + 1; i++) {
-        for (int j = 0; j < K + 1; j++) {
-            dp[i][j] = 0;
-        }
-    }
-    for (int j = 1; j <= K; j++) {
-        dp[1][j] = 1;
-    }
-    for (int i = 1; i <= N; i++) {
-        dp[i][1] = i;
-    }
-    for (int i = 2; i <= N; i++) {
-        for (int j = 2; j <= K; j++) {
-            dp[i][j] = binaryValley(i, j, dp);
-        }
-    }
-    return dp[N][K];
-}
-
-private int binaryValley(int floors, int eggs, int[][] dp) {
-    int left = 1;
-    int right = floors;
-    while (left < right) {
-        int mid = left + (right - left) / 2;
-        int broken = dp[mid - 1][eggs - 1];
-        int notBroken = dp[floors - mid][eggs];
-        if (notBroken > broken) {
-            left = mid + 1;
-        } else {
-            right = mid;
-        }
-    }
-    return Math.max(dp[right - 1][eggs - 1], dp[floors - right][eggs]) + 1;
 }
 ```
 

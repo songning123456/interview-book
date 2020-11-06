@@ -487,22 +487,6 @@ class Solution {
 ```
 
 
-#### 石子游戏
-![stoneGame](/images/Arithmetic/stoneGame.PNG)
-
-
-* 解法
-
-
-```java
-class Solution {
-    public boolean stoneGame(int[] piles) {
-        return true;
-    }
-}
-```
-
-
 #### 灯泡开关
 ![bulbSwitch](/images/Arithmetic/bulbSwitch.PNG)
 
