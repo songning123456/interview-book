@@ -625,6 +625,89 @@ class Solution {
 ```
 
 
+#### 买卖股票的最佳时机
+![maxProfit](/images/Arithmetic/maxProfit.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) {
+            return 0;
+        }
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+}
+```
+
+
+#### 实现strStr()
+![strStr](/images/Arithmetic/strStr.PNG)
+
+
+* 解法
+
+
+```java
+class Solution {
+    class KMP {
+
+        private int[][] dp;
+        private String pat;
+
+        public KMP(String pat) {
+            this.pat = pat;
+            int M = pat.length();
+            dp = new int[M][256];
+            dp[0][pat.charAt(0)] = 1;
+            int X = 0;
+            for (int j = 1; j < M; j++) {
+                for (int c = 0; c < 256; c++) {
+                    dp[j][c] = dp[X][c];
+                }
+                dp[j][pat.charAt(j)] = j + 1;
+                X = dp[X][pat.charAt(j)];
+            }
+        }
+
+        public int search(String txt) {
+            int M = pat.length();
+            int N = txt.length();
+            int j = 0;
+            for (int i = 0; i < N; i++) {
+                j = dp[j][txt.charAt(i)];
+                if (j == M) {
+                    return i - M + 1;
+                }
+            }
+            return -1;
+        }
+    }
+    public int strStr(String haystack, String needle) {
+        if (needle.length() == 0){
+            return 0;
+        }
+        KMP kmp = new KMP(needle);
+        return kmp.search(haystack);
+    }
+}
+```
+
+
 #### 编辑距离
 ![minDistance](/images/Arithmetic/minDistance.PNG)
 
