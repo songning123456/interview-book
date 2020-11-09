@@ -1086,7 +1086,7 @@ new Promise((resolve, reject) => {
 微任务包括process.nextTick，promise，MutationObserver。宏任务包括script，setTimeout，setInterval，setImmediate，I/O，UI rendering。这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了script，浏览器会先执行一个宏任务，接下来有异步代码的话才会先执行微任务。
 
 
-#### Node中的Event Loop和浏览器中的有什么区别？process.nexttick执行顺序？
+#### Node中的Event Loop和浏览器中的有什么区别？process.nextTick执行顺序？
 Node中的Event Loop和浏览器中的是完全不相同的东西。
 
 
@@ -1221,3 +1221,135 @@ process.nextTick(() => {
 
 
 对于以上代码，大家可以发现无论如何，永远都是先把nextTick全部打印出来。
+
+
+#### new的原理是什么？通过new的方式创建对象和通过字面量创建有什么区别？
+在调用new的过程中会发生以上四件事情：<br>
+1. 新生成了一个对象；<br>
+2. 链接到原型；<br>
+3. 绑定this；<br>
+4. 返回新对象。
+
+
+根据以上几个过程，我们也可以试着来自己实现一个new。
+
+
+```javascript
+function create() {
+    let obj = {};
+    let Con = [].shift.call(arguments);
+    obj.__proto__ = Con.prototype;
+    let result = Con.apply(obj, arguments);
+    return result instanceof Object ? result : obj;
+}
+```
+
+
+以下是对实现的分析：<br>
+1. 创建一个空对象；<br>
+2. 获取构造函数；<br>
+3. 设置空对象的原型；<br>
+4. 绑定this并执行构造函数；<br>
+5. 确保返回值为对象。
+
+
+对于对象来说，其实都是通过new产生的，无论是function Foo()还是let a = { b : 1 }。
+
+
+对于创建一个对象来说，更推荐使用字面量的方式创建对象(无论性能上还是可读性)。因为你使用new Object()的方式创建对象需要通过作用域链一层层找到Object，但是你使用字面量的方式就没这个问题。
+
+
+```javascript
+function Foo() {}
+// function 就是个语法糖
+// 内部等同于 new Function()
+let a = { b: 1 }
+// 这个字面量内部也是使用了 new Object()
+```
+
+
+#### instanceof的原理是什么？
+instanceof可以正确的判断对象的类型，因为内部机制是通过判断对象的原型链中是不是能找到类型的prototype。我们也可以试着实现一下instanceof：
+
+
+```javascript
+function myInstanceof(left, right) {
+    let prototype = right.prototype;
+    left = left.__proto__;
+    while (true) {
+    if (left === null || left === undefined)
+      return false;
+    if (prototype === left)
+      return true;
+    left = left.__proto__
+    }
+}
+```
+
+
+以下是对实现的分析：<br>
+1. 首先获取类型的原型；<br>
+2. 然后获得对象的原型；<br>
+3. 然后一直循环判断对象的原型是否等于类型的原型，直到对象原型为null，因为原型链最终为null。
+
+
+#### 为什么0.1 + 0.2 != 0.3？如何解决这个问题？
+先说原因，因为JS采用IEEE 754双精度版本(64位)，并且只要采用IEEE 754的语言都有该问题。我们都知道计算机是通过二进制来存储东西的，那么0.1在二进制中会表示为：
+
+
+```
+// (0011) 表示循环
+0.1 = 2^-4 * 1.10011(0011)
+```
+
+
+我们可以发现，0.1在二进制中是无限循环的一些数字，其实不只是0.1，其实很多十进制小数用二进制表示都是无限循环的。这样其实没什么问题，但是JS采用的浮点数标准却会裁剪掉我们的数字。
+
+
+IEEE 754双精度版本(64位)将64位分为了三段：<br>
+1. 第一位用来表示符号；<br>
+2. 接下去的 11 位用来表示指数；<br>
+3. 其他的位数用来表示有效位，也就是用二进制表示0.1中的10011(0011)。
+
+
+那么这些循环的数字被裁剪了，就会出现精度丢失的问题，也就造成了0.1不再是0.1了，而是变成了0.100000000000000002。
+
+
+```javascript
+0.100000000000000002 === 0.1 // true
+```
+
+
+那么同样的，0.2在二进制也是无限循环的，被裁剪后也失去了精度变成了0.200000000000000002。
+
+
+```javascript
+0.200000000000000002 === 0.2; // true
+```
+
+
+所以这两者相加不等于0.3而是0.300000000000000004。
+
+
+```javascript
+0.1 + 0.2 === 0.30000000000000004 // true
+```
+
+
+那么可能你又会有一个疑问，既然0.1不是0.1，那为什么console.log(0.1)却是正确的呢？
+
+
+因为在输入内容的时候，二进制被转换为了十进制，十进制又被转换为了字符串，在这个转换的过程中发生了取近似值的过程，所以打印出来的其实是一个近似值，你也可以通过以下代码来验证：
+
+
+```javascript
+console.log(0.100000000000000002) // 0.1
+```
+
+
+那么说完了为什么，最后来说说怎么解决这个问题吧。其实解决的办法有很多，这里我们选用原生提供的方式来最简单的解决问题：
+
+
+```javascript
+parseFloat((0.1 + 0.2).toFixed(10)) === 0.3; // true
+```
