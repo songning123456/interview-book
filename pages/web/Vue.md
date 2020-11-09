@@ -519,3 +519,80 @@ MyComponent.prototype.data = function() {
 
 
 结果：子组件会调用父组件的fatherMethod()方法，该并且会alert传递过去的参数：{"name":123}。
+
+
+#### Vue中keep-alive组件的作用？
+<span class='forest-green'>keep-alive</span>主要用于保留组件状态或避免重新渲染。
+
+
+比如有一个列表页面和一个详情页面，那么用户就会经常执行打开详情=>返回列表=>打开详情这样的话列表和详情都是一个频率很高的页面，那么就可以对列表组件使用keep-alive进行缓存，这样用户每次返回列表的时候，都能从缓存中快速渲染，而不是重新渲染。
+
+
+**属性：**
+
+
+<span class='forest-green'>include：</span>字符串或正则表达式。只有匹配的组件会被缓存。<br>
+<span class='forest-green'>exclude：</span>字符串或正则表达式。任何匹配的组件都不会被缓存。
+
+
+**用法：**
+
+
+包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和transition相似，keep-alive是一个抽象组件：它自身不会渲染一个DOM元素，也不会出现在父组件链中。
+
+
+当组件在keep-alive内被切换，在2.2.0及其更高版本中，activated和deactivated生命周期将会在树内的所有嵌套组件中触发。
+
+
+```html
+<!-- 基本 -->
+<keep-alive>
+    <component :is="view"></component>
+</keep-alive>
+
+<!-- 多个条件判断的子组件 -->
+<keep-alive>
+    <comp-a v-if="a > 1"></comp-a>
+    <comp-b v-else></comp-b>
+</keep-alive>
+
+<!-- 和 `<transition>` 一起使用 -->
+<transition>
+    <keep-alive>
+        <component :is="view"></component>
+    </keep-alive>
+</transition>
+```
+
+
+注意：keep-alive是用在其一个直属的子组件被开关的情形。如果你在其中有v-for则不会工作。如果有上述的多个条件性的子元素，keep-alive要求同时只有一个子元素被渲染。
+
+
+**include和exclude属性的使用：**
+
+
+(2.1.0新增)include和exclude属性允许组件有条件地缓存。二者都可以用逗号分隔字符串、正则表达式或一个数组来表示：
+
+
+```html
+<!-- 逗号分隔字符串 -->
+<keep-alive include="a,b">
+    <component :is="view"></component>
+</keep-alive>
+
+<!-- 正则表达式 (使用 `v-bind`) -->
+<keep-alive :include="/a|b/">
+    <component :is="view"></component>
+</keep-alive>
+
+<!-- 数组 (使用 `v-bind`) -->
+<keep-alive :include="['a', 'b']">
+    <component :is="view"></component>
+</keep-alive>
+```
+
+
+匹配首先检查组件自身的name选项，如果name选项不可用，则匹配它的局部注册名称(父组件components选项的键值)。匿名组件不能被匹配。
+
+
+不会在函数式组件中正常工作，因为它们没有缓存实例。
