@@ -110,7 +110,7 @@ Vue与React、Angular的不同是，但它是渐进的：
 ```
 
 
-#### 请说出vue几种常用的指令？
+#### 请说出Vue几种常用的指令？
 | 指令 | 解释 | 
 | :----- | :----- | 
 |<div style='width: 80px'>v-if</div>|根据表达式的值的真假条件渲染元素。在切换时元素及它的数据绑定/组件被销毁并重建。|
@@ -135,7 +135,7 @@ Vue与React、Angular的不同是，但它是渐进的：
 |<div style='width: 100px'>应用场景</div>|v-if适合运行时条件很少改变时使用。|v-show适合频繁切换。|
 
 
-#### vue常用的修饰符？
+#### Vue常用的修饰符？
 v-on指令常用修饰符：
 
 
@@ -199,8 +199,8 @@ v-on可以监听多个方法，例如：
 ```
 
 
-#### vue中key值的作用？
-<span class="forest-green">key值：</span>用于管理可复用的元素。因为vue会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这么做使vue变得非常快，但是这样也不总是符合实际需求。2.2.0+的版本里，当在组件中使用v-for时，key现在是必须的。
+#### Vue中key值的作用？
+<span class="forest-green">key值：</span>用于管理可复用的元素。因为Vue会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这么做使Vue变得非常快，但是这样也不总是符合实际需求。2.2.0+的版本里，当在组件中使用v-for时，key现在是必须的。
 
 
 例如，如果你允许用户在不同的登录方式之间切换：
@@ -261,3 +261,261 @@ npm install
 
 
 ![npm-check-updates](/images/Web/npm-check-updates.jpeg)
+
+
+#### vue事件中如何使用event对象？
+注意在事件中要使用<span class="forest-green">$</span>符号
+
+
+```html
+<a href="javascript:void(0);" data-id="12" @click="showEvent($event)">event</a>
+```
+
+
+```javascript
+function showEvent(event){
+    //获取自定义data-id
+	console.log(event.target.dataset.id);
+   //阻止事件冒泡
+    event.stopPropagation(); 
+    //阻止默认
+    event.preventDefault()
+}
+```
+
+
+#### 什么是$nextTick？
+简单回答：因为Vue的异步更新队列，$nextTick是用来知道什么时候DOM更新完成的。
+
+
+详细解读：我们先来看这样一个场景：有一个div，默认用v-if将它隐藏，点击一个按钮后，改变v-if的值，让它显示出来，同时拿到这个div的文本内容。如果v-if的值是false，直接去获取div内容是获取不到的，因为此时div还没有被创建出来，那么应该在点击按钮后，改变v-if的值为true，div才会被创建，此时再去获取，示例代码如下：
+
+
+```html
+<div id="app">
+    <div id="div" v-if="showDiv">这是一段文本</div>
+    <button @click="getText">获取div内容</button>
+</div>
+```
+
+
+```javascript
+let app = new Vue({
+    el : "#app",
+    data:{
+        showDiv : false
+    },
+    methods:{
+        getText:function(){
+            this.showDiv = true;
+            let text = document.getElementById('div').innnerHTML;
+             console.log(text);
+        }
+    }
+})
+```
+
+
+这段代码并不难理解，但是运行后在控制台会抛出一个错误：Cannot read property 'innnerHTML of null，意思就是获取不到div元素。这里就涉及Vue一个重要的概念：异步更新队列。
+
+
+```
+// 异步更新队列
+Vue在观察到数据变化时并不是直接更新DOM，而是开启一个队列，并缓冲在同一个事件循环中发生的所以数据改变。在缓冲时会去除重复数据，从而避免不必要的计算和DOM操作。然后，在下一个事件循环tick中，Vue刷新队列并执行实际(已去重的)工作。所以如果你用一个for循环来动态改变数据100次，其实它只会应用最后一次改变，如果没有这种机制，DOM就要重绘100次，这固然是一个很大的开销。
+```
+
+
+Vue会根据当前浏览器环境优先使用原生的Promise.then和MutationObserver，如果都不支持，就会采用setTimeout代替。知道了Vue异步更新DOM的原理，上面示例的报错也就不难理解了。事实上，在执行this.showDiv=true时，div仍然还是没有被创建出来，直到下一个Vue事件循环时，才开始创建。$nextTick就是用来知道什么时候DOM更新完成的，所以上面的示例代码需要修改为：
+
+
+```javascript
+let app = new Vue({
+    el : "#app",
+    data:{
+        showDiv : false
+    },
+    methods:{
+        getText:function(){
+            this.showDiv = true;
+            this.$nextTick(function(){
+                  let text = document.getElementById('div').innnerHTML;
+                 console.log(text);  
+            });
+        }
+    }
+})
+```
+
+
+这时再点击事件，控制台就打印出div的内容“这是一段文本”了。
+
+
+理论上，我们应该不用去主动操作DOM，因为Vue的核心思想就是数据驱动DOM，但在很多业务里，我们避免不了会使用一些第三方库，比如popper.js、swiper等，这些基于原生javascript的库都有创建和更新及销毁的完整生命周期，与Vue配合使用时，就要利用好$nextTick。
+
+
+#### Vue组件中data为什么必须是函数？
+```javascript
+// 为什么data函数里面要return一个对象
+export default {
+    data() {
+        return {  // 返回一个唯一的对象，不要和其他组件共用一个对象进行返回
+            menu: MENU.data,
+            poi: POILIST.data
+        }
+    }
+}
+```
+
+
+因为一个组件是可以共享的，但他们的data是私有的，所以每个组件都要return一个新的data对象，返回一个唯一的对象，不要和其他组件共用一个对象。
+
+
+```javascript
+Vue.component('my-component', {
+  template: '<div>OK</div>',
+  data() {
+    return {} // 返回一个唯一的对象，不要和其他组件共用一个对象进行返回
+  },
+})
+```
+
+
+这个操作是一个简易操作，实际上，它首先需要创建一个组件构造器；然后注册组件；注册组件的本质其实就是建立一个组件构造器的引用；使用组件才是真正创建一个组件实例。所以，注册组件其实并不产生新的组件类，但会产生一个可以用来实例化的新方式。
+
+
+理解这点之后，再理解js的原型链：
+
+
+```javascript
+let MyComponent = function() {};
+MyComponent.prototype.data = {
+  a: 1,
+  b: 2,
+};
+```
+
+
+上面是一个虚拟的组件构造器，真实的组件构造器方法很多。
+
+
+```javascript
+let component1 = new MyComponent();
+let component2 = new MyComponent();
+```
+
+
+上面实例化出来两个组件实例，也就是通过调用，创建的两个实例。
+
+
+```javascript
+component1.data.a === component2.data.a; // true
+component1.data.b = 5;
+component2.data.b; // 5
+```
+
+
+可以看到上面代码中最后三句，这就比较坑爹了，如果两个实例同时引用一个对象，那么当你修改其中一个属性的时候，另外一个实例也会跟着改。这怎么可以，两个实例应该有自己各自的域才对。所以，需要通过下面方法来进行处理：
+
+
+```javascript
+let MyComponent = function() {
+    this.data = this.data()
+};
+MyComponent.prototype.data = function() {
+    return {
+        a: 1,
+        b: 2,
+    }
+};
+```
+
+
+这样每一个实例的data属性都是独立的，不会相互影响了。所以，你现在知道为什么Vue组件的data必须是函数了吧。这都是因为js本身的特性带来的，跟Vue本身设计无关。
+
+
+#### v-for与v-if的优先级？
+当它们处于同一节点，v-for的优先级比v-if更高，这意味着v-if将分别重复运行于每个v-for循环中。当你想为仅有的一些项渲染节点时，这种优先级的机制会十分有用，如下：
+
+
+```
+<li v-for="todo in todos" v-if="!todo.isComplete">
+    todo
+</li>
+```
+
+
+上面的代码只传递了未完成的todos。而如果你的目的是有条件地跳过循环的执行，那么可以将v-if置于外层元素(或template)上。如：
+
+
+```
+<ul v-if="todos.length">
+    <li v-for="todo in todos">
+        todo
+    </li>
+</ul>
+<p v-else>No todos left!</p>
+```
+
+
+#### Vue中子组件调用父组件的方法？
+通过v-on监听和$emit触发来实现：<br>
+1. 在父组件中通过v-on监听当前实例上的自定义事件；<br>
+2. 在子组件中通过'$emit'触发当前实例上的自定义事件。
+
+
+父组件：
+
+
+```html
+<template>
+    <div class="fatherPageWrap">
+        <h1>这是父组件</h1>
+        <!-- 引入子组件，v-on监听自定义事件 -->
+        <emitChild v-on:emitMethods="fatherMethod"></emitChild>
+    </div>
+</template>
+
+<script type="text/javascript">
+    import emitChild from '@/page/children/emitChild.vue';
+	export default{
+		data () {
+		    return {}
+		},
+		components : {
+                    emitChild
+		},
+		methods : {
+		    fatherMethod(params){
+                alert(JSON.stringify(params));
+            }
+		}
+	}
+</script>
+```
+
+
+子组件：
+
+
+```html
+<template>
+    <div class="childPageWrap">
+        <h1>这是子组件</h1>
+    </div>
+</template>
+
+<script type="text/javascript">
+    export default{
+		data () {
+		   return {}
+		},
+		mounted () {
+            //通过 emit 触发
+            this.$emit('emitMethods',{"name" : 123});
+		}
+	}
+</script>
+```
+
+
+结果：子组件会调用父组件的fatherMethod()方法，该并且会alert传递过去的参数：{"name":123}。
