@@ -963,3 +963,261 @@ setInterval(timer => {
 
 
 首先requestAnimationFrame自带函数节流功能，基本可以保证在16.6毫秒内只执行一次(不掉帧的情况下)，并且该函数的延时效果是精确的，没有其他定时器时间不准的问题，当然你也可以通过该函数来实现setTimeout。
+
+
+#### 进程与线程区别？JS单线程带来的好处？
+相信大家经常会听到JS是单线程执行的，但是你是否疑惑过什么是线程？
+
+
+讲到线程，那么肯定也得说一下进程。本质上来说，两个名词都是CPU工作时间片的一个描述。
+
+
+进程描述了CPU在运行指令及加载和保存上下文所需的时间，放在应用上来说就代表了一个程序。线程是进程中的更小单位，描述了执行一段指令所需的时间。
+
+
+把这些概念拿到浏览器中来说，当你打开一个Tab页时，其实就是创建了一个进程，一个进程中可以有多个线程，比如渲染线程、JS引擎线程、HTTP请求线程等等。当你发起一个请求时，其实就是创建了一个线程，当请求结束后，该线程可能就会被销毁。
+
+
+上文说到了JS引擎线程和渲染线程，大家应该都知道，在JS运行的时候可能会阻止UI渲染，这说明了两个线程是互斥的。这其中的原因是因为JS可以修改DOM，如果在JS执行的时候UI线程还在工作，就可能导致不能安全的渲染UI。这其实也是一个单线程的好处，得益于JS是单线程运行的，可以达到节省内存，节约上下文切换时间，没有锁的问题的好处。当然前面两点在服务端中更容易体现，对于锁的问题，形象的来说就是当我读取一个数字15的时候，同时有两个操作对数字进行了加减，这时候结果就出现了错误。解决这个问题也不难，只需要在读取的时候加锁，直到读取完毕之前都不能进行写入操作。
+
+
+#### 什么是执行栈？
+可以把执行栈认为是一个存储函数调用的栈结构，遵循先进后出的原则。
+
+
+当开始执行JS代码时，首先会执行一个main函数，然后执行我们的代码。根据先进后出的原则，后执行的函数会先弹出栈，在图中我们也可以发现，foo函数后执行，当执行完毕后就从栈中弹出了。平时在开发中，大家也可以在报错中找到执行栈的痕迹。
+
+
+```javascript
+function foo() {
+    throw new Error('error');
+}
+function bar() {
+    foo();
+}
+bar();
+```
+
+
+大家可以在上图清晰的看到报错在foo函数，foo函数又是在bar函数中调用的。当我们使用递归的时候，因为栈可存放的函数是有限制的，一旦存放了过多的函数且没有得到释放的话，就会出现爆栈的问题。
+
+
+```javascript
+function bar() {
+    bar();
+}
+bar();
+```
+
+
+#### 异步代码执行顺序？解释一下什么是Event Loop？
+上一小节我们讲到了什么是执行栈，大家也知道了当我们执行JS代码的时候其实就是往执行栈中放入函数，那么遇到异步代码的时候该怎么办？其实当遇到异步的代码时，会被挂起并在需要执行的时候加入到Task(有多种Task)队列中。一旦执行栈为空，Event Loop就会从Task队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说JS中的异步还是同步行为。
+
+
+不同的任务源会被分配到不同的Task队列中，任务源可以分为微任务(microtask)和宏任务(macrotask)。在ES6规范中，microtask称为jobs，macrotask称为task。下面来看以下代码的执行顺序：
+
+
+```javascript
+console.log('script start');
+
+async function async1() {
+    await async2();
+    console.log('async1 end');
+}
+async function async2() {
+    console.log('async2 end');
+}
+
+async1();
+
+setTimeout(function() {
+    console.log('setTimeout');
+}, 0);
+
+new Promise(resolve => {
+    console.log('Promise');
+    resolve();
+}).then(function() {
+    console.log('promise1')
+  }).then(function() {
+    console.log('promise2')
+  });
+
+console.log('script end');
+// script start => async2 end => Promise => script end => promise1 => promise2 => async1 end => setTimeout
+```
+
+
+首先先来解释下上述代码的async和await的执行顺序。当我们调用async1函数时，会马上输出async2 end，并且函数返回一个Promise，接下来在遇到await的时候会就让出线程开始执行async1外的代码，所以我们完全可以把await看成是让出线程的标志。
+
+
+然后当同步代码全部执行完毕以后，就会去执行所有的异步代码，那么又会回到await的位置执行返回的Promise的resolve函数，这又会把resolve丢到微任务队列中，接下来去执行then中的回调，当两个then中的回调全部执行完毕以后，又会回到await的位置处理返回值，这时候你可以看成是Promise.resolve(返回值).then()，然后await后的代码全部被包裹进了then的回调中，所以console.log('async1 end')会优先执行于setTimeout。
+
+
+如果你觉得上面这段解释还是有点绕，那么我把async的这两个函数改造成你一定能理解的代码：
+
+
+```javascript
+new Promise((resolve, reject) => {
+    console.log('async2 end');
+    // Promise.resolve() 将代码插入微任务队列尾部
+    // resolve 再次插入微任务队列尾部
+    resolve(Promise.resolve());
+}).then(() => {
+    console.log('async1 end');
+})
+```
+
+
+也就是说，如果await后面跟着Promise的话，async1 end需要等待三个tick才能执行到。那么其实这个性能相对来说还是略慢的，所以V8团队借鉴了Node 8中的一个Bug，在引擎底层将三次tick减少到了二次tick。但是这种做法其实是违法了规范的，当然规范也是可以更改的，这是V8团队的一个PR，目前已被同意这种做法。
+
+
+所以 Event Loop 执行顺序如下所示：<br>
+1. 首先执行同步代码，这属于宏任务；<br>
+2. 当执行完所有同步代码后，执行栈为空，查询是否有异步代码需要执行；<br>
+3. 执行所有微任务；<br>
+4. 当执行完所有微任务后，如有必要会渲染页面；<br>
+5. 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是setTimeout中的回调函数。
+
+
+所以以上代码虽然setTimeout写在Promise之前，但是因为Promise属于微任务而setTimeout属于宏任务，所以会有以上的打印。
+
+
+微任务包括process.nextTick，promise，MutationObserver。宏任务包括script，setTimeout，setInterval，setImmediate，I/O，UI rendering。这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了script，浏览器会先执行一个宏任务，接下来有异步代码的话才会先执行微任务。
+
+
+#### Node中的Event Loop和浏览器中的有什么区别？process.nexttick执行顺序？
+Node中的Event Loop和浏览器中的是完全不相同的东西。
+
+
+Node的Event Loop分为6个阶段，它们会按照顺序反复运行。每当进入某一个阶段的时候，都会从对应的回调队列中取出函数去执行。当队列为空或者执行的回调函数数量到达系统设定的阈值，就会进入下一阶段。
+
+
+**timer**
+
+
+timers阶段会执行setTimeout和setInterval回调，并且是由poll阶段控制的。同样，在Node中定时器指定的时间也不是准确时间，只能是尽快执行。
+
+
+**I/O**
+
+
+I/O阶段会处理一些上一轮循环中的少数未执行的I/O回调。
+
+
+**idle, prepare**
+
+
+idle, prepare阶段内部实现，这里就忽略不讲了。
+
+
+**poll**
+
+
+poll是一个至关重要的阶段，这一阶段中，系统会做两件事情：<br>
+1. 回到timer阶段执行回调；<br>
+2. 执行I/O回调。
+
+
+并且在进入该阶段时如果没有设定了 timer 的话，会发生以下两件事情：<br>
+1. 如果 poll 队列不为空，会遍历回调队列并同步执行，直到队列为空或者达到系统限制；<br>
+2. 如果 poll 队列为空时，会有两件事发生：<br>
+    1. 如果有setImmediate回调需要执行，poll阶段会停止并且进入到check阶段执行回调；<br>
+    2. 如果没有setImmediate回调需要执行，会等待回调被加入到队列中并立即执行回调，这里同样会有个超时时间设置防止一直等待下去。<br>
+
+
+当然设定了timer的话且poll队列为空，则会判断是否有timer超时，如果有的话会回到timer阶段执行回调。
+
+
+**check**
+
+
+check阶段执行setImmediate。
+
+
+**close callbacks**
+
+
+close callbacks阶段执行close事件。在以上的内容中，我们了解了Node中的Event Loop的执行顺序，接下来我们将会通过代码的方式来深入理解这块内容。首先在有些情况下，定时器的执行顺序其实是随机的。
+
+
+```javascript
+setTimeout(() => {
+    console.log('setTimeout');
+}, 0);
+setImmediate(() => {
+    console.log('setImmediate');
+})
+```
+
+
+对于以上代码来说，setTimeout可能执行在前，也可能执行在后：<br>
+1. 首先setTimeout(fn, 0) === setTimeout(fn, 1)，这是由源码决定的；<br>
+2. 进入事件循环也是需要成本的，如果在准备时候花费了大于1ms的时间，那么在timer阶段就会直接执行setTimeout回调；<br>
+3. 那么如果准备时间花费小于 1ms，那么就是setImmediate回调先执行了。
+
+
+当然在某些情况下，他们的执行顺序一定是固定的，比如以下代码：
+
+
+```javascript
+const fs = require('fs');
+
+fs.readFile(__filename, () => {
+    setTimeout(() => {
+        console.log('timeout');
+    }, 0);
+    setImmediate(() => {
+        console.log('immediate')
+    });
+})
+```
+
+
+在上述代码中，setImmediate永远先执行。因为两个代码写在IO回调中，IO回调是在poll阶段执行，当回调执行完毕后队列为空，发现存在setImmediate回调，所以就直接跳转到 check 阶段去执行回调了。
+
+
+上面介绍的都是macrotask的执行情况，对于microtask来说，它会在以上每个阶段完成前清空microtask队列，下图中的Tick就代表了microtask。
+
+
+```javascript
+setTimeout(() => {
+    console.log('timer21');
+}, 0);
+
+Promise.resolve().then(function() {
+    console.log('promise1');
+});
+```
+
+
+对于以上代码来说，其实和浏览器中的输出是一样的，microtask永远执行在macrotask前面。
+
+
+最后我们来讲讲Node中的process.nextTick，这个函数其实是独立于Event Loop之外的，它有一个自己的队列，当每个阶段完成后，如果存在nextTick队列，就会清空队列中的所有回调函数，并且优先于其他microtask执行。
+
+
+```javascript
+setTimeout(() => {
+    console.log('timer1');
+    Promise.resolve().then(function() {
+        console.log('promise1')
+    })
+}, 0);
+
+process.nextTick(() => {
+    console.log('nextTick');
+        process.nextTick(() => {
+            console.log('nextTick');
+                process.nextTick(() => {
+                    console.log('nextTick');
+                    process.nextTick(() => {
+                        console.log('nextTick')
+                    })
+            })
+    })
+})
+```
+
+
+对于以上代码，大家可以发现无论如何，永远都是先把nextTick全部打印出来。
