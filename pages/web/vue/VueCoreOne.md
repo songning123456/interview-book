@@ -199,7 +199,7 @@ npm install
 ![npm-check-updates](/images/Web/npm-check-updates.jpeg)
 
 
-#### vue事件中如何使用event对象？
+#### Vue事件中如何使用event对象？
 注意在事件中要使用<span class="forest-green">$</span>符号
 
 
