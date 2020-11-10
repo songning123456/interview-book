@@ -373,7 +373,7 @@ MyComponent.prototype.data = function() {
 当它们处于同一节点，v-for的优先级比v-if更高，这意味着v-if将分别重复运行于每个v-for循环中。当你想为仅有的一些项渲染节点时，这种优先级的机制会十分有用，如下：
 
 
-```
+```html
 <li v-for="todo in todos" v-if="!todo.isComplete">
     todo
 </li>
@@ -383,7 +383,7 @@ MyComponent.prototype.data = function() {
 上面的代码只传递了未完成的todos。而如果你的目的是有条件地跳过循环的执行，那么可以将v-if置于外层元素(或template)上。如：
 
 
-```
+```html
 <ul v-if="todos.length">
     <li v-for="todo in todos">
         todo
