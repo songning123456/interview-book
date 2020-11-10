@@ -821,3 +821,173 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
     favoriteColor: 'Vue Green'
 });
 ```
+
+
+#### 如何解决非工程化项目，网速慢时初始化页面闪动问题？
+使用v-cloak指令，v-cloak不需要表达式，它会在Vue实例结束编译时从绑定的HTML元素上移除，经常和CSS的display: none配合使用。
+
+
+```html
+<div id="app" v-cloak>
+    {{ message }}
+</div>
+<script>
+let app = new Vue({
+    el:"#app",
+    data:{
+        message:"这是一段文本"
+    }
+})
+</script>
+```
+
+
+这时虽然已经加了指令v-cloak，但其实并没有起到任何作用。当网速较慢、Vue.js文件还没加载完时，在页面上会显示{{message}}的字样，直到Vue创建实例、编译模版时，DOM才会被替换，所以这个过程屏幕是有闪动的。只要加一句CSS就可以解决这个问题了：
+
+
+```css
+[v-cloak]{
+    display: none;
+}
+```
+
+
+在一般情况下，v-cloak是一个解决初始化慢导致页面闪动的最佳实践，对于简单的项目很实用。
+
+
+#### v-for产生的列表，如何实现active样式的切换？
+通过设置当前currentIndex实现：
+
+
+```html
+<template>
+	<div class="toggleClassWrap">
+	 <ul>
+		<li @click="currentIndex = index" v-bind:class="{clicked: index === currentIndex}" v-for="(item, index) in desc" :key="index">
+			<a href="javascript:;">{{item.ctrlValue}}</a>
+		</li>
+	</ul>
+	</div>
+</template>
+<script type="text/javascript">
+	export default{
+		data () {
+			return {
+				desc:[{
+					ctrlValue:"test1"
+				},{
+					ctrlValue:"test2"
+				},{
+					ctrlValue:"test3"
+				},{
+					ctrlValue:"test4"
+				}],
+				currentIndex:0
+			}
+		}
+	}
+</script>
+<style type="text/css" lang="less">
+.toggleClassWrap{
+	.clicked{
+		color:red;
+	}
+}
+</style>
+```
+
+
+#### v-model语法糖在组件上的使用？
+需要实现效果：如果在一个页面中我们需要引入一个弹窗组件，点击按钮a显示弹窗，然后点击弹窗的关闭按钮，关闭弹窗，用v-model实现。使用v-model来进行双向数据绑定的时：
+
+
+```html
+<input v-model="something">
+```
+
+
+仅仅是一个语法糖：
+
+
+```html
+<input v-bind:value="something" v-on:input="something = $event.target.value">
+```
+
+
+所以在组件中使用的时候，相当于下面的简写：
+
+
+```html
+<custom v-bind:value="something" v-on:input="something = $event.target.value"></custom>
+```
+
+
+所以要组件的v-model生效，它必须：<br>
+1. 接受一个value属性；<br>
+2. 在有新的value时触发input事件。
+
+
+使用示例：
+
+
+```html
+<template>
+	<div class="toggleClassWrap">
+	    <modelVue v-if="ifShow" v-model="ifShow"></modelVue>
+    </div>
+</template>
+<script type="text/javascript">
+	import modelVue from '../../components/model.vue'
+	export default{
+		data () {
+			return {
+				ifShow:true,
+			}
+		},
+		components : {
+			modelVue
+		}
+	}
+</script>
+```
+
+
+model.vue组件
+
+
+```html
+<template>
+    <div id="showAlert">
+        <div>showAlert 内容</div>
+        <button class="close" @click="close">关闭</button>
+    </div>
+</template>
+
+<script>
+    export default{
+        props:{
+            value:{
+                type:Boolean,
+                default:false,
+            }
+        },
+        data(){
+            return{}
+        },
+        mounted(){
+        },
+        methods:{
+            close(){
+                this.$emit('input',false);//传值给父组件, 让父组件监听到这个变化
+            }
+        },
+    }
+</script>
+
+<style scoped>
+    .close{
+        background:red;
+        color:white;
+    }
+</style>
+```
