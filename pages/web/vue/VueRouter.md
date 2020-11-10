@@ -194,3 +194,77 @@ beforeRouteLeave (to, from , next) {
     }
 }
 ```
+
+
+#### vue-router的几种实例方法以及参数传递？
+| 实例方法 | 解释 | 
+| :----- | :----- | 
+|<div style='width: 400px'>this.$router.push(location, onComplete?, onAbort?)</div>|这个方法会向history栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的URL。并且点击<router-link :to="...">等同于调用 router.push(...)。|
+|<div style='width: 400px'>this.$router.replace(location, onComplete?, onAbort?)</div>|这个方法不会向 history 添加新记录，而是跟它的方法名一样——替换掉当前的history记录，所以，当用户点击浏览器后退按钮时，并不会回到之前的URL。|
+|<div style='width: 400px'>this.$router.go(n)</div>|这个方法的参数是一个整数，意思是在history记录中向前或者后退多少步，类似window.history.go(n)。|
+
+
+**注意：**<br>
+1. 在2.2.0+，可选的在router.push或router.replace中提供onComplete和onAbort回调作为第二个和第三个参数。这些回调将会在导航成功完成(在所有的异步钩子被解析之后)或终止(导航到相同的路由、或在当前导航完成之前导航到另一个不同的路由)的时候进行相应的调用；<br>
+2. 如果目的地和当前路由相同，只有参数发生了改变(比如从一个用户资料到另一个/users/1 -> /users/2)，你需要使用beforeRouteUpdate来响应这个变化(比如抓取用户信息)。
+
+
+**参数传递方式：**
+
+
+vue-router提供了params、query、meta三种页面间传递参数的方式。
+
+
+示例：
+
+
+```javascript
+// 字符串，不带参数
+this.$router.push('home');
+
+// 对象，不带参数
+this.$router.push({ path: 'home' });
+
+// params（推荐）：命名的路由，params 必须和 name 搭配使用
+this.$router.push({ name:'user', params: { userId: 123 }});
+
+// 这里的 params 不生效
+this.$router.push({ path:'/user', params: { userId: 123 }});
+
+// query：带查询参数，变成 /register?plan=private
+this.$router.push({ path: 'register', query: { plan: 'private' }});
+
+//meta方式：路由元信息
+export default new Router({
+    routes: [
+        {
+            path: '/user',
+            name: 'user',
+            component: user,
+            meta:{
+                title:'个人中心'
+            }
+        }
+    ]
+})
+```
+
+
+在组件中使用：
+
+
+```javascript
+//通过$route对象获取，注意是route，么有r
+this.$route.params;
+
+this.$route.query;
+
+this.$route.meta;
+```
+
+
+#### $route和$router的区别？
+| 名称 | 解释 | 
+| :----- | :----- | 
+|$route|是“路由信息对象”，包括path、params、hash、query、fullPath、matched、name等路由信息参数。|
+|$router|是“路由实例”对象包括了路由的跳转方法、钩子函数等。|
