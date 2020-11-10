@@ -268,3 +268,201 @@ this.$route.meta;
 | :----- | :----- | 
 |$route|是“路由信息对象”，包括path、params、hash、query、fullPath、matched、name等路由信息参数。|
 |$router|是“路由实例”对象包括了路由的跳转方法、钩子函数等。|
+
+
+#### vue-router的动态路由匹配以及使用？
+动态路径匹配：即把某种模式匹配到的所有路由，全都映射到同个组件。使用动态路由参数来实现。
+
+
+例如，我们有一个User组件，对于所有ID各不相同的用户，都要使用这个组件来渲染。那么，我们可以在vue-router的路由路径中使用“动态路径参数”(dynamic segment)来达到这个效果。
+
+
+```javascript
+const User = {
+    template: '<div>User</div>'
+};
+
+const router = new VueRouter({
+    routes: [
+    // 动态路径参数 以冒号开头
+        { path: '/user/:id', component: User }
+    ]
+})
+```
+
+
+这样，像/user/foo和/user/bar都将映射到相同的路由。
+
+
+一个“路径参数”使用冒号“:”标记。当匹配到一个路由时，参数值会被设置到this.$route.params，可以在每个组件内使用。
+
+
+在User的模板，输出当前用户的ID：
+
+
+```javascript
+const User = {
+    template: '<div>User {{ $route.params.id }}</div>'
+}
+```
+
+
+#### vue-router如何定义嵌套路由？
+嵌套路由：是路由的多层嵌套。
+
+
+1.需要在一个被渲染的组件中嵌套router-view组件。
+
+
+例如，在User组件的模板添加一个router-view：
+
+
+```javascript
+const User = {
+    template: `
+        <div class="user">
+            <h2>User</h2>
+            <router-view></router-view>
+        </div>
+    `
+}
+```
+
+
+2.在嵌套的出口中渲染组件，在VueRouter的参数中使用children配置：
+
+
+```javascript
+const router = new VueRouter({
+    routes: [
+        { 
+            path: '/user/:id', 
+            component: User,
+            children: [
+                {
+                    // 当 /user/:id/profile 匹配成功，
+                    // UserProfile 会被渲染在 User 的 <router-view> 中
+                    path: 'profile',
+                    component: UserProfile
+                },
+                {
+                    // 当 /user/:id/posts 匹配成功
+                    // UserPosts 会被渲染在 User 的 <router-view> 中
+                    path: 'posts',
+                    component: UserPosts
+                }
+            ]
+        }
+    ]
+})
+```
+
+
+注意：children配置就是像routes配置一样的路由配置数组。所以呢，你可以嵌套多层路由。
+
+
+注意：如果基于上面的配置，当你访问/user/foo时，User的出口是不会渲染任何东西，这是因为没有匹配到合适的子路由。如果你想要渲染点什么，可以提供一个空的子路由：
+
+
+```javascript
+const router = new VueRouter({
+    routes: [
+        {
+            path: '/user/:id', 
+            component: User,
+            children: [
+                // 当 /user/:id 匹配成功，
+                // UserHome 会被渲染在 User 的 <router-view> 中
+                { path: '', component: UserHome },
+                // ...其他子路由
+            ]
+        }
+    ]
+});
+```
+
+
+#### router-link组件及其属性？
+router-link组件：用于支持用户在具有路由功能的应用中(点击)导航。
+
+
+可以通过to属性指定目标地址，默认渲染成带有正确链接的`<a>`标签，可以通过配置tag属性生成别的标签。另外，当目标路由成功激活时，链接元素自动设置一个表示激活的CSS类名。
+
+
+| 属性 | 类型 | 说明 | 示例 | 
+| :----- | :----- | :----- | :----- | 
+|<div style='width: 100px'>to</div>|string\Location|表示目标路由的链接。当被点击后，内部会立刻把to的值传到router.push()，所以这个值可以是一个字符串或者是描述目标位置的对象。|`<router-link to="home">Home</router-link>`|
+|<div style='width: 100px'>replace</div>|boolean(默认false)|设置replace属性的话，当点击时，会调用router.replace()而不是router.push()，于是导航后不会留下history记录。|`<router-link :to="{ path: '/abc'}" replace></router-link>`|
+|<div style='width: 100px'>append</div>|boolean(默认false)|设置append属性后，则在当前(相对)路径前添加基路径。例如，我们从/a导航到一个相对路径b，如果没有配置append，则路径为/b，如果配了，则为/a/b。|`<router-link :to="{ path: 'relative/path'}" append></router-link>`|
+|<div style='width: 100px'>tag</div>|string(默认'a')|有时候想要渲染成某种标签，例如<li>于是我们使用tag prop类指定何种标签，同样它还是会监听点击，触发导航。|`<router-link to="/foo" tag="li">foo</router-link>`|
+|<div style='width: 100px'>active-class</div>|string(默认"router-link-active")|设置链接激活时使用的CSS类名。默认值可以通过路由的构造选项linkActiveClass来全局配置。|————|
+|<div style='width: 100px'>exact</div>|boolean(默认false)|"是否激活"默认类名的依据是inclusive match(全包含匹配)。举个例子，如果当前的路径是/a开头的，那么也会被设置CSS类名。|这个链接只会在地址为/的时候被激活：`<router-link to="/" exact>`|
+|<div style='width: 100px'>event</div>|string\Array(默认'click')|声明可以用来触发导航的事件，可以是一个字符串或是一个包含字符串的数组。|————|
+|<div style='width: 100px'>exact-active-class</div>|string默认'router-link-exact-active'|配置当链接被精确匹配的时候应该激活的class。注意默认值也是可以通过路由构造函数选项linkExactActiveClass进行全局配置的。|————|
+
+
+#### vue-router实现动态加载路由组件(懒加载)？
+当打包构建应用时，Javascript包会变得非常大，影响页面加载。如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。结合Vue的异步组件和Webpack的代码分割功能，轻松实现路由组件的懒加载。
+
+
+1.定义一个能够被Webpack自动代码分割的异步组件。
+
+
+```javascript
+//在src/router/index.js里面引入异步引入组件
+const index = () => import('../page/list/index.vue');
+```
+
+
+2.在路由配置中什么都不需要改变，只需要像往常一样使用index。
+
+
+```javascript
+const router = new VueRouter({
+    routes: [
+        { path: '/index', component: index,name:"index" }
+    ]
+})
+```
+
+
+3.在build/webpack.base.conf.js下的output属性，新增chunkFilename。
+
+
+```
+output: {
+    path: config.build.assetsRoot,
+    filename: '[name].js',
+    //新增chunFilename属性
+    chunkFilename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+},
+```
+
+
+#### vue-router路由的两种模式？
+vue-router路由提供了两种路由模式：**hash模式**和**history模式**。
+
+
+**hash模式：**
+
+
+vue-router默认hash模式。使用URL的hash来模拟一个完整的URL，于是当URL改变时，页面不会重新加载。
+
+
+**history模式：**
+
+
+如果不想要很丑的hash，我们可以用路由的history模式。这种模式充分利用history.pushState API来完成URL跳转而无须重新加载页面。
+
+
+```javascript
+//设置mode属性，设置路由模式
+const router = new VueRouter({
+    mode: 'history',
+    routes: [...]
+})
+```
+
+
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问`http://oursite.com/user/id`就会返回404，这就不好看了。所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果URL匹配不到任何静态资源，则应该返回同一个index.html页面，这个页面就是你app依赖的页面。
