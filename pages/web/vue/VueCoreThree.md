@@ -448,3 +448,15 @@ Object.keys(directives).forEach(k => Vue.directive(k, directives[k]));
 	}
 </script>
 ```
+
+
+#### Vue开发命令npm run dev输入后的执行过程？
+首先来看执行npm run dev时候最先执行的build/dev-server.js文件，该文件主要完成下面几件事情：<br>
+1. 检查node和npm的版本、引入相关插件和配置；<br>
+2. webpack对源码进行编译打包并返回compiler对象；<br>
+3. 创建express服务器；<br>
+4. 配置开发中间件(webpack-dev-middleware)和热重载中间件(webpack-hot-middleware)；<br>
+5. 挂载代理服务和中间件；<br>
+6. 配置静态资源；<br>
+7. 启动服务器监听特定端口(8080)；<br>
+8. 自动打开浏览器并打开特定网址(localhost:8080)。

@@ -28,8 +28,6 @@
     * [前端UI样式](/pages/web/vue/UI.md)
     * [Vue常用功能](/pages/web/vue/VueFunction.md)
     * [Vue组件通信](/pages/web/vue/VueComponent.md)
-    * [Vue和App交互](/pages/web/vue/VueApp.md)
-    * [Vue开发命令](/pages/web/vue/VueCommand.md)
     * [vue-cli工程打包](/pages/web/vue/VueCliPackage.md)
     * [MVVM设计模式](/pages/web/vue/MVVM.md)
     * [vue-cli配置详解](/pages/web/vue/VueCliConfig.md)
