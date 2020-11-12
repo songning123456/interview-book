@@ -25,5 +25,3 @@
     * [Vue组件通信](/pages/web/vue/VueComponent.md)
     * [vue-cli工程打包](/pages/web/vue/VueCliPackage.md)
     * [MVVM设计模式](/pages/web/vue/MVVM.md)
-    * [vue-cli配置详解](/pages/web/vue/VueCliConfig.md)
-    * [Vue源码剖析](/pages/web/vue/VueSourceCode.md)

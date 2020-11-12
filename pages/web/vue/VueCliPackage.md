@@ -153,3 +153,49 @@ module.exports = {
 
 
 ![gzip](/images/Web/gzip.jpg)
+
+
+#### webpack的特点?
+**代码分割**
+
+
+在webpack的依赖树里有两种类型的依赖：<span class='forest-green'>同步依赖</span>和<span class='forest-green'>异步依赖</span>。异步依赖：会成为一个代码分割点，并且组成一个新的代码块，在代码块组成的树被优化之后，每个代码块都会保存在一个单独的文件里。
+
+
+**加载器**
+
+
+webpack原生是只能处理JavaScript的，而加载器的作用是把其他的代码转换成JavaScript代码，这样一来所有种类的代码都能组成一个模块，也就是说，我们可以在代码内通过import将webpack打包的资源以模块的方法引入到程序中。
+
+
+| Vue项目中常用到的加载器(以NPM库形式提供) | 解释 | 
+| :----- | :----- | 
+|vue-loader|用于加载与编译 *.vue文件，提取出其中的逻辑代码script、样式代码style、以及HTML模版template，再分别把它们交给对应的Loader去处理。|
+|vue-style-loader|用于加载*.vue文件中的样式。|
+|style-loader|用于将样式直接插入到页面的`<style>`内。|
+|css-loader|用于加载*.css样式表文件。|
+|less-loader|用于编译与加载*.less文件(需要依赖less库)。|
+|babel-loader|用于将ES6编译成为浏览器兼容的ES5。|
+|file-loader|用于直接加载文件。|
+|url-loader|用于加载URL指定的文件，多用于字体与图片的加载。|
+|json-loader|用于加载*.json文件作为JS实例。|
+
+
+**智能解析**
+
+
+webpack的智能解析器能处理几乎所有的第三方库，它甚至允许依赖里出现这样的表达式：
+
+
+```javascript
+require("./component/" + name + '.vue');
+```
+
+
+它能处理大多数的模块系统，比如CommonJS和AMD。
+
+
+**插件系统**
+
+
+webpack有丰富的插件系统，大多数内部的功能都是基于这个插件系统的，这也使得我们可以定制webpack，把它打造成能满足我们需求的功能，并且把自己做的插件开源出来。
