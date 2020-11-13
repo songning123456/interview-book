@@ -79,16 +79,14 @@ router.beforeEach((to, from, next) => {
 当一个导航触发时，全局前置守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫resolve完之前一直处于等待中。每个守卫方法接收三个参数：
 
 
-1.**to**: Route即将要进入的目标 路由对象；<br>
-2.**from**: Route当前导航正要离开的路由；<br>
-3.**next**: Function一定要调用该方法来resolve这个钩子。执行效果依赖next方法的调用参数。<br>
-&emsp;&emsp;1.<span class='forest-green'>next()</span>: 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是confirmed(确认的)；<br>
-&emsp;&emsp;2.<span class='forest-green'>next(false)</span>: 中断当前的导航。如果浏览器的 URL 改变了(可能是用户手动或者浏览器后退按钮)，那么URL地址会重置到from路由对应的地址；<br>
-&emsp;&emsp;3.<span class='forest-green'>next('/')或者next({ path: '/' })</span>: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。你可以向next传递任意位置对象，且允许设置诸如replace: true、name: 'home'之类的选项以及任何用在router-link的to prop或router.push中的选项；<br>
-&emsp;&emsp;4.<span class='forest-green'>next(error)</span>: (2.4.0+)如果传入next的参数是一个Error实例，则导航会被终止且该错误会被传递给router.onError()注册过的回调。
+| 参数 | 解释 | 
+| :----- | :----- |
+|<div style='width: 80px'>to</div>|Route即将要进入的目标路由对象。|
+|<div style='width: 80px'>from</div>|Route当前导航正要离开的路由。|
+|<div style='width: 80px'>next</div>| Function一定要调用该方法来resolve这个钩子，执行效果依赖next方法的调用参数。<br><span class='forest-green'>next()</span>: 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是confirmed(确认的)；<br><span class='forest-green'>next(false)</span>: 中断当前的导航。如果浏览器的 URL 改变了(可能是用户手动或者浏览器后退按钮)，那么URL地址会重置到from路由对应的地址；<br><span class='forest-green'>next('/')或者next({ path: '/' })</span>: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。你可以向next传递任意位置对象，且允许设置诸如replace: true、name: 'home'之类的选项以及任何用在router-link的to prop或router.push中的选项；<br><span class='forest-green'>next(error)</span>: (2.4.0+)如果传入next的参数是一个Error实例，则导航会被终止且该错误会被传递给router.onError()注册过的回调。| 
 
 
-确保要调用<span class='forest-green'>next方法</span>，否则钩子就不会被resolved。\
+确保要调用<span class='forest-green'>next方法</span>，否则钩子就不会被resolved。
 
 
 **全局解析守卫**
@@ -199,8 +197,8 @@ beforeRouteLeave (to, from , next) {
 #### vue-router的几种实例方法以及参数传递？
 | 实例方法 | 解释 | 
 | :----- | :----- | 
-|<div style='width: 400px'>this.$router.push(location, onComplete?, onAbort?)</div>|这个方法会向history栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的URL。并且点击<router-link :to="...">等同于调用 router.push(...)。|
-|<div style='width: 400px'>this.$router.replace(location, onComplete?, onAbort?)</div>|这个方法不会向 history 添加新记录，而是跟它的方法名一样——替换掉当前的history记录，所以，当用户点击浏览器后退按钮时，并不会回到之前的URL。|
+|<div style='width: 400px'>this.$router.push(location, onComplete?, onAbort?)</div>|这个方法会向history栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的URL。并且点击`<router-link :to="...">`等同于调用 router.push(...)。|
+|<div style='width: 400px'>this.$router.replace(location, onComplete?, onAbort?)</div>|这个方法不会向history添加新记录，而是跟它的方法名一样——替换掉当前的history记录，所以，当用户点击浏览器后退按钮时，并不会回到之前的URL。|
 |<div style='width: 400px'>this.$router.go(n)</div>|这个方法的参数是一个整数，意思是在history记录中向前或者后退多少步，类似window.history.go(n)。|
 
 
@@ -394,7 +392,7 @@ router-link组件：用于支持用户在具有路由功能的应用中(点击)�
 |<div style='width: 100px'>to</div>|string\Location|表示目标路由的链接。当被点击后，内部会立刻把to的值传到router.push()，所以这个值可以是一个字符串或者是描述目标位置的对象。|`<router-link to="home">Home</router-link>`|
 |<div style='width: 100px'>replace</div>|boolean(默认false)|设置replace属性的话，当点击时，会调用router.replace()而不是router.push()，于是导航后不会留下history记录。|`<router-link :to="{ path: '/abc'}" replace></router-link>`|
 |<div style='width: 100px'>append</div>|boolean(默认false)|设置append属性后，则在当前(相对)路径前添加基路径。例如，我们从/a导航到一个相对路径b，如果没有配置append，则路径为/b，如果配了，则为/a/b。|`<router-link :to="{ path: 'relative/path'}" append></router-link>`|
-|<div style='width: 100px'>tag</div>|string(默认'a')|有时候想要渲染成某种标签，例如<li>于是我们使用tag prop类指定何种标签，同样它还是会监听点击，触发导航。|`<router-link to="/foo" tag="li">foo</router-link>`|
+|<div style='width: 100px'>tag</div>|string(默认'a')|有时候想要渲染成某种标签，例如`<li>`于是我们使用tag prop类指定何种标签，同样它还是会监听点击，触发导航。|`<router-link to="/foo" tag="li">foo</router-link>`|
 |<div style='width: 100px'>active-class</div>|string(默认"router-link-active")|设置链接激活时使用的CSS类名。默认值可以通过路由的构造选项linkActiveClass来全局配置。|————|
 |<div style='width: 100px'>exact</div>|boolean(默认false)|"是否激活"默认类名的依据是inclusive match(全包含匹配)。举个例子，如果当前的路径是/a开头的，那么也会被设置CSS类名。|这个链接只会在地址为/的时候被激活：`<router-link to="/" exact>`|
 |<div style='width: 100px'>event</div>|string\Array(默认'click')|声明可以用来触发导航的事件，可以是一个字符串或是一个包含字符串的数组。|————|

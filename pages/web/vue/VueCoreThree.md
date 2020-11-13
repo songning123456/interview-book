@@ -110,14 +110,16 @@ function replaceAll(str, AFindText, ARepText) {
 **单页Web应用的优点：**
 
 
-1. 提供了更加吸引人的用户体验：具有桌面应用的即时性、网站的可移植性和可访问性；<br>
-2. 单页应用的内容的改变不需要重新加载整个页面，web应用更具响应性和更令人着迷；<br>
-3. 单页应用没有页面之间的切换，就不会出现“白屏现象”,也不会出现假死并有“闪烁”现象；<br>
-4. 单页应用相对服务器压力小，服务器只用出数据就可以，不用管展示逻辑和页面合成，吞吐能力会提高几倍；<br>
+1. 提供了更加吸引人的用户体验：具有桌面应用的即时性、网站的可移植性和可访问性；
+2. 单页应用的内容的改变不需要重新加载整个页面，web应用更具响应性和更令人着迷；
+3. 单页应用没有页面之间的切换，就不会出现“白屏现象”,也不会出现假死并有“闪烁”现象；
+4. 单页应用相对服务器压力小，服务器只用出数据就可以，不用管展示逻辑和页面合成，吞吐能力会提高几倍；
 5. 良好的前后端分离。后端不再负责模板渲染、输出页面工作，后端API通用化，即同一套后端程序代码，不用修改就可以用于Web界面、手机、平板等多种客户端。
 
 
-#### 单页Web应用的缺点？
+**单页Web应用的缺点**
+
+
 1. 首次加载耗时比较多；
 2. SEO问题，不利于百度，360等搜索引擎收录；
 3. 容易造成Css命名冲突；
@@ -163,12 +165,13 @@ var vm = new Vue({
 ![vue-list](/images/Web/vue-list.jpeg)
 
 
-vue-cli提供了的常用的脚手架模板：<br>
-1. **webpack**：基于webpack和vue-loader的目录结构，而且支持热部署、代码检查、测试及css抽取。<br>
-2. **webpack-simple**：基于webpack和vue-loader的目录结构。<br>
-3. **browerify**：基于Browerfiy和vueify(作用于vue-loader类似)的结构，支持热部署、代码检查及单元测试。<br>
-4. **browerify-simple**：基于Browerfiy和vueify的结构。<br>
-5. **simple**：单个引入Vue.js的index.html页面。
+| 脚手架模板 | 解释 | 
+| :----- | :----- | 
+|<div style='width:140px'>webpack</div>|基于webpack和vue-loader的目录结构，而且支持热部署、代码检查、测试及css抽取。|
+|<div style='width:140px'>webpack-simple</div>|基于webpack和vue-loader的目录结构。|
+|<div style='width:140px'>browerify</div>|基于Browerfiy和vueify(作用于vue-loader类似)的结构，支持热部署、代码检查及单元测试。|
+|<div style='width:140px'>browerify-simple</div>|基于Browerfiy和vueify的结构。|
+|<div style='width:140px'>simple</div>|单个引入Vue.js的index.html页面。|
 
 
 这里我们主要会使用webpack作为常用脚手架，可以运行<span class='forest-green'>vue init webpack my-project</span>来生成项目。
@@ -299,7 +302,10 @@ window.g.PUBLIC_IP;
 ```
 
 
-5.打包后修改。通过**npm run build**命令打包后，此config.js文件会被打包到dist/static文件夹下，此时如果需要修改PUBLIC_IP，打开config.js即可修改，无需重新打包！
+5.打包后修改：
+
+
+通过**npm run build**命令打包后，此config.js文件会被打包到dist/static文件夹下，此时如果需要修改PUBLIC_IP，打开config.js即可修改，无需重新打包！
 
 
 #### Vue如何禁止弹窗后面的滚动条滚动？
@@ -308,15 +314,15 @@ window.g.PUBLIC_IP;
 ```html
 methods : {
    //禁止滚动
-    stop(){
-        var mo=function(e){e.preventDefault();};
+    stop() {
+        var mo = function(e) {e.preventDefault();};
         document.body.style.overflow='hidden';
-        document.addEventListener("touchmove",mo,false);//禁止页面滑动
+        document.addEventListener("touchmove",mo,false); //禁止页面滑动
     },
     /***取消滑动限制***/
-    move(){
-        var mo=function(e){e.preventDefault();};
-        document.body.style.overflow='';//出现滚动条
+    move() {
+        var mo = function(e) {e.preventDefault();};
+        document.body.style.overflow=''; //出现滚动条
         document.removeEventListener("touchmove",mo,false);
     }
 }
@@ -331,10 +337,7 @@ methods : {
 
 
 #### 什么是vue.js中的自定义指令？
-自定义一些指令对底层DOM进行操作。
-
-
-Vue里面有许多内置的指令，比如v-if和v-show，这些丰富的指令能满足我们的绝大部分业务需求，不过在需要一些特殊功能时，我们仍然希望对DOM进行底层的操作，这时就要用到自定义指令。
+自定义一些指令对底层DOM进行操作。Vue里面有许多内置的指令，比如v-if和v-show，这些丰富的指令能满足我们的绝大部分业务需求，不过在需要一些特殊功能时，我们仍然希望对DOM进行底层的操作，这时就要用到自定义指令。
 
 
 #### 自定义指令的几个钩子函数？

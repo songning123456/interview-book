@@ -8,7 +8,7 @@
 3. 使用第三方插件。
 
 
-1.使用component动态组件实现Tab切换：
+**使用component动态组件实现Tab切换：**
 
 
 动态组件component：渲染一个“元组件”为动态组件。依is的属性值，来决定哪个组件被渲染。
@@ -73,16 +73,14 @@
 ```
 
 
-2.通过`<router-view></router-view>`标签和vue-router子路由配合实现Tab切换(适合vue做后台管理系统时，做侧边栏功能。)：
+**通过`<router-view></router-view>`标签和vue-router子路由配合实现Tab切换：**
 
 
 示例：
 
 
-account.vue文件：
-
-
 ```html
+<!-- account.vue文件： -->
 <template> 
     <div id="account"> 
         <p class="tab"> 
@@ -101,10 +99,8 @@ account.vue文件：
 ```
 
 
-在src/router/index.js：
-
-
 ```javascript
+// 在src/router/index.js：
 import account from '../page/demo/account.vue';
 import course from '../page/demo/course.vue';
 import order from '../page/demo/order.vue';
@@ -127,16 +123,14 @@ export default new Router({
 
 
 #### Vue中如何利用keep-alive标签实现某个组件缓存功能？
-vue-cli工程中实现某个组件的缓存功能，可用keep-alive标签，与vue-router的meta形式数据传递配合完成。
+vue-cli工程中实现某个组件的缓存功能，可用`<keep-alive>`标签，与vue-router的meta形式数据传递配合完成。
 
 
 示例：
 
 
-在app.vue里面template部分使用`<keep-alive></keep-alive>`组件：
-
-
 ```html
+<!-- 在app.vue里面template部分使用<keep-alive>组件： -->
 <template>
 <div id="app">
     <keep-alive>
@@ -148,10 +142,8 @@ vue-cli工程中实现某个组件的缓存功能，可用keep-alive标签，与
 ```
 
 
-在src/router/index.js：
-
-
 ```javascript
+// 在src/router/index.js：
 import account from '../page/demo/account.vue';
 import course from '../page/demo/course.vue';
 
@@ -186,10 +178,8 @@ export default new Router({
 示例：
 
 
-在app.vue里面设置：
-
-
 ```html
+<!-- 在app.vue里面设置 -->
 <template>
     <div id="app">
         <!-- 使用transition来规定页面切换时候的样式-->
@@ -249,10 +239,8 @@ export default {
 3. methods：设置reload方法。
 
 
-在app.vue里面设置：
-
-
 ```html
+<!-- 在app.vue里面设置 -->
 <template>
     <div id="app">
         <router-view v-if="isRouterAlive"></router-view>
@@ -283,10 +271,8 @@ export  default {
 ```
 
 
-在.vue组件中使用，先用inject注册，然后即可通过this调用：
-
-
 ```html
+<!-- 在.vue组件中使用，先用inject注册，然后即可通过this调用 -->
 <script>
 export  default{
     inject:['reload'],

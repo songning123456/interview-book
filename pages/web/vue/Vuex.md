@@ -67,7 +67,7 @@ vuex下:
 **说明**
 
 
-Vuex文件夹下store.js：
+vuex文件夹下store.js：
 
 
 ```javascript
@@ -86,7 +86,7 @@ export default new Vuex.Store({
 ```
 
 
-Vuex文件夹下modules文件夹下index.js：
+vuex文件夹下modules文件夹下index.js：
 
 
 ```javascript
@@ -128,7 +128,7 @@ export default {
 ```
 
 
-Vuex文件夹下type.js：
+vuex文件夹下type.js：
 
 
 ```javascript

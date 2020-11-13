@@ -66,7 +66,7 @@
 <span class='forest-green'>keep-alive</span>主要用于保留组件状态或避免重新渲染。
 
 
-比如有一个列表页面和一个详情页面，那么用户就会经常执行打开详情=>返回列表=>打开详情这样的话列表和详情都是一个频率很高的页面，那么就可以对列表组件使用keep-alive进行缓存，这样用户每次返回列表的时候，都能从缓存中快速渲染，而不是重新渲染。
+比如有一个列表页面和一个详情页面，那么用户就会经常执行打开详情=>返回列表=>打开详情这样的话列表和详情都是一个频率很高的页面，那么就可以对列表组件使用`<keep-alive></keep-alive>`进行缓存，这样用户每次返回列表的时候，都能从缓存中快速渲染，而不是重新渲染。
 
 
 **属性：**
@@ -79,10 +79,10 @@
 **用法：**
 
 
-包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和transition相似，keep-alive是一个抽象组件：它自身不会渲染一个DOM元素，也不会出现在父组件链中。
+包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和`<transition>`相似，`<keep-alive>`是一个抽象组件：它自身不会渲染一个DOM元素，也不会出现在父组件链中。
 
 
-当组件在keep-alive内被切换，在2.2.0及其更高版本中，activated和deactivated生命周期将会在树内的所有嵌套组件中触发。
+当组件在`<keep-alive>`内被切换，在2.2.0及其更高版本中，activated和deactivated生命周期将会在树内的所有嵌套组件中触发。
 
 
 ```html
@@ -106,13 +106,13 @@
 ```
 
 
-注意：keep-alive是用在其一个直属的子组件被开关的情形。如果你在其中有v-for则不会工作。如果有上述的多个条件性的子元素，keep-alive要求同时只有一个子元素被渲染。
+注意：`<keep-alive>`是用在其一个直属的子组件被开关的情形。如果你在其中有v-for则不会工作。如果有上述的多个条件性的子元素，`<keep-alive>`要求同时只有一个子元素被渲染。
 
 
-**include和exclude属性的使用：**
+**include和exclude属性的使用：(2.1.0新增)**
 
 
-(2.1.0新增)include和exclude属性允许组件有条件地缓存。二者都可以用逗号分隔字符串、正则表达式或一个数组来表示：
+include和exclude属性允许组件有条件地缓存。二者都可以用逗号分隔字符串、正则表达式或一个数组来表示：
 
 
 ```html
@@ -149,6 +149,9 @@ Vue.js组件API来自三部分：<span class='forest-green'>prop</span>、<span 
 3. slot允许外部环境将内容插入到组件的视图结构内。
 
 
+代码示例：
+
+
 ```html
 <my-component :foo="bar" :bar="qux"
     //子组件调用父组件方法
@@ -161,7 +164,7 @@ Vue.js组件API来自三部分：<span class='forest-green'>prop</span>、<span 
 
 
 #### 什么是Vue生命周期和生命周期钩子函数？
-Vue的生命周期是：Vue实例从创建到销毁，也就是从<span class='forest-green'>开始创建</span>、<span class='forest-green'>初始化数据</span>、<span class='forest-green'>编译模板</span>、<span class='forest-green'>挂载Dom</span>、<span class='forest-green'>渲染</span>、<span class='forest-green'>更新</span>、<span class='forest-green'>渲染</span>、<span class='forest-green'>卸载</span>等一系列过程。
+Vue的生命周期是：Vue实例从创建到销毁，也就是从<span class='forest-green'>开始创建</span>、<span class='forest-green'>初始化数据</span>、<span class='forest-green'>编译模板</span>、<span class='forest-green'>挂载Dom→渲染</span>、<span class='forest-green'>更新→渲染</span>、<span class='forest-green'>卸载</span>等一系列过程。
 
 
 在这个过程中也会运行一些叫做生命周期钩子的函数，这给了用户在不同阶段添加自己的代码的机会。
@@ -210,7 +213,7 @@ http请求建议在<span class='forest-green'>created</span>生命周期内发�
 
 
 ```html
-<!-- 只有在 `keyCode` 是 13 时调用 `vm.submit()` -->
+<!-- 只有在keyCode=13时调用vm.submit() -->
 <input v-on:keyup.13="submit">
 ```
 

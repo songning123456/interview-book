@@ -1,8 +1,8 @@
 #### vue.js的两个核心是什么？
 | 名称 | 解释 | 
 | :----- | :----- | 
-|<div style='width: 180px'>数据驱动(双向数据绑定)</div>|Vue.js数据观测原理在技术实现上，利用的是ES5Object.defineProperty和存储器属性：<span class='forest-green'>getter和setter(所以只兼容IE9及以上版本)</span>，可称为基于依赖收集的观测机制。核心是<span class='forest-green'>VM</span>，即ViewModel，保证数据和视图的一致性。|
-|<div style='width: 180px'>组件系统</div>|<span class='forest-green'>模板(template)：</span>模板声明了数据和最终展现给用户的DOM之间的映射关系；<br><span class='forest-green'>初始数据(data)：</span>一个组件的初始数据状态。对于可复用的组件来说，这通常是私有的状态；<br><span class='forest-green'>接受的外部参数(props)：</span>组件之间通过参数来进行数据的传递和共享；<br><span class='forest-green'>方法(methods)：</span>对数据的改动操作一般都在组件的方法内进行；<br><span class='forest-green'>生命周期钩子函数(lifecycle hooks)：</span>一个组件会触发多个生命周期钩子函数，最新2.0版本对于生命周期函数名称改动很大；<br><span class='forest-green'>私有资源(assets)：</span>vue.js当中将用户自定义的指令、过滤器、组件等统称为资源。一个组件可以声明自己的私有资源，私有资源只有该组件和它的子组件可以调用。|
+|<div style='width: 240px'>数据驱动(双向数据绑定)</div>|Vue.js数据观测原理在技术实现上，利用的是ES5Object.defineProperty和存储器属性：<span class='forest-green'>getter和setter(所以只兼容IE9及以上版本)</span>，可称为基于依赖收集的观测机制。核心是<span class='forest-green'>VM</span>，即ViewModel，保证数据和视图的一致性。|
+|<div style='width: 240px'>组件系统(.vue组件的核心选项)</div>|<span class='forest-green'>模板(template)：</span>模板声明了数据和最终展现给用户的DOM之间的映射关系；<br><span class='forest-green'>初始数据(data)：</span>一个组件的初始数据状态。对于可复用的组件来说，这通常是私有的状态；<br><span class='forest-green'>接受的外部参数(props)：</span>组件之间通过参数来进行数据的传递和共享；<br><span class='forest-green'>方法(methods)：</span>对数据的改动操作一般都在组件的方法内进行；<br><span class='forest-green'>生命周期钩子函数(lifecycle hooks)：</span>一个组件会触发多个生命周期钩子函数，最新2.0版本对于生命周期函数名称改动很大；<br><span class='forest-green'>私有资源(assets)：</span>vue.js当中将用户自定义的指令、过滤器、组件等统称为资源。一个组件可以声明自己的私有资源，私有资源只有该组件和它的子组件可以调用。|
 
 
 #### 对于Vue是一套构建用户界面的渐进式框架的理解？
@@ -136,7 +136,7 @@ v-on可以监听多个方法，例如：
 
 
 #### Vue中key值的作用？
-<span class="forest-green">key值：</span>用于管理可复用的元素。因为Vue会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这么做使Vue变得非常快，但是这样也不总是符合实际需求。2.2.0+的版本里，当在组件中使用v-for时，key现在是必须的。
+key值：用于管理可复用的元素。因为Vue会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这么做使Vue变得非常快，但是这样也不总是符合实际需求。2.2.0+的版本里，当在组件中使用v-for时，key现在是必须的。
 
 
 例如，如果你允许用户在不同的登录方式之间切换：
@@ -155,10 +155,10 @@ v-on可以监听多个方法，例如：
 ```
 
 
-那么在上面的代码中切换loginType，loginType将不会清除用户已经输入的内容。因为两个模板使用了相同的元素，‘</span>’不会被替换掉，仅仅是替换了它的placeholder。
+那么在上面的代码中切换loginType，loginType将不会清除用户已经输入的内容。因为两个模板使用了相同的元素，`</span>`不会被替换掉，仅仅是替换了它的placeholder。
 
 
-这样也不总是符合实际需求，所以vue为你提供了一种方式来表达这两个元素是完全独立的，不要复用它们。只需添加一个具有唯一值的key属性即可：
+这样也不总是符合实际需求，所以Vue为你提供了一种方式来表达这两个元素是完全独立的，不要复用它们。只需添加一个具有唯一值的key属性即可：
 
 
 ```html
@@ -178,7 +178,7 @@ v-on可以监听多个方法，例如：
 
 
 #### vue-cli如何进行工程升级？
-<span class="forest-green">前言：</span>此命令谨慎使用，实际开发中如需升级建议直接使用vue-cli脚手架搭建，只需要了解即可！
+前言：此命令谨慎使用，实际开发中如需升级建议直接使用vue-cli脚手架搭建，只需要了解即可！
 
 
 ```
@@ -257,14 +257,22 @@ let app = new Vue({
 
 ```
 // 异步更新队列
-Vue在观察到数据变化时并不是直接更新DOM，而是开启一个队列，并缓冲在同一个事件循环中发生的所以数据改变。在缓冲时会去除重复数据，从而避免不必要的计算和DOM操作。然后，在下一个事件循环tick中，Vue刷新队列并执行实际(已去重的)工作。所以如果你用一个for循环来动态改变数据100次，其实它只会应用最后一次改变，如果没有这种机制，DOM就要重绘100次，这固然是一个很大的开销。
+Vue在观察到数据变化时并不是直接更新DOM，而是开启一个队列，并缓冲在同一个事件循环中发生的所以数据改变。
+在缓冲时会去除重复数据，从而避免不必要的计算和DOM操作。然后，在下一个事件循环tick中，Vue刷新队列并执
+行实际(已去重的)工作。所以如果你用一个for循环来动态改变数据100次，其实它只会应用最后一次改变，如果没
+有这种机制，DOM就要重绘100次，这固然是一个很大的开销。
 ```
 
 
 Vue会根据当前浏览器环境优先使用原生的Promise.then和MutationObserver，如果都不支持，就会采用setTimeout代替。知道了Vue异步更新DOM的原理，上面示例的报错也就不难理解了。事实上，在执行this.showDiv=true时，div仍然还是没有被创建出来，直到下一个Vue事件循环时，才开始创建。$nextTick就是用来知道什么时候DOM更新完成的，所以上面的示例代码需要修改为：
 
 
-```javascript
+```html
+<div id="app">
+    <div id="div" v-if="showDiv">这是一段文本</div>
+    <button @click="getText">获取div内容</button>
+</div>
+<script>
 let app = new Vue({
     el : "#app",
     data:{
@@ -274,12 +282,13 @@ let app = new Vue({
         getText:function(){
             this.showDiv = true;
             this.$nextTick(function(){
-                  let text = document.getElementById('div').innnerHTML;
+                  var text = document.getElementById('div').innnerHTML;
                  console.log(text);  
             });
         }
     }
 })
+</script>
 ```
 
 
@@ -308,10 +317,10 @@ export default {
 
 ```javascript
 Vue.component('my-component', {
-  template: '<div>OK</div>',
-  data() {
-    return {} // 返回一个唯一的对象，不要和其他组件共用一个对象进行返回
-  },
+    template: '<div>OK</div>',
+    data() {
+        return {} // 返回一个唯一的对象，不要和其他组件共用一个对象进行返回
+    },
 })
 ```
 
@@ -325,8 +334,8 @@ Vue.component('my-component', {
 ```javascript
 let MyComponent = function() {};
 MyComponent.prototype.data = {
-  a: 1,
-  b: 2,
+    a: 1,
+    b: 2,
 };
 ```
 
