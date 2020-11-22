@@ -3,5 +3,5 @@
 * [HTTP协议](/pages/web/http/HttpProtocol.md)
 * [HTTP报文内的HTTP信息](/pages/web/http/HttpMessage.md)
 * [HTTP首部](/pages/web/http/HttpPrelude.md)
-* [Https](/pages/web/http/Https.md)
+* [HTTPS](/pages/web/http/Https.md)
 * [基于HTTP的功能追加协议](/pages/web/http/HttpSuperaddition.md)

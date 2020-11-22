@@ -33,7 +33,7 @@
     * [HTTP协议](/pages/web/http/HttpProtocol.md)
     * [与HTTP协作的Web服务器](/pages/web/http/HttpWeb.md)
     * [HTTP首部](/pages/web/http/HttpPrelude.md)
-    * [Https](/pages/web/http/Https.md)
+    * [HTTPS](/pages/web/http/Https.md)
     * [基于HTTP的功能追加协议](/pages/web/http/HttpSuperaddition.md)
 * [Java专题](/pages/Java.md)
  * [基础](/pages/java/Base.md)
