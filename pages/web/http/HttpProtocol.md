@@ -130,3 +130,22 @@ response.setHeader("Access-Control-Allow-Origin", "*");
 ```javascript
 response.setHeader("Access-Control-Allow-Origin", req.headers.origin);
 ```
+
+
+#### HTTP报文有哪几种，HTTP报文包含哪写部分？
+用于HTTP协议交互的信息被称为HTTP报文。请求端(客户端)的HTTP报文request叫做请求报文；响应端(服务器端)response的叫做响应报文。
+
+
+HTTP报文大致可以分为报文首部和报文主体两块。两者由最初出现的空行(CR+LF)来划分。通常，并不一定要有报文主体。具体的请求信息，可以通过谷歌浏览器控制台里面的network进行分析。
+
+
+#### 常见的状态码有哪些？
+状态码表示了响应的一个状态，可以让我们清晰的了解到这一次请求是成功还是失败，如果失败的话，是什么原因导致的，当然状态码也是用于传达语义的。如果胡乱使用状态码，那么它存在的意义就没有了。
+
+
+| 名称 | 解释 | 
+| :----- | :----- | 
+|<div style='width: 120px'>2XX成功</div>|<span class='forest-green'>200 OK</span>：表示从客户端发来的请求在服务器端被正确处理。<br><span class='forest-green'>204 No content</span>：表示请求成功，但响应报文不含实体的主体部分。<br><span class='forest-green'>205 Reset Content</span>：表示请求成功，但响应报文不含实体的主体部分，但是与204响应不同在于要求请求方重置内容。<br><span class='forest-green'>206 Partial Content</span>：进行范围请求。|
+|<div style='width: 120px'>3XX重定向</div>|<span class='forest-green'>301 moved permanently</span>：永久性重定向，表示资源已被分配了新的URL。<br><span class='forest-green'>302 found</span>：临时性重定向，表示资源临时被分配了新的URL。<br><span class='forest-green'>303 see other</span>：表示资源存在着另一个URL，应使用GET方法获取资源。<br><span class='forest-green'>304 not modified</span>：表示服务器允许访问资源，但因发生请求未满足条件的情况。<br><span class='forest-green'>307 temporary redirect</span>：临时重定向，和302含义类似，但是期望客户端保持请求方法不变向新的地址发出请求。|
+|<div style='width: 120px'>4XX客户端错误</div>|<span class='forest-green'>400 bad request</span>：请求报文存在语法错误。<br><span class='forest-green'>401 unauthorized</span>：表示发送的请求需要有通过HTTP认证的认证信息。<br><span class='forest-green'>403 forbidden</span>：表示对请求资源的访问被服务器拒绝。<br><span class='forest-green'>404 not found</span>：表示在服务器上没有找到请求的资源。|
+|<div style='width: 120px'>5XX服务器错误</div>|<span class='forest-green'>500 internal sever error</span>：表示服务器端在执行请求时发生了错误。<br><span class='forest-green'>501 Not Implemented</span>：表示服务器不支持当前请求所需要的某个功能。<br><span class='forest-green'>503 service unavailable</span>：表明服务器暂时处于超负载或正在停机维护，无法处理请求。|
