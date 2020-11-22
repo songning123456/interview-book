@@ -29,8 +29,6 @@
     * [输入URL到页面渲染的整个流程](/pages/web/http/UrlToPage.md)
     * [网络基础](/pages/web/http/NetworkBasis.md)
     * [HTTP协议](/pages/web/http/HttpProtocol.md)
-    * [HTTP报文内的HTTP信息](/pages/web/http/HttpMessage.md)
-    * [HTTP状态码](/pages/web/http/HttpStatusCode.md)
     * [与HTTP协作的Web服务器](/pages/web/http/HttpWeb.md)
     * [HTTP首部](/pages/web/http/HttpPrelude.md)
     * [Https](/pages/web/http/Https.md)
