@@ -1,5 +1,5 @@
 # 面试宝典
-* [Web专题](/pages/Web.md)
+<!--* [Web专题](/pages/Web.md)
  * [Html](/pages/web/Html.md)
  * [Javascript](/pages/web/Javascript.md)
     * [核心知识点](/pages/web/javascript/JSCore.md)
@@ -42,6 +42,7 @@
     * [Webpack实战](/pages/web/webpack/WebpackCombat.md)
     * [Webpack优化](/pages/web/webpack/WebpackOptimization.md)
     * [Webpack原理](/pages/web/webpack/WebpackPrinciple.md)
+-->
 * [Java专题](/pages/Java.md)
  * [基础](/pages/java/Base.md)
  * [集合](/pages/java/Collection.md)
@@ -75,7 +76,7 @@
  * [综合](/pages/arithmetic/Composite.md)
 * [服务部署](/pages/Deploy.md)
 * [自我/项目概述](/pages/Introduction.md)
-* [代码整洁之道](/pages/CleanCode.md)
+<!--* [代码整洁之道](/pages/CleanCode.md)
  * [简介](/pages/cleancode/BriefIntroduction.md)
  * [变量](/pages/cleancode/Variable.md)
  * [函数](/pages/cleancode/Function.md)
@@ -87,5 +88,6 @@
  * [格式化](/pages/cleancode/Formatting.md)
  * [注释](/pages/cleancode/Annotation.md)
  * [工具](/pages/cleancode/Tool.md)
+ -->
 * [面试技巧](/pages/InterviewSkill.md)
 * [后记](/pages/Ending.md)
