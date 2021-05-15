@@ -530,9 +530,9 @@ for (int i = 0; i < 10; i++) {
 | 拒绝策略 | 解释 | 
 | :----- | :----- | 
 | AbortPolicy | 直接抛异常。 | 
-| DiscardPolicy | 当前任务会强制调用run先执行，任务将由调用者线程(可能是主线程)去执行。缺点可能会阻塞主线程。 | 
+| DiscardPolicy | 抛弃当前将要加入队列的任务。 | 
 | DiscardOldestPolicy | 抛弃任务队列中最旧任务。 | 
-| CallerRunsPolicy | 抛弃当前将要加入队列的任务。 | 
+| CallerRunsPolicy | 当前任务会强制调用run先执行，任务将由调用者线程(可能是主线程)去执行。缺点可能会阻塞主线程。 | 
 | 自定义 | 如果后续慢慢的队列里没任务了，线程空闲了，超过corePoolSize的线程会自动释放掉，在keepAliveTime之后就会释放。 | 
 
 
