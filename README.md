@@ -56,6 +56,7 @@
 * [Redis](/pages/Redis.md)
 * [Elasticsearch](/pages/Elasticsearch.md)
 * [Zookeeper](/pages/Zookeeper.md)
+* [Eureka](/pages/Eureka.md)
 * [Dubbo](/pages/Dubbo.md)
 * [微服务](/pages/MicroService.md)
 * [算法专题](/pages/Arithmetic.md)
