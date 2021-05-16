@@ -221,7 +221,7 @@ public class ObjectLock implements Runnable {
 * **修饰静态方法**
 
 
-```
+```java
 class Demo {
     static int i;
     Demo(int i) {
@@ -261,7 +261,7 @@ class Demo {
 * **一个对象在两个线程中分别调用一个静态同步方法和一个非静态同步方法**
 
 
-```
+```java
 public void run() {
     if (Thread.currentThread().getName().equals("thread0")){
         demo.staticGetI(Thread.currentThread().getName());

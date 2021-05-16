@@ -30,7 +30,7 @@
 | 死亡(Dead) | 线程完成了执行。 |
 
 
-#### 怎么停止一个线程？
+#### 如何停止一个线程？
 * 使用退出标志，使线程正常退出，也就是当run方法完成后线程终止；
 * 使用stop方法强行终止，但是不推荐这个方法，因为stop和suspend及resume一样都是过期作废的方法；
 * 使用interrupt方法中断线程。
@@ -41,7 +41,7 @@
 | :----- | :----- | 
 | Thread类中方法。 | Object类中的方法。 | 
 | 可以在任何地方使用。 | 只能在同步代码块或同步方法中使用。 | 
-| 程序暂停执行指定的时间，让出cpu该其他线程，但是他的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态，在调用sleep()方法的过程中，线程不会释放对象锁。 | 线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备。 | 
+| 程序暂停执行指定的时间，让出cpu该其他线程，但是它的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态，在调用sleep()方法的过程中，线程不会释放对象锁。 | 线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备。 | 
 
 
 #### 现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
@@ -49,7 +49,7 @@
 
 
 方法一
-```
+```java
 // Thread1
 public class Thread1 implements Runnable {
     @Override
@@ -125,7 +125,7 @@ public class TestJoin1Main {
 
 
 方法二
-```
+```java
 // 测试方法
 public class TestJoin2Main {
     public static void main(String[] args) {
@@ -196,10 +196,13 @@ public class TestJoin2Main {
 
 
 #### 多线程的几种通讯方式？
-* **同步**——多个线程通过synchronized关键字这种方式来实现线程间的通信。
+* **同步**
 
 
-```
+多个线程通过synchronized关键字这种方式来实现线程间的通信。
+
+
+```java
 public class MyObject {
     synchronized public void methodA() {
         //do something....
@@ -244,7 +247,7 @@ public class Run {
 * **while轮询的方式**
 
 
-```
+```java
 import java.util.ArrayList;
 import java.util.List;
 public class MyList {
@@ -315,13 +318,13 @@ public class Test {
     }
 }
 ```
-在这种方式下，线程A不断地改变条件，线程ThreadB不停地通过while语句检测这个条件(list.size()==5)是否成立 ，从而实现了线程间的通信。但是这种方式会浪费CPU资源。之所以说它浪费资源，是因为JVM调度器将CPU交给线程B执行时，它没做啥“有用”的工作，只是在不断地测试某个条件是否成立。就类似于现实生活中，某个人一直看着手机屏幕是否有电话来了，而不是在干别的事情，当有电话来时，响铃通知TA电话来了。这种方式还存在另外一个问题：轮询的条件的可见性问题。线程都是先把变量读取到本地线程栈空间，然后再去再去修改的本地变量。因此，如果线程B每次都在取本地的条件变量，那么尽管另外一个线程已经改变了轮询的条件，它也察觉不到，这样也会造成死循环。
+在这种方式下，线程A不断地改变条件，线程ThreadB不停地通过while语句检测这个条件(list.size()==5)是否成立 ，从而实现了线程间的通信。但是这种方式会浪费CPU资源。之所以说它浪费资源，是因为JVM调度器将CPU交给线程B执行时，它没做啥`有用`的工作，只是在不断地测试某个条件是否成立。就类似于现实生活中，某个人一直看着手机屏幕是否有电话来了，而不是在干别的事情，当有电话来时，响铃通知TA电话来了。这种方式还存在另外一个问题：轮询的条件的可见性问题。线程都是先把变量读取到本地线程栈空间，然后再去再去修改的本地变量。因此，如果线程B每次都在取本地的条件变量，那么尽管另外一个线程已经改变了轮询的条件，它也察觉不到，这样也会造成死循环。
 
 
 * **wait/notify机制**
 
 
-```
+```java
 import java.util.ArrayList;
 import java.util.List;
 public class MyList {
@@ -397,17 +400,23 @@ public class Run {
     }
 }
 ```
-线程A要等待某个条件满足时(list.size()==5)，才执行操作。线程B则向list中添加元素，改变list的size。A,B之间如何通信的呢？也就是说，线程A如何知道list.size()已经为5了呢？这里用到了Object类的wait()和notify()方法。当条件未满足时(list.size()!=5)，线程A调用wait()放弃CPU，并进入阻塞状态。不像while轮询那样占用CPU。当条件满足时，线程B调用notify()通知线程A，所谓通知线程A，就是唤醒线程A，并让它进入可运行状态。这种方式的一个好处就是CPU的利用率提高了。但是也有一些缺点：比如，线程B先执行，一下子添加了5个元素并调用了notify()发送了通知，而此时线程A还执行；当线程A执行并调用wait()时，那它永远就不可能被唤醒了。因为，线程B已经发了通知了，以后不再发通知了。这说明：通知过早，会打乱程序的执行逻辑。
+线程A要等待某个条件满足时(list.size() == 5)，才执行操作。线程B则向list中添加元素，改变list的size。A、B之间如何通信的呢？也就是说，线程A如何知道list.size()已经为5了呢？这里用到了Object类的wait()和notify()方法。当条件未满足时(list.size() != 5)，线程A调用wait()放弃CPU，并进入阻塞状态。不像while轮询那样占用CPU。当条件满足时，线程B调用notify()通知线程A，所谓通知线程A，就是唤醒线程A，并让它进入可运行状态。这种方式的一个好处就是CPU的利用率提高了。但是也有一些缺点：比如，线程B先执行，一下子添加了5个元素并调用了notify()发送了通知，而此时线程A还执行；当线程A执行并调用wait()时，那它永远就不可能被唤醒了。因为，线程B已经发了通知了，以后不再发通知了。这说明：通知过早，会打乱程序的执行逻辑。
 
 
-* **管道通信**——java.io.PipedInputStream 和 java.io.PipedOutputStream。
+* **管道通信**
+
+
+`java.io.PipedInputStream`和`java.io.PipedOutputStream`。
 
 
 #### 说说线程池的创建方式？
-* **newCachedThreadPool**——创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
+* **newCachedThreadPool**
 
 
-```
+创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
+
+
+```java
 // 无限大小线程池JVM自动回收
 ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
 for (int i = 0; i < 10; i++) {
@@ -428,10 +437,13 @@ for (int i = 0; i < 10; i++) {
 <span style="color: red">总结：线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</span>
 
 
-* **newFixedThreadPool**——创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+* **newFixedThreadPool**
 
 
-```
+创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+
+
+```java
 ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(5);
 for (int i = 0; i < 10; i++) {
     final int temp = i;
@@ -443,13 +455,16 @@ for (int i = 0; i < 10; i++) {
     });
 }
 ```
-<span style="color: red">总结：因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。定长线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()。</span>
+<span style="color: red">总结：因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。定长线程池的大小最好根据系统资源进行设置，如Runtime.getRuntime().availableProcessors()。</span>
 
 
-* **newScheduledThreadPool**——创建一个定长线程池，支持定时及周期性任务执行。
+* **newScheduledThreadPool**
 
 
-```
+创建一个定长线程池，支持定时及周期性任务执行。
+
+
+```java
 // 延时3秒执行
 ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPool(5);
 		for (int i = 0; i < 10; i++) {
@@ -463,10 +478,13 @@ ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPo
 ```
 
 
-* **newSingleThreadExecutor**——创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+* **newSingleThreadExecutor**
 
 
-```
+创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO、LIFO优先级)执行。
+
+
+```java
 ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
 for (int i = 0; i < 10; i++) {
     final int index = i;

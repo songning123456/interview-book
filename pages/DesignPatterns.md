@@ -185,7 +185,7 @@ public class Singleton {
     private static Singleton single;
     public static Singleton getInstance() {
         if(null == single){
-            synchronized(single ){
+            synchronized(single){
                 if(null == single){
                     single = new Singleton();
                 }
