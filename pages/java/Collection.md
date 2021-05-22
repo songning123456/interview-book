@@ -49,17 +49,17 @@ Iterator的安全失败是基于对底层集合做拷贝，因此它不受源集
 **红黑树的5个特性**
 
 
-* 每个节点或者是黑色，或者是红色；
-* 根节点是黑色；
-* 每个叶子节点是黑色；
-* 如果一个节点是红色的，则它的子节点必须是黑色；
-* 从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点(这里指到叶子节点的路径)。
+1. 每个节点或者是黑色，或者是红色；
+2. 根节点是黑色；
+3. 每个叶子节点是黑色；
+4. 如果一个节点是红色的，则它的子节点必须是黑色；
+5. 从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点(这里指到叶子节点的路径)。
 
 
 **扩容后，原始值所在的位置**
 
 
-元素的下标要么**不变**，要么变为**原下标+原容量**。
+元素的下标要么`不变`，要么变为`原下标+原容量`。
 
 
 #### ConcurrentHashMap实现线程安全的底层原理是什么？
@@ -77,8 +77,6 @@ ConcurrentHashMap是由Segment数组结构和HashEntry数组结构组成。Segme
 
 #### TreeMap结构，如何实现有序的？
 TreeMap实现SortMap接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器。当用Iterator遍历TreeMap时，得到的记录是排过序的。TreeMap取出来的是排序后的键值对。但如果您要按自然顺序或自定义顺序遍历键，那么TreeMap会更好。TreeMap基于红黑树实现。TreeMap没有调优选项，因为该树总处于平衡状态。
-
-
 ```java
 // 测试用例
 Map<String, Integer> treeMap = new TreeMap<>();
@@ -92,8 +90,6 @@ for (Map.Entry<String, Integer> item : treeMap.entrySet()) {
     System.out.println("key -> " + key + "; value -> " + value);
 }
 ```
-
-
 ```
 // 运行结果
 key -> 1; value -> 1
@@ -108,8 +104,6 @@ key -> 4; value -> 4
 
 
 Comparable是排序接口。若一个类实现了Comparable接口，就意味着`该类支持排序`。此外，实现Comparable接口的类的对象可以用作有序映射(如TreeMap)中的键或有序集合(TreeSet)中的元素，而不需要指定比较器。接口中通过x.compareTo(y)来比较x和y的大小。若返回负数，意味着x < y；返回零，意味着x = y；返回正数，意味着x > y。      
-
-
 ```java
 // Person对象
 public class Person implements Comparable<Person> {
@@ -154,8 +148,6 @@ Comparable-after: [bbb-10, ccc-20, AAA-30, ddd-40]
 
 
 Comparator是比较器接口。我们若需要控制某个类的次序，而该类本身不支持排序(即没有实现Comparable接口)；那么，我们可以建立一个`该类的比较器`来进行排序。这个比较器只需要实现Comparator接口即可。也就是说，我们可以通过`实现Comparator类来新建一个比较器`，然后通过该比较器对类进行排序。int compare(T o1, T o2)和上面的x.compareTo(y)类似，定义排序规则后返回。正数，零和负数分别代表大于、等于和小于。
-
-
 ```java
 // Person略，去掉implements Comparable<Person>
 ...

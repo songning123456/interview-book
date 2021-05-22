@@ -139,7 +139,7 @@ public class DemoMain {
 
 
 #### <a href="https://www.jianshu.com/p/570410236ff5">说说synchronized关键字的底层原理？</a>
-synchronized同步语句块的实现，使用的是**monitorenter**和**monitorexit**指令，其中monitorenter指令指向同步代码块的开始位置，monitorexit指令则指明同步代码块的结束位置。 当执行monitorenter指令时，线程试图获取锁，也就是获取monitor(monitor对象存在于每个Java对象的对象头中，synchronized锁便是通过这种方式获取锁的，这也是为什么Java中任意对象都可以作为锁的原因)的持有权。当计数器为0，则可以成功获取，获取后将锁计数器设为1，也就是加1；相应的，在执行monitorexit指令后，将锁计数器设为0，表明锁被释放。如果获取对象锁失败，那当前线程就要阻塞等待，直到锁被另外一个线程释放为止。
+synchronized同步语句块的实现，使用的是`monitorenter`和`monitorexit`指令，其中monitorenter指令指向同步代码块的开始位置，monitorexit指令则指明同步代码块的结束位置。 当执行monitorenter指令时，线程试图获取锁，也就是获取monitor(monitor对象存在于每个Java对象的对象头中，synchronized锁便是通过这种方式获取锁的，这也是为什么Java中任意对象都可以作为锁的原因)的持有权。当计数器为0，则可以成功获取，获取后将锁计数器设为1，也就是加1；相应的，在执行monitorexit指令后，将锁计数器设为0，表明锁被释放。如果获取对象锁失败，那当前线程就要阻塞等待，直到锁被另外一个线程释放为止。
 
 
 #### 你知道synchronized的使用场景吗，它是如何使用的？
@@ -155,16 +155,11 @@ synchronized同步语句块的实现，使用的是**monitorenter**和**monitore
 #### synchronized和Lock的区别？
 | synchronized | Lock | 
 | :----- | :----- | 
-| 关键字，内置语言实现。 | Lock是接口。 | 
-| 在线程发生异常时会自动释放锁，因此不会发生异常死锁。 | 异常时不会自动释放锁，所以需要在finally中实现释放锁。 | 
-| 非中断锁，必须等待线程执行完成释放锁。 | 中断锁。 | 
-| ———— | 使用读锁提高多线程读效率。 | 
+| 1. 关键字，内置语言实现；<br>2. 在线程发生异常时会自动释放锁，因此不会发生异常死锁；<br>3. 非中断锁，必须等待线程执行完成释放锁。 | 1. Lock是接口；<br>2. 异常时不会自动释放锁，所以需要在finally中实现释放锁；<br>3. 中断锁；<br>4. 使用读锁提高多线程读效率。 | 
 
 
 #### 同步关键字(synchronized)修饰静态方法和修饰非静态方法的区别？
-* **修饰非静态方法**
-
-
+**修饰非静态方法**
 ```java
 class Demo {
     private int i;
@@ -198,7 +193,6 @@ public class ObjectLock implements Runnable {
     }
 }
 ```
-
 ```
 // 非静态方法结果
 ...
@@ -218,9 +212,7 @@ public class ObjectLock implements Runnable {
 <span style="color: red">可以看到Thread0和Thread2交替出现，Thread1和Thread2交替出现，但Thread0和Thread1不会交替出现。因为对非静态方法加锁，实际上是对调用该方法的对象加锁。Thread0和Thread1用的是同一个对象，所以互斥，但是Thread2则不受影响。</span>
 
 
-* **修饰静态方法**
-
-
+**修饰静态方法**
 ```java
 class Demo {
     static int i;
@@ -242,8 +234,6 @@ class Demo {
     }
 ...
 ```
-
-
 ```
 // 静态方法结果
 ...
@@ -258,9 +248,7 @@ class Demo {
 <span style="color: red">三个线程均互斥。当synchronized修饰一个static方法时，多线程下，获取的是类锁(即Class本身，注意：不是实例)，作用范围是整个静态方法，作用的对象是这个类的所有对象。</span>
 
 
-* **一个对象在两个线程中分别调用一个静态同步方法和一个非静态同步方法**
-
-
+**一个对象在两个线程中分别调用一个静态同步方法和一个非静态同步方法**
 ```java
 public void run() {
     if (Thread.currentThread().getName().equals("thread0")){

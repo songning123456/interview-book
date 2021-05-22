@@ -128,12 +128,12 @@
 
 
 #### <a href="http://www.uml.org.cn/sjms/201211023.asp">设计模式的六大原则？</a>
-* 单一职责原则
-* 里氏替换原则
-* 依赖倒置原则
-* 接口隔离原则
-* 迪米特法则
-* 开闭原则
+1. 单一职责原则
+2. 里氏替换原则
+3. 依赖倒置原则
+4. 接口隔离原则
+5. 迪米特法则
+6. 开闭原则
 
 
 #### 单例模式的优缺点及其实现的方式？
@@ -145,9 +145,7 @@
 | <div style="width: 400px">单例模式可以在系统设置全局的访问点，优化和共享资源访问，例如，可以设计一个单例类，负责所有数据表的映射处理。</div> | ———— | 
 
 
-* **饿汉式**
-
-
+**饿汉式**
 ```java
 public class Singleton {
     private Singleton() {};
@@ -159,9 +157,7 @@ public class Singleton {
 ```
 
 
-* **懒汉式**
-
-
+**懒汉式**
 ```java
 public class Singleton {
     private Singleton() {}
@@ -176,9 +172,7 @@ public class Singleton {
 ```
 
 
-* **线程安全**
-
-
+**线程安全**
 ```java
 public class Singleton {
     private Singleton() {}
@@ -198,9 +192,7 @@ public class Singleton {
 
 
 #### 动态代理的实现方式？
-* **基于JDK的动态代理**
-
-
+**基于JDK的动态代理**
 ```java
 public interface IJdkSubject {
     void jdkProxyMethod(String param);
@@ -240,8 +232,6 @@ public class JdkProxyMain {
     }
 }
 ```
-
-
 ```
 // 运行结果
 --------------begin--------------
@@ -250,9 +240,7 @@ JDK Proxy success
 ```
 
 
-* **基于CGLIB的动态代理**
-
-
+**基于CGLIB的动态代理**
 ```java
 public class CglibSubject {
     public void cglibProxyMethod() {
@@ -283,8 +271,6 @@ public class CglibProxyMain {
     }
 }
 ```
-
-
 ```
 // 运行结果
 --------------begin--------------

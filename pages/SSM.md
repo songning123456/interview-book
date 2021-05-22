@@ -1,14 +1,14 @@
 #### 能说说使用Spring的好处吗?
-* 降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
-* 可以使用容易提供的众多服务，如事务管理，消息服务等。
-* 容器提供单例模式支持。
-* 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
-* 容器提供了众多的辅助类，能加快应用的开发。
-* Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
-* Spring属于低侵入式设计，代码的污染极低。
-* 独立于各种应用服务器。
-* Spring的DI机制降低了业务对象替换的复杂性。
-* Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
+1. 降低了组件之间的耦合性 ，实现了软件各层之间的解耦；
+2. 可以使用容易提供的众多服务，如事务管理，消息服务等；
+3. 容器提供单例模式支持；
+4. 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能；
+5. 容器提供了众多的辅助类，能加快应用的开发；
+6. Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等；
+7. Spring属于低侵入式设计，代码的污染极低；
+8. 独立于各种应用服务器；
+9. Spring的DI机制降低了业务对象替换的复杂性；
+10. Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
 #### <a href="https://www.cnblogs.com/dengpengbo/p/10485924.html">你知道Spring中使用了哪些设计模式吗？</a>
@@ -31,16 +31,14 @@
 
 
 #### <a href="https://blog.csdn.net/knknknkn8023/article/details/107130806">你知道SpringBean的生命周期吗？</a>
-* 实例化 Instantiation
-* 属性赋值 Populate
-* 初始化 Initialization
-* 销毁 Destruction
+1. 实例化 Instantiation
+2. 属性赋值 Populate
+3. 初始化 Initialization
+4. 销毁 Destruction
 
 
 #### Spring中bean实例化有哪几种方式(依赖注入)?
-* **Set方法**
-
-
+**Set方法**
 ```
 public class SpringAction {  
     private SpringDao springDao;  
@@ -58,9 +56,7 @@ public class SpringAction {
 <bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
 ```
 
-* **普通构造方法**
-
-
+**普通构造方法**
 ```
 public class SpringAction {  
     private SpringDao springDao;   
@@ -79,9 +75,7 @@ public class SpringAction {
 ```
 
 
-* **静态工厂**
-
-
+**静态工厂**
 ```
 public class SpringAction {  
     private FactoryDao staticFactoryDao;   
@@ -104,9 +98,7 @@ public class DaoFactory {
 ```
 
 
-* **实例工厂**
-
-
+**实例工厂**
 ```
 public class SpringAction {  
     private FactoryDao factoryDao;  
@@ -199,28 +191,12 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 ![SpringMVC](/images/SSM/SpringMVC.jpeg)
 
 
-* **步骤1**<br>
-客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet。
-
-
-* **步骤2**<br>
-DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)。
-
-
-* **步骤3、4**<br>
-DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用。
-
-
-* **步骤5**<br>
-Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet。
-
-
-* **步骤6**<br>
-Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View。
-
-
-* **步骤7**<br>
-DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
+1. `步骤1`客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet；
+2. `步骤2`DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)；
+3. `步骤3、4`DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用；
+4. `步骤5`Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet；
+5. `步骤6`Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View；
+6. `步骤7`DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
 
 
 #### SpringMVC常用的注解？
@@ -241,13 +217,9 @@ Spring单例模式下用它来切换不同线程之间的参数。用**ThreadLoc
 
 #### 如何在过滤器处理类似重复下单的问题？
 通过设置token的形式。把当前用户信息和token设置到session里，token为当前时间戳的值，同一用户下每次提交的token不一样，才允许通过，如果是2次以上的请求，那么可以使用token.equals(session.getAttribute("token"))来判断是否在同一个时刻有重复提交，如果相等，那么给错误提示: 重复提交！如果没有，那么就把token设置到对应的Session里。
-
-
 ```jsp
 <input type="hidden" name="token" value="<%=System.currentTimeMillis()%>" />
 ```
-
-
 ```
 public void doFilter(ServletRequest request, ServletResponse response, FilterChain arg2) throws IOException, ServletException {
     HttpServletRequest servletrequest = (HttpServletRequest) request;
@@ -315,42 +287,29 @@ CallableStatement用来执行存储过程。存储过程是由数据库存储和
 
 
 #### 数据库连接池的优点？
-* 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃。
-* 数据库连接不需要每次都去创建或销毁，节约了资源。
-* 数据库连接不需要每次都去创建，响应时间更快。
+1. 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃；
+2. 数据库连接不需要每次都去创建或销毁，节约了资源；
+3. 数据库连接不需要每次都去创建，响应时间更快。
 
 
 #### JDBC连接数据库步骤？
-* **加载JDBC驱动程序**<br>
-通过Class类的forName方法实现，并将驱动地址放进去成功加载后，会将Driver类的实例注册到DriverManager类中。
-
-
-* **提供JDBC连接的URL、创建数据库的连接**<br>
-要连接数据库，需要向java.sql.DriverManager请求并获得Connection对象，该对象就代表一个数据库的连接。使用DriverManager的getConnection()方法传入指定的欲连接的数据库的路径、数据库的用户名和密码。
+1. `加载JDBC驱动程序`通过Class类的forName方法实现，并将驱动地址放进去成功加载后，会将Driver类的实例注册到DriverManager类中。
+2. `提供JDBC连接的URL、创建数据库的连接`要连接数据库，需要向java.sql.DriverManager请求并获得Connection对象，该对象就代表一个数据库的连接。使用DriverManager的getConnection()方法传入指定的欲连接的数据库的路径、数据库的用户名和密码。
 ```
  Connection con = DriverManager.getConnection(url,username,password);
  "jdbc:mysql://localhost:3306/test?user=root&password=123&useUnicode=true&characterEncoding=utf-8"
 ```
-
-
-* **创建一个Statement**<br>
-要执行SQL语句，必须获得java.sql.Statement实例；执行静态SQL语句，通常通过Statement实例实现；执行动态SQL语句，通常通过PreparedStatement实例实现。
+3. `创建一个Statement`要执行SQL语句，必须获得java.sql.Statement实例；执行静态SQL语句，通常通过Statement实例实现；执行动态SQL语句，通常通过PreparedStatement实例实现。
 ```
 String sql = "";
 Statement st = con.createStatement();  
 PreparedStatement pst = con.prepareStatement(sql);
 ```
-
-
-* **执行SQL语句**<br>
-Statement接口提供了executeQuery、executeUpdate、execute三种方法。executeQuery执行select语句，返回ResultSet结果集；executeUpdate执行insert、update、delete语句。
+4. `执行SQL语句`Statement接口提供了executeQuery、executeUpdate、execute三种方法。executeQuery执行select语句，返回ResultSet结果集；executeUpdate执行insert、update、delete语句。
 ```
 ResultSet rst = pst.executeQuery();
 ```
-
-
-* **关闭JDBC对象**<br>
-操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。
+5. `关闭JDBC对象`操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源。
 
 
 #### `${}`和`#{}`的区别是什么？
@@ -375,6 +334,6 @@ ResultSet rst = pst.executeQuery();
 
 
 #### @SpringBootApplication包含哪些注解？
-* **@ComponentScan**——扫描当前包及其子包下被@Component，@Controller，@Service，@Repository注解标记的类并纳入到Spring容器进行管理。
-* **@SpringBootConfiguration**——继承自@Configuration，二者功能一致，标注当前类是配置类，并会将当前类内声明的一个或多个以@Bean注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。
-* **@EnableAutoConfiguration**——启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。
+1. `@ComponentScan`扫描当前包及其子包下被@Component，@Controller，@Service，@Repository注解标记的类并纳入到Spring容器进行管理。
+2. `@SpringBootConfiguration`继承自@Configuration，二者功能一致，标注当前类是配置类，并会将当前类内声明的一个或多个以@Bean注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。
+3. `@EnableAutoConfiguration`启动自动的配置，@EnableAutoConfiguration注解的意思就是SpringBoot根据你添加的jar包来配置你项目的默认配置。
