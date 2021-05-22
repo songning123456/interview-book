@@ -17,9 +17,7 @@ Iterator接口提供了很多对集合元素进行迭代的方法。每一个集
 
 | Iterator | ListIterator |
 | :----- | :----- |
-| 可用来遍历Set和List集合。 | <div style="width: 300px">只能用来遍历List。</div> |
-| 对集合只能是前向遍历。 | <div style="width: 300px">既可以前向也可以后向。</div> |
-| 实现了Iterator接口，并包含其他的功能。比如增加元素，替换元素，获取前一个和后一个元素的索引等等。 | <div style="width: 300px">————</div> |
+| <div style='width: 400px'>1. 可用来遍历Set和List集合；<br>2. 对集合只能是前向遍历；<br>3. 实现了Iterator接口，并包含其他的功能。比如增加元素，替换元素，获取前一个和后一个元素的索引等等。</div> | 1. 只能用来遍历List；<br>2. 既可以前向也可以后向遍历。 |
 
 
 #### 快速失败(fail-fast)和安全失败(fail-safe)的区别是什么？
@@ -29,9 +27,7 @@ Iterator的安全失败是基于对底层集合做拷贝，因此它不受源集
 #### HashMap和Hashtable有什么区别？
 | HashMap | Hashtable | 
 | :----- | :----- | 
-| 允许键和值是null。 | 不允许键或者值是null。 | 
-| 非同步，适合于单线程环境。 | 同步，适合于多线程环境。 |
-| 可供应用迭代的键的集合，因此，HashMap是快速失败的。 | 对键的列举(Enumeration)。 |
+| <div style='width: 300px'>1. 允许键和值是null；<br>2. 非同步，适合于单线程环境；<br>3. 可供应用迭代的键的集合，因此，HashMap是快速失败的。</div> | 1. 不允许键或者值是null；<br>2. 同步，适合于多线程环境；<br>3. 对键的列举(Enumeration)。 | 
 
 
 #### <a href="https://www.jianshu.com/p/ee0de4c99f87">你知道HashMap的基本结构吗？讲一下HashMap的put的过程？</a>
@@ -41,12 +37,12 @@ Iterator的安全失败是基于对底层集合做拷贝，因此它不受源集
 **数组+链表+红黑树**
 
 
-* 对key求Hash值，然后再计算下标；
-* 如果没有碰撞，直接放入桶中；
-* 如果碰撞了，以链表的方式链接到后面；
-* 如果链表长度超过阀值(TREEIFY_THRESHOLD == 8)，就把链表转成红黑树；
-* 如果节点已经存在就替换旧值；
-* 如果桶满了(容量 * 加载因子)，就需要resize。
+1. 对key求Hash值，然后再计算下标；
+2. 如果没有碰撞，直接放入桶中；
+3. 如果碰撞了，以链表的方式链接到后面；
+4. 如果链表长度超过阀值(TREEIFY_THRESHOLD == 8)，就把链表转成红黑树；
+5. 如果节点已经存在就替换旧值；
+6. 如果桶满了(容量 * 加载因子)，就需要resize。
 
 
 
@@ -108,7 +104,7 @@ key -> 4; value -> 4
 
 
 #### Comparable和Comparator接口是干什么的？列出它们的区别？
-* **Comparable实现**
+**Comparable实现**
 
 
 Comparable是排序接口。若一个类实现了Comparable接口，就意味着`该类支持排序`。此外，实现Comparable接口的类的对象可以用作有序映射(如TreeMap)中的键或有序集合(TreeSet)中的元素，而不需要指定比较器。接口中通过x.compareTo(y)来比较x和y的大小。若返回负数，意味着x < y；返回零，意味着x = y；返回正数，意味着x > y。      
@@ -154,7 +150,7 @@ Comparable-after: [bbb-10, ccc-20, AAA-30, ddd-40]
 ```
 
 
-* **Comparator实现**
+**Comparator实现**
 
 
 Comparator是比较器接口。我们若需要控制某个类的次序，而该类本身不支持排序(即没有实现Comparable接口)；那么，我们可以建立一个`该类的比较器`来进行排序。这个比较器只需要实现Comparator接口即可。也就是说，我们可以通过`实现Comparator类来新建一个比较器`，然后通过该比较器对类进行排序。int compare(T o1, T o2)和上面的x.compareTo(y)类似，定义排序规则后返回。正数，零和负数分别代表大于、等于和小于。
