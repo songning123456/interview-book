@@ -5,8 +5,8 @@
 
 
 #### 创建线程有几种不同的方式？你喜欢哪一种？为什么？
-1. 继承Thread类；
-2. 实现Runnable接口；
+1. 继承Thread类。
+2. 实现Runnable接口。
 3. 应用程序可以使用Executor框架来创建线程池。
 
 
@@ -26,8 +26,8 @@
 
 
 #### 如何停止一个线程？
-1. 使用退出标志，使线程正常退出，也就是当run方法完成后线程终止；
-2. 使用stop方法强行终止，但是不推荐这个方法，因为stop和suspend及resume一样都是过期作废的方法；
+1. 使用退出标志，使线程正常退出，也就是当run方法完成后线程终止。
+2. 使用stop方法强行终止，但是不推荐这个方法，因为stop和suspend及resume一样都是过期作废的方法。
 3. 使用interrupt方法中断线程。
 
 
@@ -230,8 +230,6 @@ public class Run {
 
 
 **while轮询的方式**
-
-
 ```java
 import java.util.ArrayList;
 import java.util.List;
@@ -307,8 +305,6 @@ public class Test {
 
 
 **wait/notify机制**
-
-
 ```java
 import java.util.ArrayList;
 import java.util.List;
@@ -485,7 +481,7 @@ for (int i = 0; i < 10; i++) {
 ![线程池](/images/Thread/ThreadPool.jpg)
 
 
-1. 在创建了线程池后，等待提交过来的任务请求；
+1. 在创建了线程池后，等待提交过来的任务请求。
 2. 在调用execute()方法添加一个请求任务时，线程池会做如下判断：
 ```
 如果正在运行的线程数量小于corePoolSize=5，那么马上创建线程运行这个任务；
@@ -493,7 +489,7 @@ for (int i = 0; i < 10; i++) {
 如果这时候队列满了且正在运行的线程数量还小于maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务；
 如果队列满了且正在运行的线程数量大于或等于maximumPoolSize,那么线程池会启动饱和拒绝策略来执行。
 ```
-3. 当一个线程完成任务时，它会从队列中去下一个任务来执行；
+3. 当一个线程完成任务时，它会从队列中去下一个任务来执行。
 4. 当一个线程无事可做超过一定的时间(keepAliveTime)时，线程池会判断：如果当前运行的线程数大于corePoolSize=5，那么这个线程就被停掉。所以线程池的所有任务完成后它最终会收缩到corePoolSize=5的大小。
 
 

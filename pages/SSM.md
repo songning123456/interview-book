@@ -1,13 +1,13 @@
 #### 能说说使用Spring的好处吗?
-1. 降低了组件之间的耦合性 ，实现了软件各层之间的解耦；
-2. 可以使用容易提供的众多服务，如事务管理，消息服务等；
-3. 容器提供单例模式支持；
-4. 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能；
-5. 容器提供了众多的辅助类，能加快应用的开发；
-6. Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等；
-7. Spring属于低侵入式设计，代码的污染极低；
-8. 独立于各种应用服务器；
-9. Spring的DI机制降低了业务对象替换的复杂性；
+1. 降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
+2. 可以使用容易提供的众多服务，如事务管理，消息服务等。
+3. 容器提供单例模式支持。
+4. 容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能。
+5. 容器提供了众多的辅助类，能加快应用的开发。
+6. Spring对于主流的应用框架提供了集成支持，如hibernate、JPA、Struts等。
+7. Spring属于低侵入式设计，代码的污染极低。
+8. 独立于各种应用服务器。
+9. Spring的DI机制降低了业务对象替换的复杂性。
 10. Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
@@ -39,7 +39,7 @@
 
 #### Spring中bean实例化有哪几种方式(依赖注入)?
 **Set方法**
-```
+```java
 public class SpringAction {  
     private SpringDao springDao;  
     public void setSpringDao(SpringDao springDao) {  
@@ -56,8 +56,9 @@ public class SpringAction {
 <bean name="springDao" class="xxx.impl.SpringDaoImpl"></bean>  
 ```
 
+
 **普通构造方法**
-```
+```java
 public class SpringAction {  
     private SpringDao springDao;   
     public SpringAction(SpringDao springDao){  
@@ -76,7 +77,7 @@ public class SpringAction {
 
 
 **静态工厂**
-```
+```java
 public class SpringAction {  
     private FactoryDao staticFactoryDao;   
     public void setStaticFactoryDao(FactoryDao staticFactoryDao) {  
@@ -99,7 +100,7 @@ public class DaoFactory {
 
 
 **实例工厂**
-```
+```java
 public class SpringAction {  
     private FactoryDao factoryDao;  
     public void setFactoryDao(FactoryDao factoryDao) {  
@@ -191,11 +192,11 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 ![SpringMVC](/images/SSM/SpringMVC.jpeg)
 
 
-1. `步骤1`客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet；
-2. `步骤2`DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)；
-3. `步骤3、4`DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用；
-4. `步骤5`Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet；
-5. `步骤6`Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View；
+1. `步骤1`客户端发出一个http请求给web服务器，web服务器对http请求进行解析，如果匹配DispatcherServlet的请求映射路径(在web.xml中指定)，web容器将请求转交给DispatcherServlet。
+2. `步骤2`DispatcherServlet接收到这个请求之后将根据请求的信息(包括URL、Http方法、请求报文头和请求参数Cookie等)以及HandlerMapping的配置找到处理请求的处理器(Handler)。
+3. `步骤3、4`DispatcherServlet根据HandlerMapping找到对应的Handler,将处理权交给Handler(Handler将具体的处理进行封装)，再由具体的HandlerAdapter对Handler进行具体的调用。
+4. `步骤5`Handler对数据处理完成以后将返回一个ModelAndView()对象给DispatcherServlet。
+5. `步骤6`Handler返回的ModelAndView()只是一个逻辑视图并不是一个正式的视图，DispatcherServlet通过ViewResolver将逻辑视图转化为真正的视图View。
 6. `步骤7`DispatcherServlet通过model解析出ModelAndView()中的参数进行解析最终展现出完整的view并返回给客户端。
 
 
@@ -287,8 +288,8 @@ CallableStatement用来执行存储过程。存储过程是由数据库存储和
 
 
 #### 数据库连接池的优点？
-1. 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃；
-2. 数据库连接不需要每次都去创建或销毁，节约了资源；
+1. 限定数据库的个数，不会导致由于数据库连接过多导致系统运行缓慢或崩溃。
+2. 数据库连接不需要每次都去创建或销毁，节约了资源。
 3. 数据库连接不需要每次都去创建，响应时间更快。
 
 

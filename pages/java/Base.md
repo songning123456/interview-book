@@ -19,9 +19,7 @@
 
 
 这是我们最常见的也是最简单的创建对象的方式，通过这种方式我们还可以调用任意的构造函数(无参的和有参的)。
-
-
-```
+```java
 Student student = new Student();
 ```
 
@@ -30,9 +28,7 @@ Student student = new Student();
 
 
 我们也可以使用Class类的newInstance方法创建对象，这个newInstance方法调用无参的构造器创建对象。
-
-
-```
+```java
 Student student = (Student)Class.forName("xxx.xxx.Student").newInstance();
 或者
 Student student = Student.class.newInstance();
@@ -43,9 +39,7 @@ Student student = Student.class.newInstance();
 
 
 本方法和Class类的newInstance方法很像，java.lang.reflect.Constructor类里也有一个newInstance方法可以创建对象。我们可以通过这个newInstance方法调用有参数的和私有的构造函数。
-
-
-```
+```java
 Constructor<Student> constructor = Student.class.getInstance();
 Student student = constructor.newInstance();
 ```
@@ -55,9 +49,7 @@ Student student = constructor.newInstance();
 
 
 无论何时我们调用一个对象的clone方法，JVM就会创建一个新的对象，将前面的对象的内容全部拷贝进去，用clone方法创建对象并不会调用任何构造函数。要使用clone方法，我们必须先实现Cloneable接口并实现其定义的clone方法。这也是原型模式的应用。
-
-
-```
+```java
 Student student2 = <Student>student.clone();
 ```
 
@@ -66,18 +58,16 @@ Student student2 = <Student>student.clone();
 
 
 当我们序列化和反序列化一个对象，JVM会给我们创建一个单独的对象。在反序列化时，JVM创建对象并不会调用任何构造函数。为了反序列化一个对象，我们需要让我们的类实现Serializable接口。
-
-
-```
+```java
 ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.obj"));
 Student student = (Student)in.readObject();
 ```
 
 
 #### 变量命名规范？
-1. 除第一个单词外，其他单词首字母大写；
-2. 变量名不应该以下划线或美元符号开头；
-3. 临时变量通常被取名为I、j、k、m和n，他们一般用于整型；c、d、e他们一般用于字符型；
+1. 除第一个单词外，其他单词首字母大写。
+2. 变量名不应该以下划线或美元符号开头。
+3. 临时变量通常被取名为I、j、k、m和n，他们一般用于整型；c、d、e他们一般用于字符型。
 4. 对不易清楚识别出该变量类型的变量应使用类型名或类型名的缩写作其后缀。
 
 
@@ -104,11 +94,9 @@ Student student = (Student)in.readObject();
 
 
 #### ==和equals区别？以及hashCode和equals方法的关系？
-| —— | == | equals | 
-| :----- | :----- | :----- | 
-| <div style="width: 150px">功能不同</div> | 判断两个变量或实例是不是指向同一个内存空间。 | 判断两个变量或实例所指向的内存空间的值是不是相同。 | 
-| <div style="width: 150px">定义不同</div> | 在JAVA中只是一个运算符合。 | 在JAVA中是一个方法。 | 
-| <div style="width: 150px">运行速度不同</div> | 快 | 慢 | 
+| == | equals | 
+| :----- | :----- | 
+|1. 判断两个变量或实例是不是指向同一个内存空间；<br>2. 在JAVA中只是一个运算符合；<br>3. 运行速度快。|1. 判断两个变量或实例所指向的内存空间的值是不是相同；<br>2. 在JAVA中是一个方法；<br>3. 运行速度慢。|
 
 
 equals相等，hashcode必相等；hashcode相等，equals可能不相等。
@@ -227,8 +215,8 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 
 
 #### 自定义一个注解的过程？
-1. 创建@Annotation类；
-2. 指定该注解的作用目标；
+1. 创建@Annotation类。
+2. 指定该注解的作用目标。
 ```java
 @Target(ElementType.TYPE)   // 接口 类 枚举 注解
 @Target(ElementType.FIELD)  // 字段 枚举的常量
@@ -239,7 +227,7 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 @Target(ElementType.ANNOTATION_TYPE)    // 注解
 @Target(ElementType.PACKAGE)    // 包
 ```
-3. 指定该注解的保留策略；
+3. 指定该注解的保留策略。
 ```java
 @Retention(RetentionPolicy.SOURCE)  // 注解仅存在于源码中，在class字节码文件中不包含
 @Retention(RetentionPolicy.CLASS)   // 默认的保存策略，注解会在class字节码文件中存在，但运行时无法获得

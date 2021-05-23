@@ -60,8 +60,6 @@ public class Account {
     }
 }
 ```
-
-
 ```java
 public class Helper {
     public void transfer(Account fromAccount, Account toAccount, int amount) throws Exception {
@@ -74,8 +72,6 @@ public class Helper {
     }
 }
 ```
-
-
 ```java
 public class TransferThread extends Thread {
     public static List<Account> accountList = Arrays.asList(new Account(1, 1000), new Account(2, 1000));
@@ -98,8 +94,6 @@ public class TransferThread extends Thread {
     }
 }
 ```
-
-
 ```java
 public class Lock {
     public static void transferMoney(Account fromAccount, Account toAccount, int amount) throws Exception {
@@ -124,8 +118,6 @@ public class Lock {
     }
 }
 ```
-
-
 ```java
 public class DemoMain {
     public static void main(String[] args) {
@@ -135,7 +127,6 @@ public class DemoMain {
     }
 }
 ```
-
 
 
 #### <a href="https://www.jianshu.com/p/570410236ff5">说说synchronized关键字的底层原理？</a>
@@ -160,6 +151,8 @@ synchronized同步语句块的实现，使用的是`monitorenter`和`monitorexit
 
 #### 同步关键字(synchronized)修饰静态方法和修饰非静态方法的区别？
 **修饰非静态方法**
+
+
 ```java
 class Demo {
     private int i;
@@ -213,6 +206,8 @@ public class ObjectLock implements Runnable {
 
 
 **修饰静态方法**
+
+
 ```java
 class Demo {
     static int i;
@@ -249,6 +244,8 @@ class Demo {
 
 
 **一个对象在两个线程中分别调用一个静态同步方法和一个非静态同步方法**
+
+
 ```java
 public void run() {
     if (Thread.currentThread().getName().equals("thread0")){

@@ -2,8 +2,8 @@
 基于lucene，隐藏复杂性，提供简单易用的restful API接口、java API接口(还有其他语言的API接口)。
 
 
-1. 分布式的文档存储引擎；
-2. 分布式的搜索引擎和分析引擎；
+1. 分布式的文档存储引擎。
+2. 分布式的搜索引擎和分析引擎。
 3. 分布式，支持PB级数据。
 
 
@@ -29,13 +29,13 @@
 
 
 #### shard、replica机制？
-1. index包含多个shard；
-2. 每个shard都是一个最小工作单元，承载部分数据，lucene实例，完整的建立索引和处理请求的能力；
-3. 增减节点时，shard会自动在nodes中负载均衡；
-4. primary shard和replica shard，每个document肯定只存在于某一个primary shard以及其对应的replica shard中，不可能存在于多个primary shard；
-5. replica shard是primary shard的副本，负责容错，以及承担读请求负载；
-6. primary shard的数量在创建索引的时候就固定了，replica shard的数量可以随时修改；
-7. primary shard的默认数量是5，replica默认是1，默认有10个shard，5个primary shard，5个replica shard；
+1. index包含多个shard。
+2. 每个shard都是一个最小工作单元，承载部分数据，lucene实例，完整的建立索引和处理请求的能力。
+3. 增减节点时，shard会自动在nodes中负载均衡。
+4. primary shard和replica shard，每个document肯定只存在于某一个primary shard以及其对应的replica shard中，不可能存在于多个primary shard。
+5. replica shard是primary shard的副本，负责容错，以及承担读请求负载。
+6. primary shard的数量在创建索引的时候就固定了，replica shard的数量可以随时修改。
+7. primary shard的默认数量是5，replica默认是1，默认有10个shard，5个primary shard，5个replica shard。
 8. primary shard不能和自己的replica shard放在同一个节点上(否则节点宕机，primary shard和副本都丢失，起不到容错的作用)，但是可以和其他primary shard的replica shard放在同一个节点上。
 
 
@@ -49,9 +49,9 @@ PUT /test_index
    }
 }
 ```
-1. 单node环境下，创建一个index，有3个primary shard，3个replica shard；
-2. 集群status是yellow；
-3. 这个时候，只会将3个primary shard分配到仅有的一个node上去，另外3个replica shard是无法分配的；
+1. 单node环境下，创建一个index，有3个primary shard，3个replica shard。
+2. 集群status是yellow。
+3. 这个时候，只会将3个primary shard分配到仅有的一个node上去，另外3个replica shard是无法分配的。
 4. 集群可以正常工作，但是一旦出现节点宕机，数据全部丢失，而且集群不可用，无法承接任何请求。
 
 
@@ -63,10 +63,10 @@ PUT /test_index
 
 
 #### Elasticsearch document路由原理？
-1. 当客户端创建document的时候，ES就需要决定这个doc是放在这个index的哪个shard上，这个过程称为document routing，即数据路由；
-2. primary shard一旦index建立，是不允许修改的，但是replica shard可以随时修改；
-3. 路由算法：shard = hash(routing) % number_of_primary_shards；
-4. 从hash函数中，产出的hash值一定是相同的；
+1. 当客户端创建document的时候，ES就需要决定这个doc是放在这个index的哪个shard上，这个过程称为document routing，即数据路由。
+2. primary shard一旦index建立，是不允许修改的，但是replica shard可以随时修改。
+3. 路由算法：shard = hash(routing) % number_of_primary_shards。
+4. 从hash函数中，产出的hash值一定是相同的。
 5. 无论hash值是几，无论是什么数字，对number_of_primary_shards求余数，结果一定是在0~number_of_primary_shards-1之间这个范围内的。
 
 
@@ -144,10 +144,10 @@ dynamic mapping时true or false转boolean、123转long、123.45转double、2017-
 
 
 #### ES的写入流程(buffer、segment、commit)？
-1. 数据写入buffer缓冲和translog日志文件；
+1. 数据写入buffer缓冲和translog日志文件。
 2. 每隔一秒钟，buffer中的数据被写入新的segment file，并进入os cache，此时segment被打开并供search使用，不立即执行commit。(数据写入os cache，并被打开供搜索的过程，叫做refresh，默认是每隔1秒refresh一次。也就是说，每隔一秒就会将buffer中的数据写入一个新的index segment file，先写入os cache中。所以，ES是近实时的，数据写入到可以被搜索，默认是1秒。)
-3. buffer被清空；
-4. 重复1~3，新的segment不断添加，buffer不断被清空，而translog中的数据不断累加；
+3. buffer被清空。
+4. 重复1~3，新的segment不断添加，buffer不断被清空，而translog中的数据不断累加。
 5. 当translog长度达到一定程度的时候，commit操作发生。
 ```
 buffer中的所有数据写入一个新的segment，并写入os cache，打开供使用；
@@ -175,11 +175,11 @@ PUT /my_index/_settings
 
 每次merge操作的执行流程：
 ```
-1. 选择一些有相似大小的segment，merge成一个大的segment；
-2. 将新的segment flush到磁盘上去；
-3. 写一个新的commit point，包括了新的segment，并且排除旧的那些segment；
-4. 将新的segment打开供搜索；
-5. 将旧的segment删除。
+选择一些有相似大小的segment，merge成一个大的segment；
+将新的segment flush到磁盘上去；
+写一个新的commit point，包括了新的segment，并且排除旧的那些segment；
+将新的segment打开供搜索；
+将旧的segment删除。
 ```
 
 
@@ -209,9 +209,9 @@ POST /test_index/test_type/10/_update
 ```
 
 
-1. 内部先获取document；
-2. 在内存中封装用户提交的新document，发送PUT请求到ES内部；
-3. 将老的document标记为deleted；
+1. 内部先获取document。
+2. 在内存中封装用户提交的新document，发送PUT请求到ES内部。
+3. 将老的document标记为deleted。
 4. 将新的document存入索引中。
 
 
@@ -249,10 +249,10 @@ bulk request会加载到内存里，如果太大的话，性能反而会下降�
 一个field的设置是不能被修改的，如果要修改一个field，那么应该重新按照新的mapping建立一个index，然后将数据批量查询出来，重新用bulk api写入index中。批量查询的时候，建议采用scroll api，并且采用多线程并发的方式来reindex数据，每次scroll就查询指定日期的一段数据，交给一个线程即可。
 
  
-1. 一开始依靠dynamic mapping插入数据，但是不小心有些数据是2017-01-01这种日期格式的，所以title这种field被自动映射为了date类型，实际上它应该是string类型的；
-2. 当后期向索引中加入string类型的title值的时候就会报错；
-3. 如果此时想修改title的类型是不可能的；
-4. 唯一的办法就是进行reindex，也就是说重新建立一个索引，使用scroll api将旧索引的数据批量查询出来，再导入新索引；
+1. 一开始依靠dynamic mapping插入数据，但是不小心有些数据是2017-01-01这种日期格式的，所以title这种field被自动映射为了date类型，实际上它应该是string类型的。
+2. 当后期向索引中加入string类型的title值的时候就会报错。
+3. 如果此时想修改title的类型是不可能的。
+4. 唯一的办法就是进行reindex，也就是说重新建立一个索引，使用scroll api将旧索引的数据批量查询出来，再导入新索引。
 5. 采用bulk api将scroll查出来的一批数据，批量写入新索引。
 
 
