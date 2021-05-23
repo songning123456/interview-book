@@ -172,9 +172,7 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 #### Java中的两种异常类型是什么？他们有什么区别？
 | 受检查的(checked)异常 | 不受检查的(unchecked)异常 | 
 | :----- | :----- | 
-| 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等)。 | 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复。 | 
-| 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等。 | 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等。 | 
-| 需要try catch处理或throws声明抛出异常。 | 语法上不需要声明抛出异常。 | 
+| <div style='width: 400px'>1. 代表程序不能直接控制的无效外界情况(如用户输入、数据库问题、网络异常、文件丢失等)；<br>2. 除了Error和RuntimeException及其子类之外，如ClassNotFoundException、NamingException、ServletException、SQLException、IOException等；<br>3. 需要try catch处理或throws声明抛出异常。</div>  | 1. 指的是程序的瑕疵或逻辑错误，并且在运行时无法恢复；<br>2. 包括Error与RuntimeException及其子类，如OutOfMemoryError、UndeclaredThrowableException、IllegalArgumentException、IllegalMonitorStateException、NullPointerException、IllegalStateException、IndexOutOfBoundsException等；<br>3. 语法上不需要声明抛出异常。 | 
 
 
 #### final关键字、finally代码块和finalize()方法有什么区别？
