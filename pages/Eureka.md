@@ -10,6 +10,7 @@ Eureka是Netflix组件的一个子模块，也是核心模块之一。云端服�
 
 **流程说明**
 
+
 1. Eureka客户端启动后，定时向Eureka服务端注册自己的服务信息（服务名、IP、端口等）；
 2. 客户端启动后，定时拉取服务端以保存的服务注册信息；
 3. 拉取服务端保存的服务注册信息后，就可调用消费其他服务提供者提供的服务。
@@ -20,8 +21,6 @@ Eureka是Netflix组件的一个子模块，也是核心模块之一。云端服�
 
 
 Eureka客户端在启动后，会创建一些定时任务，其中就有一个任务heartbeatExecutor就是就是处理心跳的线程池，部分源码（源码位置：com.netflix.discovery.DiscoveryClient）如下：
-
-
 ```java
 heartbeatExecutor = new ThreadPoolExecutor(
         1, clientConfig.getHeartbeatExecutorThreadPoolSize(), 0, TimeUnit.SECONDS,
@@ -37,11 +36,7 @@ heartbeatExecutor = new ThreadPoolExecutor(
  //finally, init the schedule tasks (e.g. cluster resolvers, heartbeat, instanceInfo replicator, fetch
 initScheduledTasks();
 ```
-
-
 查看方法initScheduledTasks以及注释，可知该方法是初始化所有的任务（schedule tasks）。
-
-
 ```java
 /**
  * Initializes all scheduled tasks.
@@ -63,11 +58,7 @@ private void initScheduledTasks() {
    ...   
 }
 ```
-
-
 在上述方法中，创建了一个线程HeartbeatThread，该线程就是处理心跳任务：
-
-
 ```java
 /**
  * The heartbeat task that renews the lease in the given intervals.
@@ -106,11 +97,7 @@ boolean renew() {
     }
 }
 ```
-
-
 在renew方法中，首先会发送一个心跳数据到服务端，服务端返回一个状态码，如果是NOT_FOUND（即404），表示Eureka服务端不存在该客户端的服务信息，那么就会向服务端发起注册请求：
-
-
 ```java
 boolean register() throws Throwable {
     logger.info(PREFIX + "{}: registering service...", appPathIdentifier);
@@ -127,8 +114,6 @@ boolean register() throws Throwable {
     return httpResponse.getStatusCode() == Status.NO_CONTENT.getStatusCode();
 }
 ```
-
-
 在register方法中，向服务端的注册信息instanceInfo，它是com.netflix.appinfo.InstanceInfo，包括服务名、ip、端口、唯一实例ID等信息。
 
 
@@ -143,8 +128,6 @@ Eureka客户端在启动时，首先会创建一个心跳的定时任务，定�
 
 
 服务端注册源码（com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl.class的方法register）如下：
-
-
 ```java
 @Override
 public void register(final InstanceInfo info, final boolean isReplication) {
@@ -156,11 +139,7 @@ public void register(final InstanceInfo info, final boolean isReplication) {
     replicateToPeers(Action.Register, info.getAppName(), info.getId(), info, null, isReplication);
 }
 ```
-
-
 调用了父类（com.netflix.eureka.registry.AbstractInstanceRegistry）register方法，源码如下：
-
-
 ```java
 public abstract class AbstractInstanceRegistry implements InstanceRegistry {
   ...
@@ -183,8 +162,6 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
   }
 }
 ```
-
-
 在register方法中，我们可以看到将服务实例信息InstanceInfo注册到了register变量中，它其实就是一个ConcurrentHashMap。
 
 
@@ -201,8 +178,6 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
 
 
 **源码分析**
-
-
 ```java
 private void initScheduledTasks() {
     if (clientConfig.shouldFetchRegistry()) {
@@ -224,8 +199,6 @@ private void initScheduledTasks() {
     ...
 }
 ```
-
-
 上述代码中初始化了一个刷新缓存的定时任务，我们看到第14行的新建了一个线程CacheRefreshThread，既是用来定时刷新服务端已保存的服务信息。
 
 
@@ -258,11 +231,7 @@ eureka.client.service-url.defaultZone=http://localhost:10000/eureka/,http://loca
 ```java
 replicateToPeers(Action.Register, info.getAppName(), info.getId(), info, null, isReplication);
 ```
-
-
 replicateToPeers方法字面意思是同步或者复制到同事（即其他对等的注册中心），最后一个参数为isReplication，是一个boolean值，表示是否同步（复制），如果是客户端注册的，那么为false,如果是其他注册中心同步的则为true，replicateToPeers方法中，如果isReplication=false时，将会发起同步（第19行）：
-
-
 ```java
 private void replicateToPeers(Action action, String appName, String id,
                               InstanceInfo info /* optional */,
@@ -303,8 +272,6 @@ private void replicateToPeers(Action action, String appName, String id,
 
 
 在eureka源码中，有个evict（剔除、驱逐，源码位置：com.netflix.eureka.registry.AbstractInstanceRegistry）的方法：
-
-
 ```java
 public void evict(long additionalLeaseMs) {
     logger.debug("Running the evict task");
@@ -356,11 +323,7 @@ public void evict(long additionalLeaseMs) {
     }
 }
 ```
-
-
 在上述代码第4行，做了isLeaseExpirationEnabled（字面意思：是否启用租约到期，即是否开启了服务过期超时机制，开启之后就会将过期的服务进行剔除）的if判断，源码（com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl实现类中）如下：
-
-
 ```java
 @Override
 public boolean isLeaseExpirationEnabled() {
@@ -371,19 +334,11 @@ public boolean isLeaseExpirationEnabled() {
     return numberOfRenewsPerMinThreshold > 0 && getNumOfRenewsInLastMin() > numberOfRenewsPerMinThreshold;
 }
 ```
-
-
 同样在上述方法开始的第3行也做了isSelfPreservationModeEnabled方法的判断，该方法是判断是否开启了自我保护机制（有关自我保护机制有关说明在第6节），接下来看到第4行的注释翻译如下：`自保存模式被禁用，因此允许实例过期`。也就是说如果关闭了自我保护机制，那么直接就允许实例过期，也就是说可以将过期的服务实例剔除。那如果开启了自我保护机制，会做如下判断：
-
-
 ```
 numberOfRenewsPerMinThreshold > 0 && getNumOfRenewsInLastMin() > numberOfRenewsPerMinThreshold
 ```
-
-
 getNumOfRenewsInLastMin即最后一分钟接收到的心跳总数，numberOfRenewsPerMinThreshold 表示收到一分钟内收到服务心跳数临界值（后简称临界值），也就是说当临界值大于0，且最后一分钟接收到的心跳总数大于临界值时，允许实例过期，他的计算方式源码如下：
-
-
 ```java
 protected void updateRenewsPerMinThreshold() {
     this.numberOfRenewsPerMinThreshold = (int) (this.expectedNumberOfClientsSendingRenews
@@ -391,18 +346,12 @@ protected void updateRenewsPerMinThreshold() {
             * serverConfig.getRenewalPercentThreshold());
 }
 ```
-
-
 其中：
-
-
 ```
 this.expectedNumberOfClientsSendingRenews：接收到的客户端数量；
 serverConfig.getExpectedClientRenewalIntervalSeconds()：客户端发送心跳时间的间隔，默认是30秒；
 serverConfig.getRenewalPercentThreshold()：一个百分比率阈值，默认是0.85，可以通过配置修改。
 ```
-
-
 从上述代码的计算方法可以看出：`一分钟内收到服务心跳数临界值=客户端数量*（60/心跳时间间隔）*比率`。带入默认值：`一分钟内收到服务心跳数临界值 = 客户端数量 * （60/30） * 0.85 = 客户端数量 * 1.7`。所以假如有总共有10个客户端，那么表示一分钟至少需要收到17次心跳。如果开启只我保护机制，那么一分钟内收到的心跳数大于一分钟内收到服务心跳数临界值时，则启用租约到期机制，即服务剔除机制。如果没有启用服务剔除机制（即开启了自我保护机制或者一分钟收到的心跳数小于临界值），那么直接return结束，不做任何操作。否则代码继续运行，从代码的第9行注释到最后，可以看出先跳出已过期的服务实例，然后通过随机数的方式将这些已过期的实例进行剔除。
 
 
