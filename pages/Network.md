@@ -290,12 +290,20 @@ DNS地址：8.8.8.8
 10. LDNS把解析的结果返回给用户，用户根据TTL值缓存到本地系统缓存中，域名解析过程至此结束。
 
 
-#### <a href="https://www.cnblogs.com/joylee/p/htmlprotocol.html">聊聊HTTP协议的工作原理？</a>
+#### 聊聊HTTP协议的工作原理？
 ![HTTP](/images/Network/HTTP.png)
 
 
-#### <a href="https://segmentfault.com/a/1190000018992153">聊聊HTTPS协议的工作原理？</a>
+👉 [聊聊Http协议](https://www.cnblogs.com/joylee/p/htmlprotocol.html)
+
+
+#### 聊聊HTTPS协议的工作原理？
 ![HTTPS](/images/Network/HTTPS.png)
+
+
+👉 [深入理解HTTPS工作原理](https://segmentfault.com/a/1190000018992153)
+
+
 1. 客户端向服务器发起HTTPS请求，连接到服务器的443端口。
 2. 服务器端有一个密钥对，即公钥和私钥，是用来进行非对称加密使用的，服务器端保存着私钥，不能将其泄露，公钥可以发送给任何人。
 3. 服务器将自己的公钥发送给客户端。
@@ -328,7 +336,10 @@ DNS地址：8.8.8.8
 `URL的首部`指`window.location.protocol + window.location.host`，也可以理解为“Domains, protocols and ports must match”。
 
 
-#### <a href="HTTPs://www.cnblogs.com/PheonixHkbxoic/p/5760838.html">前端解决跨域的方案？</a>
+#### 前端解决跨域的方案？
+👉 [浏览器拦截跨域请求处理方法](HTTPs://www.cnblogs.com/PheonixHkbxoic/p/5760838.html)
+
+
 **CORS**
 
 
@@ -380,13 +391,19 @@ if(request){
 ```
 
 
-#### <a href="HTTPs://blog.csdn.net/lzuacm/article/details/50945225">你知道TCP和UDP的区别吗？</a>
+#### 你知道TCP和UDP的区别吗？
+👉 [TCP和UDP的9个区别是什么](https://blog.csdn.net/lzuacm/article/details/50945225)
+
+
 | TCP | UDP | 
 | :----- | :----- | 
 | 1. 面向连接；<br>2. 可靠；<br>3. 有序；<br>4. 不保存数据的边界；<br>5. 速度比较慢；<br>6. 重量级；<br>7. 数据包报头的大小是20字节；<br>8. 流量控制；<br>9. 金融领域。  | 1. 无连接；<br>2. 不可靠；<br>3. 不提供序列性保证；<br>4. 保存数据的边界；<br>5. 速度比较快；<br>6. 轻量级；<br>7. 数据包报头是8个字节；<br>8. 不能进行流量控制；<br>9. 游戏和娱乐场所。| 
 
 
-#### <a href="HTTPs://blog.csdn.net/huwei2003/article/details/45476743">DDos攻击及预防？</a>
+#### DDos攻击及预防？
+👉 [DDoS的攻击原理与防御方法](https://blog.csdn.net/huwei2003/article/details/45476743)
+
+
 1. 确保服务器的系统文件是最新的版本，并及时更新系统补丁。
 2. 关闭不必要的服务。
 3. 限制同时打开的SYN半连接数目，缩短SYN半连接的time out时间，限制SYN/ICMP流量。
@@ -489,5 +506,8 @@ if(request){
 每个请求会绑定一个buffer，通知操作系统去异步完成读写，此时工作线程可以做别的事情(异步)，等操作系统完成之后回调接口，把操作系统完成的数据给工作线程。
 
 
-#### <a href="https://www.cnblogs.com/200911/articles/10432551.html">你知道Netty的零拷贝技术吗？</a>
+#### 你知道Netty的零拷贝技术吗？
 ![零拷贝](/images/Network/Zero-Copy.png)
+
+
+👉 [netty深入理解系列-Netty零拷贝的实现原理](https://www.cnblogs.com/200911/articles/10432551.html)

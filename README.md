@@ -1,4 +1,4 @@
-<a href='https://beian.miit.gov.cn/' target='_blank'>苏ICP备19071001号-2</a>
+[苏ICP备19071001号-2](https://beian.miit.gov.cn/)
 
 # 面试宝典
 <!--* [Web专题](/pages/Web.md)

@@ -11,7 +11,10 @@
 10. Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
-#### <a href="https://www.cnblogs.com/dengpengbo/p/10485924.html">你知道Spring中使用了哪些设计模式吗？</a>
+#### 你知道Spring中使用了哪些设计模式吗？
+👉 [Spring中使用的设计模式](https://www.cnblogs.com/dengpengbo/p/10485924.html)
+
+
 | 设计模式 | 解释 | 
 | :----- | :----- | 
 | 单例模式 | `<bean scope="singleton"></bean>` | 
@@ -30,7 +33,10 @@
 ![SpringBean](/images/SSM/SpringBean.jpeg)
 
 
-#### <a href="https://blog.csdn.net/knknknkn8023/article/details/107130806">你知道SpringBean的生命周期吗？</a>
+#### 你知道SpringBean的生命周期吗？
+👉 [Spring中bean的生命周期详解](https://blog.csdn.net/knknknkn8023/article/details/107130806)
+
+
 1. 实例化 Instantiation
 2. 属性赋值 Populate
 3. 初始化 Initialization
@@ -176,7 +182,10 @@ AOP代表的是一个横向的关系，将“对象”比作一个空心的圆�
 | <div style="width: 100px">CGLIB代理</div> | 实现原理类似于JDK动态代理，只是它在运行期间生成的代理对象是针对目标类扩展的子类。CGLIB是高效的代码生成包，底层是依靠ASM(开源的java字节码编辑类库)操作字节码实现的，性能比JDK强；需要引入包asm.jar和cglib.jar | 
 
 
-#### <a href="https://blog.csdn.net/qq_26323323/article/details/81908955">Spring事务的传播行为？</a>
+#### Spring事务的传播行为？
+👉 [Spring事务传播机制详解](https://blog.csdn.net/qq_26323323/article/details/81908955)
+
+
 | 传播行为 | 解释 | 
 | :----- | :----- | 
 | <div style="width: 280px">PROPAGATION_REQUIRED</div> | 表示当前方法必须运行在事务中。如果当前事务存在，方法将会在该事务中运行。否则，会启动一个新的事务。 | 
