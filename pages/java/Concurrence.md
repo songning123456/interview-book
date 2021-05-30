@@ -271,12 +271,18 @@ t1和t2线程都同时去访问同一变量V=56，所以他们会把主内存的
 就是指当两者进行比较时，如果相等，则证明共享数据没有被修改，替换成新值，然后继续往下运行；如果不相等，说明共享数据已经被修改，放弃已经所做的操作，然后重新执行刚才的操作。容易看出CAS操作是基于共享数据不会被修改的假设，采用了类似于数据库的commit-retry的模式。当同步冲突出现的机会很少时，这种假设能带来较大的性能提升。
 
 
-#### <a href="https://segmentfault.com/a/1190000017372067">你对JDK的AQS理解吗？AQS的实现原理是什么？</a>
+#### 你对JDK的AQS理解吗？AQS的实现原理是什么？
 ![AQS](/images/Concurrence/AQS.jpg)
 
 
-#### <a href="https://www.jianshu.com/p/15106e9c4bf3">谈谈你对Java内存模型的理解？</a>
+👉 [深入分析AQS实现原理](https://segmentfault.com/a/1190000017372067)
+
+
+#### 谈谈你对Java内存模型的理解？
 ![JMM](/images/Concurrence/JMM.png)
+
+
+👉 [深入理解Java内存模型](https://www.jianshu.com/p/15106e9c4bf3)
 
 
 

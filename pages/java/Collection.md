@@ -30,8 +30,11 @@ Iterator的安全失败是基于对底层集合做拷贝，因此它不受源集
 | <div style='width: 300px'>1. 允许键和值是null；<br>2. 非同步，适合于单线程环境；<br>3. 可供应用迭代的键的集合，因此，HashMap是快速失败的。</div> | 1. 不允许键或者值是null；<br>2. 同步，适合于多线程环境；<br>3. 对键的列举(Enumeration)。 | 
 
 
-#### <a href="https://www.jianshu.com/p/ee0de4c99f87">你知道HashMap的基本结构吗？讲一下HashMap的put的过程？</a>
+#### 你知道HashMap吗？
 ![HashMap](/images/Collection/HashMap.jpg)
+
+
+👉 [【原创】HashMap复习精讲](https://www.cnblogs.com/rjzheng/p/11302835.html)
 
 
 **数组+链表+红黑树**
