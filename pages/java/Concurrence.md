@@ -146,6 +146,47 @@ synchronized同步语句块的实现，使用的是`monitorenter`和`monitorexit
 | <div style="width: 100px">任意实例对象</div> | <div style="width: 160px">实例对象Object</div> | Object object = new Object(); synchronized(object) { ... } | 同步代码块，锁住的是配置的实例对象。 |
 
 
+#### synchronized是可重入锁吗？
+当线程请求一个由其它线程持有的对象锁时，该线程会阻塞，而当线程请求由自己持有的对象锁时，如果该锁是重入锁，请求就会成功，否则阻塞。
+```java
+public class Xttblog extends SuperXttblog {
+
+    public static void main(String[] args) {
+        Xttblog child = new Xttblog();
+        child.doSomething();
+    }
+
+    public synchronized void doSomething() {
+        System.out.println("child.doSomething()" + Thread.currentThread().getName());
+        doAnotherThing(); // 调用自己类中其他的synchronized方法
+    }
+
+    private synchronized void doAnotherThing() {
+        super.doSomething(); // 调用父类的synchronized方法
+        System.out.println("child.doAnotherThing()" + Thread.currentThread().getName());
+    }
+
+}
+ 
+class SuperXttblog {
+    public synchronized void doSomething() {
+        System.out.println("father.doSomething()" + Thread.currentThread().getName());
+    }
+}
+```
+```java
+child.doSomething()Thread-5492
+father.doSomething()Thread-5492
+child.doAnotherThing()Thread-5492
+```
+
+
+验证出synchronized是可重入锁了。因为这些方法输出了相同的线程名称，表明即使递归使用synchronized也没有发生死锁，证明其是可重入的。
+
+
+重入锁实现可重入性原理或机制是每一个锁关联一个线程持有者和计数器，当计数器为0时表示该锁没有被任何线程持有，那么任何线程都可能获得该锁而调用相应的方法；当某一线程请求成功后，JVM会记下锁的持有线程，并且将计数器置为1；此时其它线程请求该锁，则必须等待；而该持有锁的线程如果再次请求这个锁，就可以再次拿到这个锁，同时计数器会递增；当线程退出同步代码块时，计数器会递减，如果计数器为0，则释放该锁。
+
+
 #### synchronized和Lock的区别？
 | synchronized | Lock | 
 | :----- | :----- | 
@@ -259,6 +300,12 @@ public void run() {
 } 
 ```
 <span style="color: red">不会产生互斥。因为虽然是一个对象调用，但是两个方法的锁类型不同，调用的静态方法实际上是类对象在调用，即这两个方法产生的并不是同一个对象锁，因此不会互斥，会并发执行。</span>
+
+
+#### 悲观锁和乐观锁的区别？
+| 悲观锁 | 乐观锁 |
+| :----- | :----- | 
+|总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁(共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程)。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁、表锁等，读锁、写锁等，都是在做操作之前先上锁。Java中synchronized和ReentrantLock等独占锁就是悲观锁思想的实现。|总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。|
 
 
 #### 能聊聊你对CAS的理解以及它的底层原理吗？
