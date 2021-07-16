@@ -204,3 +204,27 @@ select user.id as user_id, user.user_name, class.id as class_id, class.class_nam
 | union | union all | 
 | :----- | :----- | 
 | 对两个结果集进行并集操作，不包括重复行，同时进行默认规则的排序。| 对两个结果集进行并集操作，包括重复行，不进行排序。|
+
+
+#### SQL注入？
+👉 [SQL注入详解](https://www.cnblogs.com/myseries/p/10821372.html)
+
+
+#### drop、truncate和delete的区别？
+👉 [drop、truncate和delete的区别](https://blog.csdn.net/ws0513/article/details/49980547)
+
+
+#### count(*)和count(字段)的区别？
+👉 [count(*)和count(字段)的区别](https://blog.csdn.net/liuyanaoao/article/details/106716720)
+
+
+| count(*) | count(字段) | 
+| :----- | :----- | 
+| 计入null值 | 不计入null值 |
+
+
+#### 查询一个表中某个数据重复条数大于1的所有信息？
+```sql
+select 字段1 from 表名 group by 字段1 having count(*) > 1
+```
+

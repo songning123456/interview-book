@@ -26,6 +26,28 @@ Iterator接口提供了很多对集合元素进行迭代的方法。每一个集
 | 1. java.util包下面的所有的集合类都是快速失败的；<br>2. 快速失败的迭代器会抛出ConcurrentModificationException异常。| 1. java.util.concurrent包下面的所有的类都是安全失败的；<br>2. 安全失败的迭代器永远不会抛出这样的异常。|
 
 
+#### arraylist是如何实现remove操作的？
+```java
+public E remove(int index) {
+    // 先检查下标索引是是否越界
+    rangeCheck(index);
+    // ArrayList的修改次数加1
+    modCount++;
+    // 获取索引对应的元素值
+    E oldValue = elementData(index);
+    // 获取删除元素后，需要移动的元素的个数
+    int numMoved = size - index - 1;
+    if (numMoved > 0)
+        // 将元素进行移动拷贝
+        System.arraycopy(elementData, index+1, elementData, index, numMoved);
+    // 最后将多出的位置设置为空，这样说明是没有引用的对象了
+    elementData[--size] = null; // Let gc do its work
+    // 返回删除的旧值
+    return oldValue;
+}
+```
+
+
 #### HashMap和Hashtable有什么区别？
 | HashMap | Hashtable | 
 | :----- | :----- | 

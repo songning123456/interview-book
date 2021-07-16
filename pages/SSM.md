@@ -329,6 +329,10 @@ ResultSet rst = pst.executeQuery();
 `#{}`是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。使用`#{}`可以有效的防止SQL注入，提高系统安全性。
 
 
+#### MyBatis接口为啥就能执行SQL啊？
+👉 [MyBatis你只写了接口为啥就能执行SQL啊？](https://www.cnblogs.com/williamjie/p/11188355.html)
+
+
 #### 能画一张图并解释Spring Boot的核心架构吗？
 ![SpringBoot](/images/SSM/SpringBoot.png)
 
@@ -351,3 +355,9 @@ ResultSet rst = pst.executeQuery();
 
 #### SpringBoot连接池？
 👉 [详解SpringBoot配置连接池](https://blog.csdn.net/qq_38714585/article/details/84069825)
+
+
+#### springboot哪个注解实现返回json格式的数据？
+```
+@ResponseBody
+```
