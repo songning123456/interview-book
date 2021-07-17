@@ -81,7 +81,7 @@ Student student = (Student)in.readObject();
 | java.sql | 这个是数据库操作的类，Connection、Statememt、ResultSet等。 | 
 
 
-#### 你知道Object中定义了哪些方法？
+#### Object中定义了哪些方法？
 | 方法 | 解释 | 
 | :----- | :----- | 
 | <div style="width: 300px">public Boolean equals (Object obj)</div> | 比较当前对象与obj是否为同一对象。 | 

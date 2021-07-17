@@ -100,4 +100,7 @@ Zuul1的开源时间很早，Netflix、Riot、携程、拍拍贷等公司都已�
 👉 [Apollo配置中心动态生效实现原理](https://blog.csdn.net/fedorafrog/article/details/103919805)
 
 
+👉 [携程开源配置中心Apollo的设计与实现](https://zhuanlan.zhihu.com/p/28723169)
+
+
 Apollo配置中心动态生效机制，是基于`http长轮询请求`和`Spring扩展机制`实现的。在Spring容器启动过程中，Apollo通过自定义的BeanPostProcessor和BeanFactoryPostProcessor将参数中包含${...}占位符和@Value注解的Bean注册到Apollo框架中定义的注册表中。然后通过http长轮询不断的去获取服务端的配置信息，一旦配置发生变化，Apollo会根据变化的配置key找到对应的Bean，然后修改Bean的属性，从而实现了配置动态生效的特性。
