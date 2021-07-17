@@ -62,7 +62,7 @@ Arraylist是如何实现remove操作的
 
 哪些对象可以作为gcroot
 
-G1收集器回收哪些垃圾，何时回收
+G1收集器何时回收垃圾
 
 traceId是如何传递的
 
