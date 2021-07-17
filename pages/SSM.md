@@ -30,25 +30,11 @@
 
 
 #### SpringIOC的启动过程吗？
-![SpringIOC](/images/SSM/SpringBean.jpeg)
-
-
-1. 解析Bean配置信息，將配置信息转换为BeanDefinition对象，注册到BeanDefinitionRegistry中。
-2. 执行所有的BeanFactoryPostProcessor的postProcessBeanFactory()方法对Bean工厂信息进行修改，包括修改或新增BeanDefinition对象。注意：如果需要控制BeanFactoryPostProcessor的执行顺序需要实现PriorityOrdered接口，getOrder()方法返回的值越小，执行优先级越高。
-3. 通过BeanDefinition对象实例化所有Bean，注入依赖。
-4. 执行所有BeanPostProcessor对象的postProcessBeforeInitialization()方法。
-5. 执行Bean的初始化方法，例如InitializingBean接口的afterPropertiesSet方法，或init-method属性指定的方法。
-6. 执行所有BeanPostProcessor对象的postProcessAfterInitialization()方法。
+👉 [容器创建流程](https://zhuanlan.zhihu.com/p/76256312)
 
 
 #### SpringBean的生命周期吗？
 👉 [Spring中bean的生命周期详解](https://blog.csdn.net/knknknkn8023/article/details/107130806)
-
-
-1. 实例化 Instantiation
-2. 属性赋值 Populate
-3. 初始化 Initialization
-4. 销毁 Destruction
 
 
 #### Spring中bean实例化有哪几种方式(依赖注入)?
