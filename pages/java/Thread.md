@@ -580,3 +580,10 @@ for (int i = 0; i < 10; i++) {
         <td>依赖数据库连接池的任务，因为线程提交SQL后需要等待数据库返回结果，如果等待的时间越长CPU空闲时间就越长，那么线程数应该设置越大，这样才能更好的利用CPU。</td>
     </tr>
 </table>
+
+
+#### 线程池中当coreSize=0会发生什么？
+👉 [自定义线程池核心线程数设置0任务还会执行吗？](https://blog.csdn.net/u010112098/article/details/115139590)
+
+
+👉 [最近踩的一个线程池的坑: coreSize=0&&queueCapacity>1](https://www.chenjianjx.com/最近踩的一个线程池的坑：-coresize-0-queuecapacity-1/)

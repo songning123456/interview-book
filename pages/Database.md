@@ -228,3 +228,10 @@ select user.id as user_id, user.user_name, class.id as class_id, class.class_nam
 select 字段1 from 表名 group by 字段1 having count(*) > 1
 ```
 
+
+#### 谈谈你对Mysql的MVCC的理解？
+👉 [面试官：谈谈你对Mysql的MVCC的理解？](https://baijiahao.baidu.com/s?id=1629409989970483292&wfr=spider&for=pc)
+
+
+👉 [MVCC多版本并发控制](https://www.jianshu.com/p/8845ddca3b23)
+

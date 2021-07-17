@@ -1,4 +1,4 @@
-#### 能说说使用Spring的好处吗?
+#### 使用Spring的好处?
 1. 降低了组件之间的耦合性 ，实现了软件各层之间的解耦。
 2. 可以使用容易提供的众多服务，如事务管理，消息服务等。
 3. 容器提供单例模式支持。
@@ -11,7 +11,7 @@
 10. Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择Spring的部分或全部。
 
 
-#### 你知道Spring中使用了哪些设计模式吗？
+#### Spring中使用了哪些设计模式吗？
 👉 [Spring中使用的设计模式](https://www.cnblogs.com/dengpengbo/p/10485924.html)
 
 
@@ -29,11 +29,19 @@
 | 策略模式 | 实例化对象 | 
 
 
-#### 你知道SpringBean的加载过程吗？
-![SpringBean](/images/SSM/SpringBean.jpeg)
+#### SpringIOC的启动过程吗？
+![SpringIOC](/images/SSM/SpringBean.jpeg)
 
 
-#### 你知道SpringBean的生命周期吗？
+1. 解析Bean配置信息，將配置信息转换为BeanDefinition对象，注册到BeanDefinitionRegistry中。
+2. 执行所有的BeanFactoryPostProcessor的postProcessBeanFactory()方法对Bean工厂信息进行修改，包括修改或新增BeanDefinition对象。注意：如果需要控制BeanFactoryPostProcessor的执行顺序需要实现PriorityOrdered接口，getOrder()方法返回的值越小，执行优先级越高。
+3. 通过BeanDefinition对象实例化所有Bean，注入依赖。
+4. 执行所有BeanPostProcessor对象的postProcessBeforeInitialization()方法。
+5. 执行Bean的初始化方法，例如InitializingBean接口的afterPropertiesSet方法，或init-method属性指定的方法。
+6. 执行所有BeanPostProcessor对象的postProcessAfterInitialization()方法。
+
+
+#### SpringBean的生命周期吗？
 👉 [Spring中bean的生命周期详解](https://blog.csdn.net/knknknkn8023/article/details/107130806)
 
 

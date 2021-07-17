@@ -218,3 +218,9 @@ Comparator-before: [ccc-20, AAA-30, bbb-10, ddd-40]
 Comparator-asc: [bbb-10, ccc-20, AAA-30, ddd-40]
 Comparator-desc: [ddd-40, AAA-30, ccc-20, bbb-10]
 ```
+
+
+#### Java中HashMap、LinkedHashMap和TreeMap区别使用场景？
+| HashMap | LinkedHashMap | TreeMap |
+| :----- | :----- | :----- |
+|k的值没有顺序，常用来做统计。|内部有一个链表，保持Key插入的顺序。迭代的时候，也是按照插入顺序迭代，而且迭代比HashMap快。|顺序是key的自然顺序(如整数从小到大)，也可以指定比较函数，但不是插入的顺序。|
