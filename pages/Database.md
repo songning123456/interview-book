@@ -235,3 +235,14 @@ select 字段1 from 表名 group by 字段1 having count(*) > 1
 
 👉 [MVCC多版本并发控制](https://www.jianshu.com/p/8845ddca3b23)
 
+
+#### (a, b, c)联合索引，只查询b会用到索引吗？
+👉 [有mysql联合索引(A, B, C)，那么AC查询会用到索引吗？](https://www.cnblogs.com/CgWblog/p/14929888.html)
+
+
+👉 [透彻理解联合索引(a,b,c)](https://blog.csdn.net/qq_41076577/article/details/107569200)
+
+
+#### 什么是最左匹配原则？
+👉 [最左匹配原则及其成因](https://blog.csdn.net/qq_37768971/article/details/100026327)
+
