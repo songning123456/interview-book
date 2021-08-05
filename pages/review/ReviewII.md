@@ -98,7 +98,7 @@ HTTP 502是什么意思
 
 ThreadLocal为什么使用的弱引用
 
-ThreadLocalMap是什么数据结构，数组还是链表
+ThreadLocalMap中的Entry是什么数据结构，数组还是链表
 
 对象什么时候从年轻代进入老年代
 

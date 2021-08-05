@@ -504,6 +504,9 @@ for (int i = 0; i < 10; i++) {
 | rejectedExecutionHandler(任务拒绝处理器) | AbortPolicy() | 1.当线程数量达到最大线程数，且任务队列已满时，会拒绝任务； <br> 2.调用线程池shutdown()方法后，会等待执行完线程池的任务之后，再shutdown()。如果在调用了shutdown()方法和线程池真正shutdown()之间提交任务，会拒绝新任务。 | 
 
 
+👉 [四种线程池拒绝策略](https://blog.csdn.net/suifeng629/article/details/98884972)
+
+
 | 拒绝策略 | 解释 | 
 | :----- | :----- | 
 | AbortPolicy | 直接抛异常。 | 
@@ -587,3 +590,21 @@ for (int i = 0; i < 10; i++) {
 
 
 👉 [最近踩的一个线程池的坑: coreSize=0&&queueCapacity>1](https://www.chenjianjx.com/最近踩的一个线程池的坑：-coresize-0-queuecapacity-1/)
+
+
+#### ThreadLocal为什么被设计为弱引用？
+👉 [谈谈ThreadLocal为什么被设计为弱引用](https://zhuanlan.zhihu.com/p/304240519)
+
+
+👉 [ThreadLocal的原理、作用、使用弱引用原因、应用举例](https://www.cnblogs.com/shen-qian/p/12108655.html)
+
+
+#### ThreadLocalMap中的Entry是什么数据结构，数组还是链表？
+👉 [为什么ThreadLocal类内部的ThreadLocalMap要用Entry数组实现？](https://www.zhihu.com/question/279007680)
+
+
+#### 锁的升级？什么是轻量级锁？什么是重量级锁？
+👉 [多线程锁的升级原理是什么?](https://blog.csdn.net/meism5/article/details/90321826)
+
+
+👉 [synchronized 锁的升级原理是什么?](https://www.cnblogs.com/ConstXiong/p/11687975.html)
