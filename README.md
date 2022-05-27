@@ -1,5 +1,3 @@
-[苏ICP备19071001号-2](https://beian.miit.gov.cn/)
-
 # 面试宝典
 <!--* [Web专题](/pages/Web.md)
  * [Html](/pages/web/Html.md)
@@ -99,4 +97,7 @@
  * [题卷II](/pages/review/ReviewII.md)
 * [实战问题](/pages/Question.md)
  * [问题I](/pages/question/QuestionI.md)
+* [其他资源](/pages/Resource.md)
+ * [面试锦集](/pages/resource/InterviewLink.md)
+ * [优秀博客](/pages/resource/BlogLink.md)
 * [后记](/pages/Ending.md)
