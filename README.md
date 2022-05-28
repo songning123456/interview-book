@@ -42,5 +42,6 @@
  * [问题I](/pages/question/QuestionI.md)
 * [其他资源](/pages/Resource.md)
  * [面试锦集](/pages/resource/InterviewLink.md)
- * [优秀博客](/pages/resource/BlogLink.md)
+ * [学习网站](/pages/resource/WebsiteLink.md)
+ * [学习博客](/pages/resource/BlogLink.md)
 * [后记](/pages/Ending.md)
