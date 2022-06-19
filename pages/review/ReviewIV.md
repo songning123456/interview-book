@@ -386,90 +386,368 @@ ZAB协议和我们之前看的Raft协议实际上是有相似之处的，比如�
 
 
 #### 怎么自己实现IOC？
+1. 设计组件
+2. 设计接口
+3. 如何实现
+
+
+👉 [自己动手实现一个简单的IOC](https://www.jianshu.com/p/6e25dc62e3a1)
 
 
 #### 用过哪些设计模式，讲讲？
+1. 单例(双重校验锁)模式
+2. 动态代理模式
+3. 简单工厂模式
+4. 模板方法模式
+5. 建造者模式
 
 
 #### 怎么判断一个链表是不是有环？
+* 暴力双重循环
+
+
+直接使用双重循环，没什么好讲的。
+
+
+* 使用HashSet
+
+
+在方法一的基础上进行优化降低复杂度，使用hashSet作为额外缓存，可以减少一层循环，具体思路如下:
+
+
+首先创建一个以节点ID为Key的HashSet集合，用来存储曾经遍历过的节点。然后同样从头节点开始，依次遍历单链表中的每一个节点。每遍历一个新节点，都用新节点和HashSet集合中存储的节点进行比较，如果发现HashSet中存在与之相同的节点ID，则说明链表有环，如果HashSet中不存在与新节点相同的节点ID，就把这个新节点ID存入HashSet中，之后进入下一节点，继续重复刚才的操作。使用HashSet将算法的时间复杂度降为了O(n)。
+
+
+* 利用两个指针
+
+
+首先创建两个指针p1和p2(在Java里就是两个对象引用)，让它们同时指向这个链表的头节点。然后开始一个大循环，在循环体中，让指针p1每次向后移动1个节点，让指针p2每次向后移动2个节点，然后比较两个指针指向的节点是否相同。如果相同，则可以判断出链表有环，如果不同，则继续下一次循环。
+
+
+
+这种方法的时间复杂度同样是o(n)，但是双指针之外，没有额外使用存储空间，降低了空间复杂度。
+
+
+```java
+public static boolean isLinkCycle(Node head) {
+	Node p1 = head;
+	Node p2 = head;
+	while(p2 != null && p2.next != null) {
+		p1 = p1.next;
+		p2 = p2.next.next;
+		if(p1 == p2) {
+			return true;
+		}
+		return false;
+}
+```
 
 
 #### 自我介绍？
+自我介绍要准备好，不要太⻓也不要太短，几句话说明自己的职业生涯的情况，重点的项目，用到的技能点概括进去就行。
 
 
 #### ES讲了个遍，包括基础原理和优化？
+// todo
 
 
 #### 分布式ID的生成方式？
+// todo
 
 
-#### 布式事务相关知识，保证数据一致性？
+#### 分布式事务相关知识，保证数据一致性？
+1. 两阶段提交
+2. 三阶段提交
 
 
-#### 为什么要用框架做分布式，没有行不行？
+👉 [分布式环境下保证数据一致性的几种实现方式](https://blog.csdn.net/qianshangding0708/article/details/104681548/)
+
+
+#### 为什么要用分布式架构？又为什么要用微服务？
+| 架构 | 优点 | 缺点 |
+| :----- | :----- | :----- |
+|单体架构|1. 易于开发，开发的方式简单，方便运行也容易调试。<br>2. 易于测试。<br>3. 易于部署。<br>|1. 项目过于臃肿，维护成本大，出现bug难定位。<br>2. 资源无法隔离，共享一个数据库，或者一块内存。如果一个功能模块突然访问量过大，可能影响整个系统的性能。<br>3. 无法灵活扩展，单体系统也可以集群部署，但是不够灵活，我明明只是订单系统遇到了瓶颈，只需要将订单模块水平扩展就行，但现在要将整个系统水平扩展。不灵活！<br>4. 交付周期长，所有功能得一起上线、一起构建、一起部署。任何一个环节出错，都可能影响交付。|
+|分布式架构|......|1. 分布式系统是跨进程，跨网络的，性能很收网络延迟和带宽的影响。<br>2. 由于高度依赖网络状况，任何一次远程调用都可以失败。随着服务的增多，还会出现更多的潜在故障点。<br>3. 引入各种中间件，异步通信大大增加了功能实现的复杂度。<br>4. 分布式系统必然会有分布式事务的出现，这时对数据的一致性，需要在CAP中做出选择。<br>5. 一个系统拆成了多个服务，每个服务都得配置、部署、监控、日志处理。|
 
 
 ### 快手
 
 
 #### 数据库连接不上了，怎么排查？
+1. 网络是否正常。
+2. 数据库服务是否正常。
+3. 数据库权限。
+4. 检查URL。
+5. 检查白名单。
+6. 检查防火墙。
 
 
 #### 双亲委派模型，有什么好处？
+![](/images/ReviewIV/ParentsDelegate.png)
+
+
+**是什么**
+
+
+如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行，如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器，如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载，这就是双亲委派模式。
+
+
+简单来说就是首先从底向上检查类是否已经加载过，如果都没有加载过的话，那么就自顶向下的尝试加载该类。
+
+
+**为什么**
+
+
+* 避免字节码重复加载
+
+
+采用双亲委派模式的是好处是Java类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关可以避免类的重复加载，当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次。
+
+
+* 程序更加安全，核心api不会被替换
+
+
+假设通过网络传递一个名为java.lang.Integer的类，通过双亲委托模式传递到启动类加载器，而启动类加载器在核心Java API发现这个名字的类，发现该类已被加载，并不会重新加载网络传递的过来的java.lang.Integer，而直接返回已加载过的Integer.class，这样便可以防止核心API库被随意篡改。相同的class文件被不同的classloader加载就是不同的两个类。
 
 
 #### ThreadLocal讲讲？
+// todo
 
 
-#### 一次接口调用，在日志文件里打印”kuaishou ”+耗时，比如“kuaishou 20ms”,"kuaishou 50ms","kuaishou 100ms"，有十万条，用linux的命令怎么查出来耗时最短的十条？
+#### 一次接口调用，在日志文件里打印“kuaishou ” + 耗时，比如“kuaishou 20ms”......有10w+条，用Linux的命令怎么查出来耗时最短的十条？耗时最长的呢？
+```
+test.log文件内容
+
+kuaishou 50ms
+kuaishou 25ms
+kuaishou 100ms
+kuaishou 200ms
+kuaishou 13ms
+log info 1......
+log info 2......
+kuaishou 499ms
+log info 3......
+kuaishou 1234ms
+kuaishou 123ms
+log info 4......
+log info 5......
+kuaishou 34ms
+kuaishou 45ms
+kuaishou 34ms
+kuaishou 55ms
+log info 6......
+kuaishou 1234ms
+log info 7......
+```
 
 
-#### 安装了一个软件，怎么在linux找到他的路径？
+```
+# 耗时最短的十条
+
+grep kuaishou test.log|sort -g -k2|head -n 10
+```
 
 
-#### 怎么查看jvm里线程状态？
+```
+# 耗时最长的十条
+
+grep kuaishou test.log|sort -r -g -k2|head -n 10
+或者
+grep kuaishou test.log|sort -g -k2|tail -n 10
+```
+
+
+#### 安装了一个软件，怎么在Linux找到他的路径？
+* find
+
+
+通过find查找某个关键字，可以得到结果，结果是否精准完全取决于你的关键字。
+
+
+```shell
+[root@sit1 ~]# find / -name mysql
+```
+
+
+* whereis(推荐)
+
+
+whereis除了可以找软件位置，还可以找到命令的二进制文件，源文件和手动页文件。
+
+
+```shell
+[root@sit1 ~]# 】whereis mysql
+```
+
+
+* which
+
+
+准确的来说，which并不能找软件安装位置，只能查询软件命令的运行文件所在路径。
+
+
+```shell
+[root@sit1 ~]# which mysql
+```
+
+
+* locate
+
+
+locate命令其实是“find -name”的另一种写法，但是要比后者快得多，原因在于它不搜索具体目录，而是搜索一个数据库(/var/lib/locatedb)，这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。
+
+
+#### 怎么查看JVM里线程状态？JVM使用情况？
+```
+# 线程使用情况
+jstack PID
+```
+
+
+```
+# JVM使用情况
+jmap -heap PID
+```
 
 
 #### CountDownLatch和CyclicBarrier有什么区别？
+| CountDownLatch | CyclicBarrier |
+| :----- | :----- |
+|1. CountDownLatch是不可重置的，所以无法重用。<br>2. CountDownLatch的基本操作组合是countDown/await。调用await的线程阻塞等待countDown足够的次数，不管你是在一个线程还是多个线程里countDown，只要次数足够即可。所以说CountDownLatch操作的是事件。|1. CyclicBarrier则没有这种限制，可以重用。<br>2. CyclicBarrier的基本操作组合，则就是await。当所有的伙伴(parties)都调用了await，才会继续进行任务，并自动进行重置。注意，正常情况下，CyclicBarrier的重置都是自动发生的，如果我们调用reset方法，但还有线程在等待，就会导致等待线程被打扰，抛出BrokenBarrierException异常。CyclicBarrier侧重点是线程，而不是调用事件，它的典型应用场景是用来等待并发线程结束。|
 
 
-#### jps -m，jps -l用过吗？
+#### jps -m、jps -l用过吗？
+jps [options] [hostid]
+
+
+[options]选项
+
+-q: 仅输出VM标识符，不包括classname、jar name、arguments in main method
+-m: 输出main method的参数
+-l: 输出完全的包名、应用主类名，jar的完全路径名
+-v: 输出jvm参数
 
 
 #### 讲一下Spring事务底层是怎么实现的？
+事务是基于AOP的机制进行实现的！
+
+
+👉 [Spring事务底层的实现流程](https://blog.csdn.net/qq_35436158/article/details/123400990)
 
 
 ### 菜⻦&嘀嘀
 
 
 #### JVM内存溢出排查？
+内存溢出一般可能存在的情况:
+
+
+1. 实例化对象太大，超出空闲内存。
+2. 读取文件等操作，一次加载全部，全加载到内存，超出内存范围。
+3. 静态域做缓存，静态变量不会被GC机制处理，即使内存溢出。
+4. 大量无效强引用对象，GC不会处理强引用对象，可达性算法也不会标记活跃对象。
+
+
+```
+取样查看内存使用情况
+jstat -gcutil 28506(PID) 1000 5 间隔一秒，取五次
+
+jmap查看是否有jmap环境，生成jvm快照
+jmap -dump:live,format=b,file=xx.hprof 28506(PID) 
+
+报以下错误，在语句中加-F
+Unable to open socket file :target process not responding or hotspot vm not loaded 
+the -F  option can be used when the target process is not responding
+
+jmap -F -dump:live,format=b,file=xx.hprof 28506(PID) 
+
+在内存溢出前生成JVM快照配置，启动脚本中加
+export JAVA_OPTIONS="-XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=/usr/local/app/oom";
+nohup $JAVA_OPTIONS -jar xxxx &
+
+java -XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=/usr/local/app/oom -jar xxx
+```
 
 
 #### 网络编程相关的提问
+// todo
 
 
 #### 并发包相关问题
+JUC下的那些常⻅问题，ConcurrentHashMap、CountDownLatch等等这些都应该要熟悉掌握，面试必考点。
 
 
 #### 线程池原理
+// todo
 
 
-#### mysql索引，锁机制，隔离级别
+#### mysql索引、锁机制、隔离级别
+// todo
 
 
 #### Redis连环炮
+Redis连环炮，数据类型、缓存击穿、雪崩、穿透、热key、大key，哨兵、集群、同步机制......都应该了然于心。
 
 
 #### Tomcat起两个war包，怎么识别哪个请求要给到哪个进程？
+👉 [多war包部署在一个tomcat中](https://blog.csdn.net/u012832579/article/details/83651469)
 
 
 #### linux的命令，比如怎么查看给文件按大小排序，主要是查看日志相关的技巧命令？
+```
+[cloud@sit4 apps]$ du -s *|sort -g -k1
+```
 
 
 #### volatile内存屏障具体是怎么实现？
+在每个volatile写操作前插入StoreStore屏障，在写操作后插入StoreLoad屏障；在每个volatile读操作前插入LoadLoad屏障，在读操作后插入LoadStore屏障。
 
 
-#### JVM启动参数有哪些？怎么调优？TLAB是什么？阻塞队列对比和选择？
+JVM这么插入是基于volatile关键字的特性: 
+
+
+1. 保证volatile全局可见；
+2. 保障volatile的操作不会被重排序。
+
+
+#### JVM启动参数有哪些？怎么调优？
+// todo
+
+
+#### TLAB是什么？
+TLAB的全称是Thread Local Allocation Buffer，翻译过来就是线程本地分配缓存。
+
+
+首先从Thread Local这两个单词能够联想到一个本地线程变量类ThreadLocal，该类可以用来维护线程私有变量，而TLAB则是一个线程专用的内存分配区域，也是线程私有的。
+
+
+在日常的业务过程中，Java对象会不断的被新建和不断的被回收，这就涉及到对象的分配了，而新建的对象一般都是分配在堆上，而堆却是线程共享的。所以如果同一时间，有多个线程要在堆上申请空间，这里可以类比多线程访问共享变量的操作，要保证共享变量的线程安全，就得采取线程安全的手段。所以每一次对象分配都要做同步，而越多的线程要在堆上申请空间，竞争就会越激烈，效率就会降低。因此Java虚拟机采用了TLAB这种线程专属的区域来避免出现多线程冲突，提高对象分配的效率。TLAB是默认启动的，在该情况下，JAVA虚拟机会为每一个线程都分配一个TLAB区域。
+
+
+
+TLAB分配在eden区，因为eden区一般是新建对象所在的区域(这里去除大对象，因为大对象会直接进入老年代)。
+
+
+```
+# 以server模式运行，支持逃逸分析参数DoEscapeAnalysis
+-server
+# 关闭逃逸分析，避免出现栈上分配影响效果
+-XX:-DoEscapeAnalysis
+# 禁止后台编译
+-XX:-BackgroundCompilation
+# 禁用TLAB
+-XX:-UseTLAB
+```
+
+
+👉 [什么是Java中的TLAB](https://blog.csdn.net/hfer/article/details/106077631)
+
+
+#### 阻塞队列对比和选择？
+![](/images/ReviewIV/BlockingQueue.png)
+
+
+[如何选择适合自己的阻塞队列？](https://blog.csdn.net/vincent_wen0766/article/details/108593587)
 
 
 #### DDD的理解？
