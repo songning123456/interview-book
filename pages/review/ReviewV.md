@@ -65,81 +65,158 @@ redis list分片，当redis的list数据量比较大时采用分片处理。
 
 
 #### TCP的粘包与半包？
+1. 发送方和接收方规定固定大小的缓冲区，也就是发送和接收都使用固定大小的byte[]数组长度，当字符长度不够时使用空字符弥补；
+2. 在TCP协议的基础上封装一层数据请求协议，既将数据包封装成`数据头(存储数据正文大小)+数据正文`的形式，这样在服务端就可以知道每个数据包的具体长度了，知道了发送数据的具体边界之后，就可以解决半包和粘包的问题了；
+3. 以特殊的字符结尾，比如以“\n”结尾，这样我们就知道结束字符，从而避免了半包和粘包问题(推荐解决方案)。
+
+
+👉 [TCP粘包和半包问题及解决](https://blog.csdn.net/qq_45915957/article/details/116001523)
 
 
 #### socket编程相关的一些API和用法？
+* DatagramSocket
+
+
+它是用来描述一个socket对象的，对socket文件进行了封装。有两个核心方法:
+
+
+1. receive(): 接受数据，如果没有数据过来，receive就会阻塞等待。如果有数据过来了，receive就会返回一个DatagramPacket对象。
+2. send(): 以DatagramPacket为单位进行发送。
+
+
+* DatagramPacket
+
+
+它是用来描述一个UDP数据报的，对UDP数据报进行了封装。面向数据报，就是以DatagramPacket为单位进行的。注: 发送的时候，要知道发送的目标在哪；接受的时候，需要知道这个数据是从哪里来。因此就涉及到IP地址和端口号。JDK都将它们封装成InetSocketAddress类来表示。
 
 
 #### 建立和处理连接的是同一个socket吗？socket中两个队列分别是啥？
+TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状态的Socket维护两个队列:
+
+
+1. SYN队列(半连接队列): 这些连接已经接到客户端SYN；
+2. ACCEPT队列(全连接队列): 这些连接已经接到客户端的ACK，完成了三次握手，等待被accept系统调用取走。
+
+
+👉 [计算机网络](https://blog.csdn.net/weixin_44478659/article/details/121035192)
 
 
 ####  项目中有使用过Netty吗？
+// todo
 
 
 #### TSL1.3新特性？
+// todo
 
 
 #### AES算法原理
+![](/images/ReviewIV/AES.png)
 
 
 #### Redis集群的使用
+// todo
 
 
 #### mysql与mogo对比
+// todo
 
 
 #### 场景题: 设计一个im系统包括群聊单聊
+// todo
 
 
 #### 场景题: 设计数据库连接池
+// todo
 
 
 #### 场景题: 秒杀场景的设计
+// todo
 
 
 ### 美团
 
 
 #### 项目详细信息，涉及一些AIOT交互处理，怎么实现大量的不同设备的指令编解码和指令转化，服务器的架构，自己责任模块
+// todo
 
 
 #### OOM的故障处理
+// todo
 
 
 #### 有没有用过分布式锁，怎么实现的，讲讲原理
+// todo
 
 
 #### Redis的跳表用在哪，为什么用跳表
+跳跃表以有序的方式在层次化的链表中保存元素，在大多数情况下，跳跃表的效率可以和平衡树媲美，查找、删除、添加等操作都可以在对数期望时间下完成，并且比起平衡树来说，跳跃表的实现要简单直观得多。所以在Redis中没有使用平衡树，而是使用了跳跃表。
+
+
+跳跃表的结构是多层的，通过从最高维度的表进行检索再逐渐降低维度从而达到对任何元素的检索接近线性时间的目的O(logn)。理想的跳表是每一层是下一层元素的1/2，即每个元素跳过2个元素，这样共有log2N层。但是这样插入删除元素就会很复杂，ex插入一个元素需要更新所有层相关的节点。所以通常的做法：没次向跳表加入一个元素时，用扔硬币的方式决定要不要向上增长一层。
+
+
+![](/images/ReviewIV/skiplist.png)
+
+
+👉 [5分钟了解Redis的内部实现跳跃表](https://blog.csdn.net/sinat_19594515/article/details/118864717)
 
 
 #### Mysql优化的实践经验
+// todo
 
 
 #### HashMap的1.8与1.7区别
+// todo
 
 
 #### Netty的原理和使用
+// todo
 
 
 #### TCP的连接过程
+// todo
 
 
 #### Socket有几个队列
+// todo
 
 
 #### 一台服务器能支持多少连接，为什么？
 
 
+实际情况下，每创建一个链接需要消耗一定的内存，大概是4-10kb，所以链接数也受限于机器的总内存。(链接发起端，活力全开才64000左右链接，内存最多才占用640M，一般客户端都能满足；内存限制主要还是考虑服务器端。)
+
+
+👉 [单台服务器最大支持多少连接数](https://blog.csdn.net/wangpeng322/article/details/99842126)
+
+
+👉 [一台服务器能支撑多少个TCP连接](http://t.zoukankan.com/lizexiong-p-14528874.html)
+
+
 #### TCP各个参数怎么设置
+👉 [TCP参数设置](http://t.zoukankan.com/DengGao-p-tcp_parameter.html)
 
 
 #### Redis底层基本数据类型，redis集群原理，cluster集群的使用
+// todo
 
 
-#### Mysql存储引擎类型、索引类型，innodb数据存储方式
+#### Mysql存储引擎类型、索引类型，Innodb数据存储方式
+// todo
 
 
 #### 线程池的参数说明，rejectHandler说明
+```java
+public ThreadPoolExecutor(int corePoolSize, 
+                          int maximumPoolSize,
+                          long keepAliveTime, TimeUnit unit,
+                          BlockingQueue<Runnable> workQueue,
+                          ThreadFactory threadFactory,
+                          RejectedExecutionHandler handler)
+```
+
+
+👉 [线程池参数及使用说明](https://blog.csdn.net/changlina_1989/article/details/110630674)
 
 
 #### volatile的原理
