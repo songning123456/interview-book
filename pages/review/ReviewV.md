@@ -357,60 +357,293 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 
     
 #### 讲一讲类加载的过程
+![](/images/ReviewV/ClassLoad.png)
+
+
+👉 [简述类加载过程详解](https://blog.csdn.net/Y_eatMeat/article/details/122954134)
 
 
 #### Redis的hash数据结构和如何扩容
+**渐进式rehash**
+
+
+在扩容和收缩的时候，如果哈希字典中有很多元素，一次性将这些键全部rehash到ht[1]的话，可能会导致服务器在一段时间内停止服务。所以，采用渐进式rehash的方式，详细步骤如下:
+
+
+为ht[1]分配空间，让字典同时持有ht[0]和ht[1]两个哈希表。将rehashindex的值设置为0，表示rehash工作正式开始。在rehash期间，每次对字典执行增删改查操作是，程序除了执行指定的操作以外，还会顺带将ht[0]哈希表在rehashindex索引上的所有键值对rehash到ht[1]，当rehash工作完成以后，rehashindex的值+1。随着字典操作的不断执行，最终会在某一时间段上ht[0]的所有键值对都会被rehash到ht[1]，这时将rehashindex的值设置为-1，表示rehash操作结束。渐进式rehash采用的是一种分而治之的方式，将rehash的操作分摊在每一个的访问中，避免集中式rehash而带来的庞大计算量。需要注意的是在渐进式rehash的过程，如果有增删改查操作时，如果index大于rehashindex，访问ht[0]，否则访问ht[1]。
+
+
+👉 [redis中hash扩容过程](https://blog.csdn.net/weixin_38004638/article/details/118206845)
 
 
 #### Mysql快照读怎么实现的
+Innodb存储引擎的快照读是基于多版本并发控制MVCC和undo log实现，通过MVCC机制提高系统读写并发性能，快照读只发生于select操作，但不包括select ... lock in share mode，select ... for update。
 
 
 #### Mysql的事务隔离级别，不可重复读和幻读区别
+// todo
 
 
 ### YY
 
 
 #### JVM调优思路
+// todo
 
 
-#### Redis cluster集群扩容怎么数据平滑过度，从客户端设计
+#### Redis cluster集群扩容怎么数据平滑过度(从客户端设计)
+
+
+👉 [Redis cluster集群扩容缩容原理](https://blog.csdn.net/hellozhxy/article/details/120855704)
+
+
+#### 两个Redis集群，如何平滑数据迁移
+1. 基于Redis自身的RDB/AOF备份机制。
+2. 基于redis-dump导入导出json备份。
+3. 基于redis-shake实现redis-cluster迁移。
+
+
+👉 [面试官: 两个Redis集群，如何平滑数据迁移？](https://zhuanlan.zhihu.com/p/90445769)
 
 
 #### Mysql的sql本身没问题的情况下，没走索引原因？(反复强调sql没问题，不需要从sql⻆度考虑)
+当表的索引被查询，会使用最好的索引，除非优化器使用全表扫描更有效。优化器优化成全表扫描取决与使用最好索引查出来的数据是否超过表的30%的数据。
 
 
 👉 [为什么mysql没走索引？](https://blog.csdn.net/llchopin/article/details/118675176)
 
 
-#### kafka如何确保消息不丢失
+#### Kafka如何确保消息不丢失
+// todo
 
 
 #### 分库分表如何进行跨库联合查询
+可以使用第三方中间件来实现，比如mycat、shading-jdbc。
+
+
+当客户端发送一条sql查询`select * from user;`此时中间件会根据有几个子表，拆分成多个语句`select * from user1; select * from user2; select * from user3;`等多条语句查询，然后将查询的结果返回给中间件，然后汇总给客户端。这些语句是并发执行的，所以效率会很高。
 
 
 #### 限流设计用JAVA实现，不能用工具类库
+限流顾名思义，就是对请求或并发数进行限制；通过对一个时间窗口内的请求量进行限制来保障系统的正常运行。如果我们的服务资源有限、处理能力有限，就需要对调用我们服务的上游请求进行限制，以防止自身服务由于资源耗尽而停止服务。
+
+
+1. 阈值: 在一个单位时间内允许的请求量。如QPS限制为10，说明1秒内最多接受10次请求。
+2. 拒绝策略: 超过阈值的请求的拒绝策略，常见的拒绝策略有直接拒绝、排队等待等。
+
+
+👉 [java如何进行限流？](https://www.zhihu.com/question/482724391/answer/2389749712)
 
 
 #### Dubbo的设计和完整调用过程(要详细)
+// todo
 
 
 #### ES的脑裂问题怎么解决
+**什么是脑裂现象**
+
+
+在ElasticSearch集群初始化或者主节点宕机的情况下，由候选主节点中选举其中⼀个作为主节点。指定候选主节点的配置为`node.master: true`。当主节点负载压⼒过⼤，或者集群环境中的⽹络问题，导致其他节点与主节点通讯的时候，主节点没来及响应，这样的话，某些节点就认为主节点宕机，重新选择新的主节点，这样的话整个集群的⼯作就有问题了，⽐如我们集群中有10个节点，其中7个候选主节点，1个候选主节点成为了主节点，这种情况是正常的情况。但是如果现在出现了我们上⾯所说的主节点响应不及时，导致其他某些节点认为主节点宕机⽽重选主节点，那就有问题了，这剩下的6个候选主节点可能有3个候选主节点去重选主节点，最后集群中就出现了两个主节点的情况，这种情况官⽅成为“脑裂现象”。集群中不同的节点对于master的选择出现了分歧，出现了多个master竞争，导致主分⽚和副本的识别也发⽣了分歧，把⼀些分歧中的分⽚标识为了坏⽚。
+
+
+|脑裂问题成因|解释|
+| :----- | :----- |
+|⽹络问题|集群间的⽹络延迟导致⼀些节点访问不到master，认为master挂掉了从⽽选举出新的master，并对master上的分⽚和副本标红，分配新的主分⽚。|
+|节点负载|主节点的角色既为master⼜为data，访问量较⼤时可能会导致ES停⽌响应造成⼤⾯积延迟，此时其他节点得不到主节点的响应认为主节点挂掉了，会重新选取主节点。|
+|内存回收|data节点上的ES进程占⽤的内存较⼤，引发JVM的⼤规模内存回收，造成ES进程失去响应。|
+
+
+|解决方案|解释|
+| :----- | :----- |
+|角色分离|即master节点与data节点分离，限制⾓⾊；数据节点时需要承担存储和搜索的工作的，压⼒会很⼤。所以如果该节点同时作为候选主节点和数据节点，那么⼀旦选上它作为主节点了，这时主节点的工作压力将会⾮常⼤，出现脑裂现象的概率就增加了。|
+|减少误判|配置主节点的响应时间，在默认情况下，主节点3秒没有响应，其他节点就认为主节点宕机了，那我们可以把该时间设置得长⼀点，该配置是discovery.zen.ping_timeout:5。|
+|选举触发|discovery.zen.minimum_master_nodes:1(默认是1)，该属性定义的是为了形成⼀个集群，有主节点资格并互相连接的节点的最⼩数⽬。⼀个有10节点的集群，且每个节点都有成为主节点的资格，discovery.zen.minimum_master_nodes参数设置为6。正常情况下，10个节点，互相连接，⼤于6，就可以形成⼀个集群。若某个时刻，其中有3个节点断开连接。剩下7个节点，⼤于6，继续运⾏之前的集群。⽽断开的3个节点，⼩于6，不能形成⼀个集群。该参数就是为了防⽌脑裂的产⽣建议设置为(候选主节点数/2)+1。|
+
+
+👉 [ES脑裂问题分析及优化](https://blog.csdn.net/BruceLiu_code/article/details/110467660)
 
 
 ### 得物
 
 
 #### new一个对象的过程发生了什么
+![](/images/ReviewV/ClassLoad2.png)
+
+
+1. 当虚拟机遇到一条new指令时，会去检查这个指令的参数能否在常量池中定位到一个类的符号引用，并检查代表的类是否已经被类加载器加载。如果没有被加载那么必须先执行这个类的加载。
+2. 类加载检查通过后，虚拟机将为新对象分配内存，对象所需内存的大小在类加载后便可以确定。
+3. 内存分配完成后，虚拟机需要将对象初始化为零值，保证对象的实例变量在代码中不赋初始值就能直接使用。类变量在类加载的准备阶段初始化为零值。
+4. 对对象头进行必要信息的设置，比如如何找到类的元数据信息、对象的HashCode、GC分代年龄等。
+5. 经过上述操作，一个新的对象已经产生，但是<init>方法还没有执行，所有的字段都是零值。这时候需要执行<init>方法(构造方法)把对象按照程序员的意愿进行初始化。类变量的初始化操作在类加载的初始化阶段<clinit>方法完成。
+
+
+👉 [new一个对象的时候发生了什么？](https://blog.csdn.net/JavaShark/article/details/125300803)
 
 
 #### Spring循环引用解决的原理是什么？
+👉 [Spring循环依赖原理，如何解决？](https://baijiahao.baidu.com/s?id=1684246101101128706&wfr=spider&for=pc)
 
 
 #### FactoryBean和BeanFactory区别
+```java
+public interface FactoryBean<T> {
+	
+    String OBJECT_TYPE_ATTRIBUTE = "factoryBeanObjectType";
+    
+	// 从factory中获取bean
+	@Nullable
+	T getObject() throws Exception;
+
+	// 从beanFactory中获取类型
+	@Nullable
+	Class<?> getObjectType();
+
+	// 是单例？
+	default boolean isSingleton() {
+		return true;
+	}
+    
+}
+```
+
+
+```java
+package com.example.demo.domian;
+
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyFactoryBean implements FactoryBean {
+	
+    // 保存一句话，用来区分不同的对象。  
+    private String message;
+    // 无参构造器。
+    public MyFactoryBean() {
+        // 意思是：当前对象是 MyFactoryBean 的对象。
+        this.message = "object of myFactoryBeanSelf";
+    }
+    // 有参构造器。
+    public MyFactoryBean(String message) {
+        this.message = message;
+    }
+    // 获取 message。
+    public String getMessage() {
+        return this.message;
+    }
+    
+    @Override
+    /**
+    *  这个方法在执行时创建了新的 MyFactoryBean 类型的对象。
+    *  这里继续沿用了 MyFactoryBean 类型，但是可以是别的类型
+    *  比如：Person、Car、等等。
+    */
+    public Object getObject() throws Exception {
+      // 意思是：当前对象是 MyFactoryBean 的 getObject() 创建的。
+        return new MyFactoryBean("object from getObject() of MyFactoryBean");
+    }
+    
+    @Override
+    public Class<?> getObjectType() {
+        return MyFactoryBean.class
+    }
+}
+```
+
+
+```java
+package com.example.demo.domian;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = com.example.demo.domian.MyFactoryBean.class)
+class MyFactoryBeanTest {
+    @Autowired
+    private ApplicationContext context;
+
+    @Test
+    public void test() {
+        // 第一次用 myFactoryBean 去拿。  
+        MyFactoryBean myBean1 = (MyFactoryBean) context.getBean("myFactoryBean");
+        System.out.println("myBean1 = " + myBean1.getMessage());
+        // 第二次用 &myFactoryBean 去拿。  
+        MyFactoryBean myBean2 = (MyFactoryBean) context.getBean("&myFactoryBean");
+        System.out.println("myBean2 = " + myBean2.getMessage());、
+        // 判断两次拿到的对象是不是一样的？    
+        System.out.println("myBean1.equals(myBean2) = " + myBean1.equals(myBean2));
+    }
+}
+```
+
+
+```
+myBean1 = object from getObject() of MyFactoryBean
+myBean2 = object of myFactoryBeanSelf
+myBean1.equals(myBean2) = false
+```
+
+
+第一次使用myFactoryBean去容器中拿，实际上是容器中MyFactoryBean的bean调用了getObject()方法，并将结果返回。第二次使用&myFactoryBean去容器中拿，才是真正拿到了MyFactoryBean的bean。
+
+
+👉 [BeanFactory和FactoryBean的区别](https://blog.csdn.net/yy_diego/article/details/115710104)
 
 
 #### Synchronized原理？
+```java
+class Test1{
+    public synchronized void test() {
+    }
+}
+
+//等价于
+class Test1{
+    public void test() {
+        // 锁的是当前对象
+        synchronized(this) {
+        }
+    }
+}
+```
+
+
+```java
+class Test2{
+    public synchronized static void test() {
+    }
+}
+ 
+//等价于
+class Test2{
+    public static void test() {
+        // 锁的是类对象，类对象只有一个
+        synchronized(Test2.class) {
+        }
+    }
+}
+```
+
+
+每个Java对象都可以关联一个Monitor对象，如果使用synchronized给对象上锁(重量级)之后，该对象头的Mark Word中就被设置指向Monitor对象的指针。不加synchronized的对象不会关联监视器。
+
+
+![](/images/ReviewV/Monitor.png)
+
+
+1. 刚开始Monitor中Owner为null。
+2. 当Thread-2执行synchronized(obj)就会将Monitor的所有者Owner置为Thread-2，Monitor中只能有一个Owner。
+3. 在Thread-2上锁的过程中，如果Thread-3、Thread-4、Thread-5也来执行synchronized(obj)，就会进入EntryList BLOCKED。
+4. Thread-2执行完同步代码块的内容，然后唤醒EntryList中等待的线程来竞争锁，竞争的时是非公平的。
+5. 图中WaitSet中的Thread-0、Thread-1是之前获得过锁，但条件不满足进入WAITING状态的线程。
+
+
+👉 [synchronized原理](https://blog.csdn.net/qq_34416191/article/details/119714263)
 
 
 #### CAS volatile原理？
@@ -425,10 +658,10 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 #### Spring Bean生命周期？
 
 
-#### mysql优化经验？
+#### Mysql优化经验？
 
 
-#### mysql锁类型？
+#### Mysql锁类型？
 
 
 #### Redis使用过程中应该注意什么问题？
@@ -458,13 +691,42 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 #### Redis热key怎么解决？
 
 
-#### kafka为什么性能高？
+#### Kafka为什么性能高？
 
 
 #### OOM场景分析？
+![](/images/ReviewV/OOM.jpg)
 
 
-#### mysql集群是怎么部署的，主从同步？
+1. StackOverflowError
+2. Java heap space
+    1. 内存溢出，是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个Integer，但给它存了Long才能存下的数，那就是内存溢出。
+    2. 内存泄露，是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存，迟早会被占光。
+3. GC overhead limit exceeded
+4. Direct buffer memory
+5. Unable to create new native thread
+6. Metaspace
+7. Requested array size exceeds VM limit
+8. Out of swap space
+9. Kill process or sacrifice child
+
+
+👉 [java 9种常见的OOM场景——原因分析及解决方案](https://blog.csdn.net/zhangkaixuan456/article/details/111904430)
+
+
+#### Mysql集群是怎么部署的，主从同步？
+从mysql和主mysql的配置基本相同,除了以下几个配置: 
+
+
+1. 从机server-id要和主机不同
+    1. server-id=2
+    2. log_slave_updates=1
+2. 开启同步函数
+    3. log_bin_trust_function_creators=1
+    
+    
+#### Mysql双主相互备份是如何解决循环复制的？
+假设A、B相互备份，A产生的binlog中携带serverId=1发送到B，B解析后执行，执行完毕也会产生binlog。此时B的binlog serverId仍然等于1，发送给A后，A看到serverId=1为自己发送的binlog，直接丢弃；同理B方向类似。
 
 
 #### 怎么设置使用什么GC方式？不同年代GC收集器有哪些？
@@ -473,7 +735,10 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 #### 线上CPU很高怎么排查
 
 
-#### jdk1.8的新特性
+👉 [记录一次线上CPU负载过高的排查过程](https://blog.csdn.net/I_peter/article/details/123543297)
+
+
+#### JDK1.8的新特性
 
 
 #### BIO、NIO了解
@@ -539,7 +804,7 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 #### RocketMq和Kafka区别，选型？
 
 
-#### kafka消息从生产到消费的流转过程？
+#### Kafka消息从生产到消费的流转过程？
 
 
 #### HashMap、HashTable区别？
@@ -566,7 +831,7 @@ Kafka的ack机制，指的是producer的消息发送确认机制，这直接影�
 #### 线程池参数，使用场景，参数设置分析？
 
 
-#### mysql存储引擎、索引结构、分库分表
+#### Mysql存储引擎、索引结构、分库分表
 
 
 #### 场景题: 设计一个抢红包系统
