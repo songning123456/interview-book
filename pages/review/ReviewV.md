@@ -24,7 +24,13 @@
 
 
 #### JVM调优的实践？
-// todo
+1. 通过设置JVM启动参数
+    1. 增大堆内存大小；
+    2. 增大新生代大小(减少minor GC的同时，也会增加GC时长)；
+    3. 提高年轻代晋升老年代的阈值。
+2. 针对每次业务处理使用的内存数量
+    1. 代码上减少大对象的使用，或者是拆分大对象；
+    2. 代码上减少对象的创建。
 
 
 #### 单例对象会被JVM的GC时回收吗？
@@ -114,7 +120,11 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 #### Redis集群的使用
-// todo
+| 集群模式 | 特点 | 工作机制 | 
+| :----- | :----- | :----- | 
+|主从|master进行读写操作，当读写操作导致数据变化时会自动将数据同步给slave。slave一般都是只读的，并且接收master同步过来的数据。一个master可以拥有多个slave，但是一个slave只能对应一个master。slave挂了不影响其他从数据库的读和master的读和写，重新启动后会将数据从master同步过来。master挂了以后，不会在slave节点中重新选一个master。|当slave启动之后，开始向master发送SYNC命令。master接收到SYNC命令后在后台保存快照(RDB持久化)和缓存保存快照这段的命令，然后将保存的快照文件和缓存的命令发送给slave。slave接收到快照文件和命令后加载快照文件和缓存的执行命令。复制初始化后，master每次接收到的写命令都会同步发送给slave，保证主从数据一致性。|
+|Sentinel|当master挂了以后，sentinel会在slave中选择一个做为master，并修改它们的配置文件，其他slave的配置文件也会被修改，比如slaveof属性会指向新的master。当master重新启动后，它将不再是master而是做为slave接收新的master的同步数据。sentinel因为也是一个进程有挂掉的可能，所以sentinel也会启动多个形成一个sentinel集群。多个sentinel配置的时候，sentinel之间也会自动监控。Sentinel不能和Redis部署在同一台机器，否则Redis的服务器一挂，sentinel也挂了。|sentinel以每秒钟一次的频率向它所知的master，slave以及其他sentinel实例发送一个PING命令 。如果一个实例距离最后一次有效回复PING命令的时间超过down-after-milliseconds选项所指定的值，则这个实例会被sentinel标记为主观下线。如果一个master被标记为主观下线，则正在监视这个master的所有sentinel要以每秒一次的频率确认master的确进入了主观下线状态。在一般情况下，每个sentinel会以每10秒一次的频率向它已知的所有master，slave发送INFO命令。当master被sentinel标记为客观下线时，sentinel向下线的master的所有slave发送INFO命令的频率会从10秒一次改为1秒一次。|
+|Cluster|多个redis节点网络互联，数据共享所有的节点都是一主一从(也可以是一主多从)，其中从不提供服务，仅作为备用。不支持同时处理多个key(如MSET/MGET)，因为redis需要把key均匀分布在各个节点上、并发量很高的情况下同时创建key-value会降低性能并导致不可预测的行为。支持在线增加、删除节点客户端可以连接任何一个主节点进行读写。|----|
 
 
 #### mysql与mogo对比
@@ -167,15 +177,36 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 #### Mysql优化的实践经验
-// todo
+**优化目标**
+
+
+1. 减少IO次数，IO永远是数据库最容易瓶颈的地方，这是由数据库的职责所决定的，大部分数据库操作中超过90%的时间都是IO操作所占用的，减少IO次数是SQL优化中需要第一优先考虑，当然也是收效最明显的优化手段。
+2. 降低CPU计算，除了IO瓶颈之外，SQL优化中需要考虑的就是CPU运算量的优化了。order by、group by、distinct等等都是消耗CPU的大户(这些操作基本上都是CPU处理内存中的数据比较运算)。当我们的IO优化做到一定阶段之后，降低CPU计算也就成为了我们SQL优化的重要目标。
+    1. 少join
+    2. 少排序
+    3. 避免select *
+    4. 用join代替子查询
+    5. 少or
+    6. 用union all代替union
+    7. 早过滤
+    8. 避免类型转换
+    
+    
+👉 [MySQL性能调优最佳实践经验](https://tech.it168.com/a2012/0414/1337/000001337422.shtml)
 
 
 #### HashMap的1.8与1.7区别
-// todo
+![](/images/ReviewV/HashMap.png)
+
+
+| 版本号 | 结构 | 
+| :----- | :----- |  
+|1.7|数组+链表|
+|1.8|数组+链表+红黑树(当链表长度>8且数组长度>=64时链表会转成红黑树，当长度<6时红黑树又会转成链表。)|
 
 
 #### Netty的原理和使用
-// todo
+![](/images/ReviewV/Netty.png)
 
 
 #### TCP的连接过程
@@ -262,7 +293,10 @@ Garbage first垃圾收集器是目前垃圾收集器理论发展的最前沿成�
 
 
 #### JVM结构
-// todo
+![](/images/ReviewV/JVM.png)
+
+
+👉 [JVM内存结构](https://blog.csdn.net/weixin_41812379/article/details/123999872)
 
 
 #### 负载均衡器的四层和七层负载均衡原理
@@ -306,7 +340,7 @@ props.put("enable.idempotence", true);
 
 
 #### Kafka如何实现分布式消息
-// todo
+![](/images/ReviewV/Kafka.png)
 
 
 #### Kafka的slave的同步机制
@@ -317,7 +351,7 @@ props.put("enable.idempotence", true);
 5. leader收到所有ISR中的replica的ACK后，增加HW(high watermark，最后commit的offset)并向producer发送ACK。
 
 
-👉 [kafka_12_同步机制](https://blog.csdn.net/zxczb/article/details/107923247)
+👉 [kafka同步机制](https://blog.csdn.net/zxczb/article/details/107923247)
 
 
 👉 [kafka消息与同步机制](https://blog.csdn.net/u010285974/article/details/83308554)
@@ -386,7 +420,14 @@ Innodb存储引擎的快照读是基于多版本并发控制MVCC和undo log实�
 
 
 #### Mysql的事务隔离级别，不可重复读和幻读区别
-// todo
+| 事务隔离级别 | 解释 | 
+| :----- | :----- | 
+|脏读|一个事务读取到另一个事务还没有提交的数据。|
+|不可重复读(修改)|在一个事务中多次读取同一个数据时，结果出现不一致。|
+|幻读(插入/删除)|在一个事务中，使用相同的SQL两次读取，第二次读取到其他事务新插入的行。|
+
+
+👉 [一篇文章读懂 MySQL 事务中的四种隔离级别](https://blog.csdn.net/weixin_50983264/article/details/125380783)
 
 
 ### YY
@@ -656,7 +697,15 @@ class Test2{
 
 
 #### 内存模型？什么是主内存？什么是工作内存？
-// todo
+| 内存 | 解释 | 
+| :----- | :----- | 
+|主内存|是所有的线程所共享的，主要包括本地方法区和堆。|
+|工作内存|每个线程都有一个工作内存不是共享的，工作内存中主要包括两个部分: <br>1. 一个是属于该线程私有的栈；<br>2. 对主内存部分变量拷贝的寄存器(包括程序计数器PC和CPU工作的高速缓存区)。|
+
+
+1. 所有的变量都存储在主内存中(虚拟机内存的一部分)，对于所有线程都是共享的。
+2. 每条线程都有自己的工作内存，工作内存中保存的是主存中某些变量的拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的变量。
+3. 线程之间无法直接访问对方的工作内存中的变量，线程间变量的传递均需要通过主内存来完成,即：线程、主内存、工作内存。
 
 
 #### 数据库索引类型？原理？
