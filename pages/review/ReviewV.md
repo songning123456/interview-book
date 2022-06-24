@@ -709,27 +709,100 @@ class Test2{
 
 
 #### 数据库索引类型？原理？
-// todo
+![](/images/ReviewV/Index.jpg)
 
 
 #### Spring Bean生命周期？
-// todo
+![](/images/ReviewV/SpringBeanLifeCycle.jpg)
+
+
+1. 通过XML、Java Annotation(注解)以及Java Configuration(配置类)等方式加载Spring Bean。
+2. BeanDefinitionReader解析Bean的定义。在Spring容器启动过程中，会将Bean解析成Spring内部的BeanDefinition结构；理解为将spring.xml中的<bean>标签转换成BeanDefinition结构，有点类似于XML解析。
+3. BeanDefinition包含了很多属性和方法。例如id、class(类名)、scope、ref(依赖的bean)等等。其实就是将bean(例如<bean>)的定义信息存储到这个对应BeanDefinition相应的属性中。例如<bean id="" class="" scope="">
+4. BeanFactoryPostProcessor是Spring容器功能的扩展接口。
+    1. BeanFactoryPostProcessor在spring容器加载完BeanDefinition之后，在bean实例化之前执行的。
+    2. 对bean元数据(BeanDefinition)进行加工处理，也就是BeanDefinition属性填充、修改等操作。
+5. BeanFactory，bean工厂。它按照我们的要求生产我们需要的各种各样的bean。
+6. Aware感知接口，在实际开发中，经常需要用到Spring容器本身的功能资源例如BeanNameAware、ApplicationContextAware等等，BeanDefinition实现了BeanNameAware、ApplicationContextAware。
+7. BeanPostProcessor后置处理器。在Bean对象实例化和引入注入完毕后，在显示调用初始化方法的前后添加自定义的逻辑(类似于AOP的绕环通知)。前提条件如果检测到Bean对象实现了BeanPostProcessor后置处理器才会执行Before和After方法。
+    1. Before
+    2. 调用初始化Bean，InitializingBean和init-method，Bean的初始化才算完成。
+    3. After
+8. destroy销毁。
 
 
 #### Mysql优化经验？
-// todo
+1. 引擎选择(InnoDB、MyISAM、Memory)
+2. 读写分离&一主多备
+3. 分库分表
+4. 优化连接池
+5. 优化请求堆栈
+6. 修改连接超时时间
+7. 优化内存缓冲池
+8. 优化并发线程数
+9. 优化线程池
+10. 优化日志
+    1. 错误日志: 启动、关闭、运行时产生的异常记录，建议开启，设置log_error。
+    2. 查询日志: 客户端连接和执行的脚本，建议关闭，设置general_log。
+    3. 慢查询日志: 记录超时的查询，记录不适用索引的查询等，建议关闭，设置slow_query_log。
+    4. 二进制日志: 用于数据同步复制，需发送的数据日志，多用于集群，如需开启，设置log_bin。
+    5. 中继日志: 用于数据同步复制时，接收到的数据日志，多用于集群，如需开启，设置relay_log。
+11. 锁优化
+
+
+👉 [MySQL性能优化经验总结](https://www.jianshu.com/p/3217b537b63f)
 
 
 #### Mysql锁类型？
-// todo
+MySQL数据库的锁都是悲观锁。
+
+
+1. 读锁(共享锁)
+    1. lock in share mode
+2. 写锁(排他锁)
+    1. MDL语句，例如update、delete、insert
+    2. select ... for update
+    
+    
+👉 [MySQL悲观锁](https://blog.csdn.net/weixin_42798851/article/details/115388662)
 
 
 #### Redis使用过程中应该注意什么问题？
-// todo
+1. key的长度不要太长，也不要太短，要符合设计规约，value的大小要防止big key的发生。
+2. hash更适合存储对象。
+3. sort的集合如果非常大的话，排序就会消耗很长时间，由于redis是单线程的，所以长时间的排序操作会阻塞其他client的请求，解决办法是通过主从复制将数据复制到多个slave上，然后只在slave上做排序操作。
+4. 如果你的redis集群需要做主从复制，最好事先配置好所有的从库，避免中途再去添加从库(一方面slave恢复的时间非常慢，另一方面也会给主库带来压力)。
+5. 尽量避免在压力较大的主库上增加从库。
+6. 如果服务数据压力过大，可以增加多台服务器节点。
+7. master最好不要做任何持久化工作，包括内存快照和AOF日志文件，特别是不要启用内存快照做持久化。
+8. 为了主从复制的速度和连接多稳定性，slave和master最好在同一个局域网内。
 
 
 #### JVM调优参数？
-// todo
+| 参数 | 解释 |
+| :----- | :----- |
+|-Xms|设置堆的最小空间大小。|
+|-Xmx|设置堆的最大空间大小。|
+|-Xmn|设置新生代大小。|
+|-XX:NewSize|设置新生代最小空间大小。|
+|-XX:MaxNewSize|设置新生代最大空间大小。|
+|-XX:PermSize|设置永久代最小空间大小。|
+|-XX:MaxPermSize|设置永久代最大空间大小。|
+|-Xss|设置每个线程的堆栈大小。|
+|-XX:+UseParallelGC|选择垃圾收集器为并行收集器。此配置仅对年轻代有效。即上述配置下年轻代使用并发收集，而年老代仍旧使用串行收集。|
+|-XX:ParallelGCThreads=20|配置并行收集器的线程数，即同时多少个线程一起进行垃圾回收。此值最好配置与处理器数目相等。|
+
+
+```
+java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:ParallelGCThreads=20 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
+```
+
+
+| 参数 | 解释 |
+| :----- | :----- |
+|-Xms3550m|设置JVM促使内存为3550m。此值可以设置与-Xmx相同，以避免每次垃圾回收完成后JVM重新分配内存。|
+|-Xmn2g|设置年轻代大小为2G。堆=年轻代+年老代+持久代。持久代一般固定大小为64m，所以增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，官方推荐配置为整个堆的3/8。|
+|-Xss128k|设置每个线程的堆栈大小。JDK5.0以后每个线程堆栈大小为1M，以前每个线程堆栈大小为256K。更具应用的线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。|
 
 
 #### 线程池原理？属性代表含义？
@@ -752,15 +825,50 @@ class Test2{
 
 
 #### 检测到JVM内存大于配置JVM的xmx配置的内存， 三台机器中的一台机器有上面这种现象，如何解释？
-// todo
+![](/images/ReviewV/JVMMemory.png)
+
+
+Java进程最大占用的物理内存为:
+
+
+```
+Max Memory = eden + survivor + old + String Constant Pool + Code cache + compressed class space + Metaspace + Thread stack(*thread num) + Direct + Mapped + JVM + Native Memory
+```
+
+
+Java进程的内存组成`heap+stack+metaspaceSize+directMemory`。除了通过-Xmx4g、-Xms4g参数控制程序启动的堆内存外，不要忽视-Xss1024K控制每个stack的大小。元空间限制-XX:MetaspaceSize=64m、-XX:MaxMetaspaceSize=128m。直接内存使用限制-XX:MaxDirectMemorySize=128m。
+
+
+👉 [JVM实际内存占用超过Xmx的原因,设置Xmx的技巧](https://blog.csdn.net/ruanchengshen/article/details/121291173)
 
 
 #### Redis热key怎么解决？
-// todo
+所谓热key问题就是，突然有几十万的请求去访问redis上的某个特定key。那么这样会造成流量过于集中，达到物理网卡上限，从而导致这台redis的服务器宕机。那接下来这个key的请求，就会直接怼到你的数据库上，导致你的服务不可用。
+
+
+1. 凭借业务经验，进行预估哪些是热key。其实这个方法还是挺有可行性的。比如某商品在做秒杀，那这个商品的key就可以判断出是热key。缺点很明显，并非所有业务都能预估出哪些key是热key。
+2. 在客户端进行收集。这个方式就是在操作redis之前，加入一行代码进行数据统计。那么这个数据统计的方式有很多种，也可以是给外部的通讯系统发送一个通知信息。缺点就是对客户端代码造成入侵。
+3. 在Proxy层做收集。有些集群架构是下面这样的，Proxy可以是Twemproxy，是统一的入口。可以在Proxy层做收集上报，但是缺点很明显，并非所有的redis集群架构都有proxy。
+4. 用redis自带命令。
+    1. monitor命令，该命令可以实时抓取出redis服务器接收到的命令，然后写代码统计出热key是啥。当然，也有现成的分析工具可以给你使用，比如redis-faina。但是该命令在高并发的条件下，有内存增暴增的隐患，还会降低redis的性能。
+    2. hotkeys参数，redis4.0.3提供了redis-cli的热点key发现功能，执行redis-cli时加上–hotkeys选项即可。但是该参数在执行的时候，如果key比较多，执行起来比较慢。
+5. 自己抓包评估。Redis客户端使用TCP协议与服务端进行交互，通信协议采用的是RESP。自己写程序监听端口，按照RESP协议规则解析数据，进行分析。缺点就是开发成本高，维护困难，有丢包可能性。
+
+
+1. 利用二级缓存。比如利用ehcache或者一个HashMap都可以。在你发现热key以后，把热key加载到系统的JVM中。针对这种热key请求，会直接从JVM中取，而不会走到redis层。假设此时有十万个针对同一个key的请求过来，如果没有本地缓存，这十万个请求就直接怼到同一台redis上了。现在假设你的应用层有50台机器，那么你也有JVM缓存了。这十万个请求平均分散开来，每个机器有2000个请求，会从JVM中取到value值，然后返回数据。避免了十万个请求怼到同一台redis上的情形。
+2. 备份热key。不要让key走到同一台redis上不就行了。我们把这个key在多个redis上都存一份。接下来有热key请求进来的时候，我们就在有备份的redis上随机选取一台，进行访问取值返回数据。 
 
 
 #### Kafka为什么性能高？
-// todo
+1. 基于磁盘的顺序读写。顺序写利用磁盘的顺序访问速度可以接近内存，kafka的消息都是append操作，partition是有序的，节省了磁盘的寻道时间，同时通过批量操作、节省写入次数，partition物理上分为多个segment存储，方便删除。
+2. 页缓存(Page Cache)。对于一个进程来说，他会在进程内部缓存所需要的数据，然而这些数据很有可能也缓存在操作系统的页缓存中，也就是这一部分数据被缓存了两次。就算kafka服务重启，页缓存内的数据也还是存在，但进程内的数据则需要重新加载。这也在一定程度上能简化代码，而且维护页缓存和文件的一致性问题交给操作系统完成会比进程内维护要更加的安全高效。
+3. 零拷贝。直接将内核缓冲区的数据发送到网卡传输。
+
+
+![](/images/ReviewV/DiskRead.png)
+
+
+👉 [Kafka为什么能那么快的6个原因](https://blog.csdn.net/Java0258/article/details/107663998)
 
 
 #### OOM场景分析？
@@ -869,7 +977,7 @@ jstack -l PID > jstack.txt
 // todo
 
 
-#### Linux操作系统简单介绍有哪些东⻄？
+#### Linux操作系统简单介绍有哪些东西？
 // todo
 
 
@@ -877,11 +985,27 @@ jstack -l PID > jstack.txt
 
 
 #### JVM介绍
-// todo
+👉 [最全的JVM介绍](https://blog.csdn.net/m0_68850571/article/details/124169541)
 
 
 #### JMM模型
-// todo
+![](/images/ReviewV/JMM.png)
+
+
+此内存模型中规定了，所有的共享变量都是存储于主内存中，每个线程都是将主内存中的共享变量拷贝一份副本到本线程的本地内存中，然后操作此共享变量副本，修改后再同步更新到主内存中，因此高并发下就会出现变量修改的问题了。
+
+
+![](/images/ReviewV/JMM8.png)
+
+
+1. lock (锁定): 将主内存变量加锁，表示为线程独占状态，可以被线程进行read。
+2. read(读取): 线程从主内存读取数据。
+3. load(载入): 将上一步线程从主内存中读取的数据，加载到工作内存中。
+4. use(使用): 从工作内存中读取数据来进行我们所需要的逻辑计算。
+5. assign(复制): 将计算后的数据赋值到工作内存中。
+6. store(存储): 将工作内存的数据准备写入主内存。
+7. write(写入): 将store过去的变量正式写入主内存。
+8. unlock(解锁): 将主内存的变量解锁，解锁后其他线程可以锁定该变量。
 
 
 #### GC Root有哪些？
