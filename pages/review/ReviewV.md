@@ -952,6 +952,8 @@ printf "%x\n" NID
 ```
 # 打印堆栈信息，并从jstack.txt寻找16进制NID
 jstack -l PID > jstack.txt
+或者
+jstack -l PID | grep ${16进制NID} -A 100
 ```
 
 
@@ -1031,23 +1033,230 @@ jstack -l PID > jstack.txt
 
 
 #### JVM调优经验？
-// todo
+调优是一个循序渐进的过程，必然需要经历多次迭代，最终才能换取一个较好的折中方案。在JVM调优这个领域，没有任何一种调优方案是适用于所有应用场景的，同时切勿极端才能够达到JVM性能调优的真正目的和意义。
+
+
+1. GC的时间足够的小。
+2. GC的次数足够的少。
+3. 发生Full GC的周期足够的长。
+4. 前两个目前是相悖的，要想GC时间小必须要一个更小的堆，要保证GC次数足够少，必须保证一个更大的堆，我们只能取其平衡。
+5. 更大的年轻代必然导致更小的年老代，大的年轻代会延长普通GC的周期，但会增加每次GC的时间；小的年老代会导致更频繁的Full GC。
+6. 更小的年轻代必然导致更大年老代，小的年轻代会导致普通GC很频繁，但每次的GC时间会更短；大的年老代会减少Full GC的频率。
+7. 如何选择应该依赖应用程序对象生命周期的分布情况: 
+    1. 如果应用存在大量的临时对象，应该选择更大的年轻代。
+    2. 如果存在相对较多的持久对象，年老代应该适当增大。
+8. 但很多应用都没有这样明显的特性，在抉择时应该根据以下两点: 
+    1. 本着Full GC尽量少的原则，让年老代尽量缓存常用对象，JVM的默认比例3:8也是这个道理。
+    2. 通过观察应用一段时间，看其他在峰值时年老代会占多少内存，在不影响FullGC的前提下，根据实际情况加大年轻代，比如可以把比例控制在1:1，但应该给年老代至少预留1/3的增长空间。
+
+
+| 调优策略 | 解释 | 
+| :----- | :----- | 
+|<div style='width: 120px'>将新对象预留在年轻代</div>|众所周知，由于Full GC的成本远远高于Minor GC，因此某些情况下需要尽可能将对象分配在年轻代，这在很多情况下是一个明智的选择。虽然在大部分情况下，JVM会尝试在Eden区分配对象，但是由于空间紧张等问题，很可能不得不将部分年轻对象提前向年老代压缩。因此，在JVM参数调优时可以为应用程序分配一个合理的年轻代空间，以最大限度避免新对象直接进入年老代的情况发生。通过设置一个较大的年轻代预留新对象，设置合理的Survivor区并且提供Survivor区的使用率，可以将年轻对象保存在年轻代。一般来说，Survivor区的空间不够，或者占用量达到50%时，就会使对象进入年老代(不管它的年龄有多大)我们可以尝试加上-XX:TargetSurvivorRatio=90参数，这样可以提高from区的利用率，使from区使用到90%时，再将对象送入年老代。|
+|<div style='width: 120px'>让大对象进入年老代</div>|我们在大部分情况下都会选择将对象分配在年轻代。但是，对于占用内存较多的大对象而言，它的选择可能就不是这样的。因为大对象出现在年轻代很可能扰乱年轻代GC，并破坏年轻代原有的对象结构。因为尝试在年轻代分配大对象，很可能导致空间不足，为了有足够的空间容纳大对象，JVM不得不将年轻代中的年轻对象挪到年老代。因为大对象占用空间多，所以可能需要移动大量小的年轻对象进入年老代，这对GC相当不利。基于以上原因，可以将大对象直接分配到年老代，保持年轻代对象结构的完整性，这样可以提高GC的效率。如果一个大对象同时又是一个短命的对象，假设这种情况出现很频繁，那对于GC来说会是一场灾难。原本应该用于存放永久对象的年老代，被短命的对象塞满，这也意味着对堆空间进行了洗牌，扰乱了分代内存回收的基本思路。因此，在软件开发过程中，应该尽可能避免使用短命的大对象。可以使用参数-XX:PetenureSizeThreshold设置大对象直接进入年老代的阈值。当对象的大小超过这个值时，将直接在年老代分配。参数-XX:PetenureSizeThreshold只对串行收集器和年轻代并行收集器有效，并行回收收集器不识别这个参数。|
+|<div style='width: 120px'>设置对象进入年老代的年龄</div>|如何设置对象进入年老代的年龄堆中的每一个对象都有自己的年龄。一般情况下，年轻对象存放在年轻代，年老对象存放在年老代。为了做到这点，虚拟机为每个对象都维护一个年龄。如果对象在Eden区，经过一次GC后依然存活，则被移动到Survivor区中，对象年龄+1。以后如果对象每经过一次GC依然存活，则年龄再+1。当对象年龄达到阈值时，就移入年老代，成为老年对象。这个阈值的最大值可以通过参数-XX:MaxTenuringThreshold来设置，默认值是15。虽然-XX:MaxTenuringThreshold的值可能是15或者更大，但这不意味着新对象非要达到这个年龄才能进入年老代。事实上，对象实际进入年老代的年龄是虚拟机在运行时根据内存使用情况动态计算的，这个参数指定的是阈值年龄的最大值。即实际晋升年老代年龄等于动态计算所得的年龄与-XX:MaxTenuringThreshold中较小的那个。|
+|<div style='width: 120px'>稳定的Java堆VS动荡的Java堆</div>|一般来说，稳定的堆大小对垃圾回收是有利的。获得一个稳定的堆大小的方法是使-Xms和-Xmx的大小一致，即最大堆和最小堆 (初始堆)一样。如果这样设置，系统在运行时堆大小理论上是恒定的，稳定的堆空间可以减少GC的次数。因此，很多服务端应用都会将最大堆和最小堆设置为相同的数值。但是，一个不稳定的堆并非毫无用处。稳定的堆大小虽然可以减少GC次数，但同时也增加了每次GC的时间。让堆大小在一个区间中震荡，在系统不需要使用大内存时，压缩堆空间，使GC应对一个较小的堆，可以加快单次GC的速度。基于这样的考虑，JVM还提供了两个参数用于压缩和扩展堆空间。-XX:MinHeapFreeRatio参数用来设置堆空间最小空闲比例，默认值是40。当堆空间的空闲内存小于这个数值时，JVM便会扩展堆空间。-XX:MaxHeapFreeRatio参数用来设置堆空间最大空闲比例，默认值是70。当堆空间的空闲内存大于这个数值时，便会压缩堆空间，得到一个较小的堆。当-Xmx和-Xms相等时，-XX:MinHeapFreeRatio和-XX:MaxHeapFreeRatio两个参数无效。|
+|<div style='width: 120px'>增大吞吐量提升系统性能</div>|吞吐量优先的方案将会尽可能减少系统执行垃圾回收的总时间，故可以考虑关注系统吞吐量的并行回收收集器。在拥有高性能的计算机上，进行吞吐量优先优化。可以使用参数: java –Xmx3800m –Xms3800m –Xmn2G –Xss128k –XX:+UseParallelGC –XX:ParallelGC-Threads=20 –XX:+UseParallelOldGC。|
+|<div style='width: 120px'>尝试使用大的内存分页</div>|CPU是通过寻址来访问内存的。32位CPU的寻址宽度是0~0xFFFFFFFF，计算后得到的大小是4G，也就是说可支持的物理内存最大是4G。但在实践过程中碰到了这样的问题，程序需要使用4G内存，而可用物理内存小于4G，导致程序不得不降低内存占用。为了解决此类问题，现代CPU引入了MMU(Memory Management Unit内存管理单元)。MMU的核心思想是利用虚拟地址替代物理地址，即CPU寻址时使用虚址，由MMU负责将虚址映射为物理地址。MMU的引入解决了对物理内存的限制，对程序来说就像自己在使用4G内存一样。内存分页(Paging)是在使用MMU的基础上，提出的一种内存管理机制。它将虚拟地址和物理地址按固定大小(4K)分割成页(page)和页帧(page frame)，并保证页与页帧的大小相同。这种机制从数据结构上保证了访问内存的高效，并使OS能支持非连续性的内存分配。在程序内存不够用时，还可以将不常用的物理内存页转移到其他存储设备上，比如磁盘，这就是大家耳熟能详的虚拟内存。在Solaris系统中，JVM可以支持Large Page Size的使用。使用大的内存分页可以增强CPU的内存寻址能力，从而提升系统的性能。java –Xmx2506m –Xms2506m –Xmn1536m –Xss128k –XX:++UseParallelGC –XX:ParallelGCThreads=20 –XX:+UseParallelOldGC –XX:+LargePageSizeInBytes=256m。过大的内存分页会导致JVM在计算Heap内部分区(perm、new、old)内存占用比例时，会出现超出正常值的划分，最坏情况下某个区会多占用一个页的大小。|
+|<div style='width: 120px'>使用非占有的垃圾回收器</div>|为降低应用软件的垃圾回收时的停顿，首先考虑的是使用关注系统停顿的CMS回收器，其次为了减少Full GC次数，应尽可能将对象预留在年轻代，因为年轻代Minor GC的成本远远小于年老代的Full GC。|
+
+
+👉 [JVM性能调优经验总结](https://blog.csdn.net/javalingyu/article/details/124517212)
+
+
+#### JVM常用命令
+1. jps [-q] [-mlvV] ${PID}
+2. jinfo -flags ${PID}
+3. jstat -gc ${PID} ${多少毫秒打印一次} ${打印多少次}
+4. jstack -l ${PID}
+5. jmap -heap ${PID}、jmap -histo ${PID}、jmap -dump:format=b,file=xxx.dump ${PID}
 
 
 #### 线程池注意事项，异常处理
-// todo
+* **Runnable执行异常(业务异常)**
+
+
+```java
+public class ThreadPoolExceptionTest {
+ 
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(2, new ThreadFactory() {
+            AtomicInteger integer = new AtomicInteger(1);
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "mxsm-"+integer.getAndIncrement());
+            }
+        });
+        executorService.execute(() -> {
+            System.out.println(1);
+            int i = 1/0;
+            System.out.println(i);
+        });
+        executorService.execute(() -> {
+            for (;;){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                    System.out.println(Thread.currentThread().getName()+" 当前时间："+System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println("主线程执行完成");
+    }
+    
+}
+```
+
+
+```
+1
+主线程执行完成
+Exception in thread "mxsm-1" java.lang.ArithmeticException: / by zero
+mxsm-2 当前时间：1656145034793
+mxsm-2 当前时间：1656145035800
+......
+```
+
+
+线程池正常运行，Runnable的异常不会导致线程池停止运行，其他的线程正常运行。执行Runnable发生错误的线程将会被销毁会重新建一个线程，以保证固定线程池2的数量。
+
+
+
+* **提交任务到任务队列已满异常**
+
+
+```java
+public class ThreadPoolExceptionTest {
+ 
+    public static void main(String[] args) {
+        ExecutorService executorService = new ThreadPoolExecutor(1, 1, 100, TimeUnit.SECONDS,new ArrayBlockingQueue<>(1),new ThreadFactory(){
+            AtomicInteger integer = new AtomicInteger(1);
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "mxsm-"+integer.getAndIncrement());
+            }
+        });
+        for(int i = 0; i < 3; ++i){
+            final int b = i;
+            executorService.execute(() -> {
+                for (;;){
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                        System.out.println(Thread.currentThread().getName()+ b +" 当前时间："+System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        System.out.println("主线程结束");
+    }
+}
+```
+
+
+```
+Exception in thread "main" java.util.concurrent.RejectedExecutionException:......
+mxsm-10 当前时间：1656145315473
+mxsm-10 当前时间：1656145316474
+......
+```
+
+
+线程池使用默认的拒绝策略的时候，当线程池提交任务到任务队列已满线程池会直接抛出错误，进而影响到主线程的后续的运行如果没有在主线程中进行错误处理(没有打印主线程结束)。提交任务到任务队列已满异常影响的范围和方式由拒绝策略决定。
+
+
+
+* **线程池本身异常**
+
+
+这里说的线程池本身异常包括但不仅限于在设置线程池大小的时候，可能不停的新建线程导致线程消耗完成了服务器的所有资源。
+
+
+```java
+/**
+ *
+ * 设置内存大小
+ * -Xmx2m
+ * -Xms2m
+ *
+ */
+public class ThreadPoolExceptionTest {
+ 
+    public static void main(String[] args) {
+ 
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        final AtomicInteger integer = new AtomicInteger();
+        for(int i = 0;i <= 100000; ++i){
+            final  int b = i;
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(integer.getAndIncrement());
+                        TimeUnit.SECONDS.sleep(b);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        System.out.println("主线程结束");
+    }
+}
+```
+
+
+```
+......
+83681
+83682
+83683
+[thread 405424 also had an error]
+83684
+83689
+83688
+......
+```
+
+
+线程池导致某些异常会导致线程池直接退出可能同时导致住线程或者主应用发生问题或者退出。
+
+
+👉 [线程池异常如何处理你都了解吗？](https://blog.csdn.net/weixin_45987961/article/details/122783745)
 
 
 #### 分布式锁使用和原理？
-// todo
+1. 数据库
+2. redis
+3. zookeeper
 
 
 #### Redis怎么持久化？高可用？
-// todo
+在web服务器中，高可用是指服务器可以正常访问的时间，衡量的标准是在多长时间内可以提供正常服务(99.9%、99.99%、99.999%等等)。但是在Redis语境中，高可用的含义似乎要宽泛一些，除了保证提供正常服务(如主从分离、快速容灾技术)，还需要考虑数据容量的扩展、数据安全不会丢失等。
+
+
+1. RDB
+2. AOF
+
+
+👉 [Redis高可用之持久化](https://blog.csdn.net/l688899886/article/details/125266110)
 
 
 #### RPC框架实现原理？
-// todo
+Dubbo、Spring cloud那一套，GRPC、Thrift等等都是RPC全程远程方法调用，RPC本质上其实就是一次网络调用，那么它的实现原理主要有以下几个步骤。
+
+
+| 步骤 | 解释 | 
+| :----- | :----- | 
+|<div style='width: 80px'>建立通信</div>|首先要解决通讯的问题。即A机器想要调用B机器，首先得建立起通信连接。主要是通过在客户端和服务器之间建立TCP连接，远程过程调用的所有相关的数据都在这个连接里面进行传输交换。|
+|<div style='width: 80px'>服务寻址</div>|通常情况下我们需要提供B机器(主机名或IP地址)以及特定的端口，然后指定调用的方法或者函数的名称以及入参出参等信息，这样才能完成服务的一个调用。比如基于Web服务协议栈的RPC，就需要提供一个endpoint URI，或者是从UDDI服务上进行查找。如果是RMI调用的话，还需要一个RMI Registry来注册服务的地址。|
+|<div style='width: 80px'>网络传输</div>|1. 序列化: 当A机器上的应用发起一个RPC调用时，调用方法和其参入等信息需要通过底层的网络协议如TCP传输到B机器，由于网络协议是基于二进制的，所有我们传输的参数数据都需要先进行序列化(Serialize)或者编组(marshal)成二进制的形式才能在网络中进行传输。然后通过寻址操作和网络传输将序列化或者编组之后的二进制数据发送给B机器。<br>2. 反序列化: 当B机器接收到A机器的应用发来的请求之后，又需要对接收到的参数等信息进行反序列化操作(序列化的逆操作)，即将二进制信息恢复为内存中的表达方式，然后再找到对应的方法(寻址的一部分)进行本地调用(一般是通过生成代理Proxy去调用，通常会有JDK动态代理、CGLIB动态代理、Javassist生成字节码技术等)，之后得到调用的返回值。|                                                                                                                                                        |
+|<div style='width: 80px'>服务调用</div>|B机器进行本地调用(通过代理Proxy)之后得到了返回值，此时还需要再把返回值发送回A机器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A机器，而当A机器接收到这些返回值之后，则再次进行反序列化操作，恢复为内存中的表达方式，最后再交给A机器上的应用进行相关处理(一般是业务逻辑处理操作)。|
+
+
+![](/images/ReviewV/RPC.png)
 
 
 #### 接口调用变慢排查
@@ -1102,7 +1311,7 @@ cat /proc/sys/net/ipv4/tcp_retries2
 // todo
 
 
-### ⻥泡泡(比心)
+### 鱼泡泡(比心)
 
 
 #### 比较有成就的项目
@@ -1163,10 +1372,26 @@ cat /proc/sys/net/ipv4/tcp_retries2
 
 
 #### Redis线程模型，过期机制，淘汰策略？
-// todo
+| 过期策略 | 解释 | 优点 | 缺点 |
+| :----- | :----- | :----- |
+|<div style='width: 80px; text-decoration: line-through'>定时删除</div>|<div style='text-decoration: line-through'>当对一个key设置了过期时间，当该时间到，立即执行对该key的删除。</div>|<div style='text-decoration: line-through'>定时删除对内存最友好，保证key一旦过期就能立即从内存中删除。</div>|<div style='text-decoration: line-through'>对CPU最不友好，在过期键比较多的时候，删除过期键会占用一部分CPU时间，对服务器的响应时间和吞吐量造成影响。</div>|
+|<div style='width: 80px'>惰性删除</div>|当一个key被设置过期时间后，当key的过期时间到了，并不会立即从内存中删除；在我们使用该key时，先检查其是否过期，过期则将其从内存中删除。|对CPU友好，只在使用的时候才会进行过期检查，对于没用到的key不会浪费时间进行过期检查。|对内存不好用，key过期了却一直没被使用，就会一直占这内存。如果数据库中存在很多过期键不被使用，便永远不会被被删除，内存不会被释放，从而造成内存泄漏。|
+|<div style='width: 80px'>定期删除</div>|每隔一段时间(该时间段可设置)，随机抽取一些设置了过期时间的key进行检查，删除里面过期的键。在Redis的配置文件redis.conf中有一个属性"hz"，默认为10，表示1s执行10次定期删除，即每隔100ms执行一次，可以修改这个配置值。随机抽取，抽取多少？同样是由redis.conf文件中的maxmemory-samples属性决定的，默认为5。|可以通过限制删除操作执行的时长和频率来减少删除操作对CPU的影响。另外定期删除，也能有效释放过期键占用的内存。|难以确定删除操作执行的时长和频率。如果执行的太频繁，定期删除策略变得和定时删除策略一样，对CPU不友好。如果执行的频率小，就和惰性删除一样了，过期键占用的内存不会及时得到释放。另外最重要的是，在获取某个键时，如果某个键的过期时间已经到了，但是还没执行定期删除，那么就会返回这个键的值，这是业务不能忍受的错误。|                                                                                                                                                                                                                                        
 
 
-#### 线程池参数，使用场景，参数设置分析？
+| 内存淘汰策略 | 解释 |
+| :----- | :----- | 
+|<div style='width: 100px'>no-eviction</div>|当内存不足以容纳新写入数据时，新写入操作会报错，无法写入新数据，一般不采用。|
+|<div style='width: 100px'>allkeys-lru</div>|当内存不足以容纳新写入数据时，移除最近最少使用的key，这个是最常用的。|
+|<div style='width: 100px'>allkeys-random</div>|当内存不足以容纳新写入的数据时，随机移除key。|
+|<div style='width: 100px'>allkeys-lfu</div>|当内存不足以容纳新写入数据时，移除最不经常(最少)使用的key。|
+|<div style='width: 100px'>volatile-lru</div>|当内存不足以容纳新写入数据时，在设置了过期时间的key中，移除最近最少使用的key。|
+|<div style='width: 100px'>volatile-random</div>|内存不足以容纳新写入数据时，在设置了过期时间的key中，随机移除某个key 。|
+|<div style='width: 100px'>volatile-lfu</div>|当内存不足以容纳新写入数据时，在设置了过期时间的key中，移除最不经常(最少)使用的key 。|
+|<div style='width: 100px'>volatile-ttl</div>|当内存不足以容纳新写入数据时，在设置了过期时间的key中，优先移除过期时间最早(剩余存活时间最短)的key。|
+
+
+#### 线程池参数、使用场景、参数设置分析？
 // todo
 
 
