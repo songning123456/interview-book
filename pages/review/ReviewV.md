@@ -108,11 +108,17 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 ####  项目中有使用过Netty吗？
-// todo
+![](/images/ReviewV/Netty2.png)
+
+
+Netty是一个基于JAVA NIO类库的异步通信框架，它的架构特点是异步非阻塞、基于事件驱动、高性能、高可靠性和高可定制性。Netty是基于Java NIO client-server的网络应用框架，使用Netty可以快速开发网络应用，例如服务器和客户端协议。Netty提供了一种新的方式来开发网络应用程序，这种新的方式使它很容易使用和具有很强的扩展性。Netty的内部实现是很复杂的，但是Netty提供了简单易用的API从网络处理代码中解耦业务逻辑。Netty是完全基于NIO实现的，所以整个Netty都是异步的。
+
+
+分布式开源框架中Dubbo、Zookeeper，RocketMQ底层RPC通讯使用就是Netty。
 
 
 #### TSL1.3新特性？
-// todo
+👉 [TLS 1.3科普](https://blog.csdn.net/andylau00j/article/details/79269499)
 
 
 #### AES算法原理
@@ -136,7 +142,10 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 #### 场景题: 设计数据库连接池
-// todo
+![](/images/ReviewV/ConnectionPool.png)
+
+
+👉 [如何设计数据库连接池](https://blog.csdn.net/buffeer/article/details/117186123)
 
 
 #### 场景题: 秒杀场景的设计
@@ -151,7 +160,20 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 #### OOM的故障处理
-// todo
+![](/images/ReviewV/OOMError.png)
+
+
+| 故障类型 | 出现场景 | 原因分析 | 解决方案 |
+| :----- | :----- | :----- | :----- |
+|Java heap space|当堆内存(Heap Space)没有⾜够空间存放新创建的对象时，就会抛出java.lang.OutOfMemoryError:Java heap space错误(根据实际⽣产经验，可以对程序⽇志中的OutOfMemoryError配置关键字告警，⼀经发现，立即处理)。|1. 请求创建一个超大对象，通常是⼀个大数组。<br>2. 超出预期的访问量/数据量，通常是上游系统请求流量飙升，常见于各类促销/秒杀活动，可以结合业务流量指标排查是否有尖状峰值。<br>3. 过度使⽤终结器(Finalizer)，该对象没有立即被GC。<br>4. 内存泄漏(Memory Leak)，大量对象引用没有释放，JVM无法对其自动回收，常见于使用了File等资源没有回收。|1. 通过-Xmx参数调⾼JVM堆内存空间。<br>2. 如果是超⼤对象，可以检查其合理性，⽐如是否⼀次性查询了数据库全部结果⽽没有做结果数限制。<br>3. 如果是业务峰值压⼒，可以考虑添加机器资源或者做限流降级。<br>4. 如果是内存泄漏，需要找到持有的对象，修改代码设计，⽐如关闭没有释放的连接。|
+|GC overhead limit exceeded|当Java进程花费98%以上的时间执⾏GC，但只恢复了不到2%的内存，且该动作连续重复了5次，就会抛出 java.lang.OutOfMemoryError:GC overhead limit exceeded错误。简单地说就是应⽤程序已经基本耗尽了所有可⽤内存，GC也⽆法回收。|同Java heap space|同Java heap space|
+|Permgen space|该错误表⽰永久代(Permanent Generation)已⽤满，通常是因为加载的class数⽬太多或体积太⼤。|永久代存储对象主要包括以下⼏类: <br>1. 加载/缓存到内存中的Class定义，包括类的名称、字段、⽅法和字节码；<br>2. 常量池；<br>3. 对象数组/类型数组所关联的class；<br>4. JIT编译器优化后的class信息。<br>PermGen的使⽤量与加载到内存的Class的数量/⼤⼩正相关。|1. 程序启动报错，修改-XX:MaxPermSize启动参数，调⼤永久代空间。<br>2. 应⽤重新部署时报错，很可能是没有应⽤没有重启，导致加载了多份class信息，只需重启JVM即可解决。<br>3. 运⾏时报错，应⽤程序可能会动态创建⼤量class，⽽这些class的⽣命周期很短暂，但是JVM默认不会卸载class，可以设置-XX:+CMSClassUnloadingEnabled和-XX:+UseConcMarkSweepGC这两个参数允许JVM卸载class。|
+|Metaspace|JDK1.8使⽤Metaspace替换了永久代(Permanent Generation)，该错误表⽰Metaspace已被⽤满，通常是因为加载的class数⽬太多或体积太⼤。|同Permgen space|同Permgen space。注意的是调整Metaspace空间⼤⼩的启动参数为-XX:MaxMetaspaceSize。|
+|Unable to create new native thread|每个Java线程都需要占⽤⼀定的内存空间，当JVM向底层操作系统请求创建⼀个新的native线程时，如果没有⾜够的资源分配就会报此类错误。|JVM向OS请求创建native线程失败，就会抛出Unable to create new native thread，常见的原因包括以下⼏类:<br>1. 线程数超过操作系统最⼤线程数ulimit限制；<br>2. 线程数超过kernel.pid_max(只能重启)；<br>3. native内存不⾜。|1. JVM内部的应⽤程序请求创建⼀个新的Java线程；<br>2. JVM native⽅法代理了该次请求，并向操作系统请求创建⼀个native线程；<br>3. 操作系统尝试创建⼀个新的native线程，并为其分配内存；<br>4. 如果操作系统的虚拟内存已耗尽或是受到32位进程的地址空间限制，操作系统就会拒绝本次native内存分配；<br>5. JVM将抛出java.lang.OutOfMemoryError: Unable to create new native thread错误。|
+|Out of swap space|该错误表⽰所有可⽤的虚拟内存已被耗尽。虚拟内存(Virtual Memory)由物理内存(Physical Memory)和交换空间(Swap Space)两部分组成。当运⾏时程序请求的虚拟内存溢出时就会报Out of swap space错误。|1. 地址空间不⾜；<br>2. 物理内存已耗光；<br>3. 应⽤程序的本地内存泄漏(native leak)，例如不断申请本地内存，却不释放。<br>4. 执⾏jmap-histo:live<pid>命令，强制执⾏Full GC；如果⼏次执⾏后内存明显下降，则基本确认为Direct ByteBuffer问题。|1. 升级地址空间为64bit。<br>2. 使⽤Arthas检查是否为Inflater/Deflater解压缩问题，如果是则显式调⽤end⽅法。<br>3. Direct ByteBuffer 问题可以通过启动参数-XX:MaxDirectMemorySize调低阈值。<br>4. 升级服务器配置/隔离部署，避免争⽤。|
+|Kill process or sacrifice child|有⼀种内核作业(Kernel Job)名为Out of Memory Killer，它会在可⽤内存极低的情况下杀死(kill)某些进程。OOM Killer会对所有进程进⾏打分，然后将评分较低的进程“杀死”，具体的评分规则可以参考Surviving the Linux OOM Killer。不同于其他的 OOM 错误，Kill processor sacrifice child错误不是由JVM层⾯触发的，⽽是由操作系统层⾯触发的。|默认情况下，Linux内核允许进程申请的内存总量⼤于系统可⽤内存，通过这种“错峰复⽤”的⽅式可以更有效的利⽤系统资源。然⽽这种⽅式也会⽆可避免地带来⼀定的“超卖”风险。例如某些进程持续占⽤系统内存，然后导致其他进程没有可⽤内存。此时系统将⾃动激活OOM Killer，寻找评分低的进程，并将其“杀死”，释放内存资源。|1. 升级服务器配置/隔离部署，避免争⽤。<br>2. OOM Killer 调优。|
+|Requested array size exceeds VM limit|JVM限制了数组的最⼤长度，该错误表⽰程序请求创建的数组超过最⼤长度限制。JVM在为数组分配内存前，会检查要分配的数据结构在系统中是否可寻址，通常为Integer.MAX_VALUE-2。此类问题⽐较罕见，通常需要检查代码，确认业务是否需要创建如此⼤的数组，是否可以拆分为多个块，分批执⾏。|----|----|
+|Direct buffer memory|Java允许应⽤程序通过Direct ByteBuffer直接访问堆外内存，许多⾼性能程序通过Direct ByteBuffer结合内存映射⽂件(MemoryMapped File)实现⾼速IO。|Direct ByteBuffer的默认⼤⼩为64MB，⼀旦使⽤超出限制就会抛出Direct buffer memory错误。|1. Java只能通过ByteBuffer.allocateDirect⽅法使⽤Direct ByteBuffer，因此可以通过Arthas等在线诊断⼯具拦截该⽅法进⾏排查。<br>2. 检查是否直接或间接使⽤了NIO，如netty，jetty等。<br>3. 通过启动参数-XX:MaxDirectMemorySize调整Direct ByteBuffer的上限值。<br>4. 检查JVM参数是否有-XX:+DisableExplicitGC选项，如果有就去掉，因为该参数会使System.gc()失效。<br>5. 检查堆外内存使⽤代码，确认是否存在内存泄漏；或者通过反射调⽤sun.misc.Cleaner的clean()⽅法来主动释放被Direct ByteBuffer持有的内存空间。<br>6. 内存容量确实不⾜，升级配置。|
 
 
 #### 有没有用过分布式锁，怎么实现的，讲讲原理
@@ -210,11 +232,27 @@ TCP三次握手建立连接的过程中，内核通常会为每一个LISTEN状�
 
 
 #### TCP的连接过程
-// todo
+![](/images/ReviewV/TCP.png)
+
+
+| 过程 | 解释 |
+| :----- | :----- |
+|LISTEN|侦听来自远方的TCP端口的连接请求。|
+|SYN-SENT|再发送连接请求后等待匹配的连接请求。|
+|SYN-RECEIVED|再收到和发送。|
+
+
+1. 第一次握手。建立连接后，客户端向服务器发送syn包(syn=j)，进入SYN_SEND状态，等待服务器确认。
+2. 第二次握手。当服务器收到syn包时，必须确认客户端的syn(ack=j+1)并发送一个syn包(syn=k)，即syn+ack包。此时服务器进入SYN_RECV状态。
+3. 第三次握手。SYN+ACK包，客户端收到服务器端发来的确认包ACK(ACK=k+1)，来发送这个包来发送，客户端和服务器端进入建立状态，完成三次握手。
 
 
 #### Socket有几个队列
-// todo
+LISTEN状态的Socket维护的两个队列。
+
+
+1. SYN队列(半连接队列)，这些连接已经接到客户端SYN。
+2. ACCEPT队列(全连接队列)，这些连接已经接到客户端的ACK，完成了三次握手，等待被accept系统调用取走。
 
 
 #### 一台服务器能支持多少连接，为什么？
@@ -975,8 +1013,11 @@ jstack -l PID | grep ${16进制NID} -A 100
 // todo
 
 
-#### 系统负载过高怎么办、什么问题导致的？怎么排查？
-// todo
+#### 系统负载过高怎么办？什么问题导致的？怎么排查？
+1. top -c。输入P获取PID。
+2. top -Hp PID。输入P获取NID。
+3. printf "%x\n" NID。输入NID获取16进制NID。
+4. jstack -l PID | grep 16进制NID -A 100。定位异常代码。
 
 
 #### Linux操作系统简单介绍有哪些东西？
@@ -1308,7 +1349,16 @@ cat /proc/sys/net/ipv4/tcp_retries2
 
 
 #### 数据库设计，优化方案
-// todo
+![](/images/ReviewV/DatabaseOptimize.png)
+
+
+1. sql以及索引的优化。
+2. 合理的数据库设计。
+3. 系统配置的优化。
+4. 硬件优化。
+
+
+👉 [数据库优化方案整理](https://blog.csdn.net/u013628152/article/details/82184809)
 
 
 ### 鱼泡泡(比心)
@@ -1347,7 +1397,11 @@ cat /proc/sys/net/ipv4/tcp_retries2
 
 
 #### HashMap、HashTable区别？
-// todo
+1. HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)，而Hashtable则不行)。
+2. HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMap的。Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。
+3. 另一个区别是HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构(增加或者移除元素)，将会抛出ConcurrentModificationException，但迭代器本身的remove()方法移除元素则不会抛出ConcurrentModificationException异常。但这并不是一个一定发生的行为，要看JVM。这条同样也是Enumeration和Iterator的区别。
+4. 由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。
+5. HashMap不能保证随着时间的推移Map中的元素次序是不变的。
 
 
 #### 对线程安全的理解？
@@ -1392,11 +1446,49 @@ cat /proc/sys/net/ipv4/tcp_retries2
 
 
 #### 线程池参数、使用场景、参数设置分析？
-// todo
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue<Runnable> workQueue,
+                          ThreadFactory threadFactory,
+                          RejectedExecutionHandler handler) {
+    ...
+}
+```
+
+
+| 线程池参数 | 解释 | 
+| :----- | :----- | 
+|coreSize核心线程数|1. 核心线程会一直存活，即使没有任务需要执行。<br>当线程数<核心线程数时，即使有线程空闲，线程池也会优先创建新线程处理。<br>设置allowCoreThreadTimeout=true(默认false)时，核心线程会超时关闭。|
+|maximumPoolSize最大线程数|1. 当线程数>=corePoolSize，且任务队列已满时。线程池会创建新线程来处理任务。<br>2. 当线程数=maxPoolSize，且任务队列已满时，线程池会拒绝处理任务而抛出异常。|
+|keepAliveTime线程空闲时间|1. 当线程空闲时间达到keepAliveTime时，线程会退出，直到线程数量=corePoolSize。<br>2. 如果allowCoreThreadTimeout=true，则会直到线程数量=0。|
+|queueCapacity任务队列容量(阻塞队列)|当核心线程数达到最大时，新任务会放在队列中排队等待执行。|
+|allowCoreThreadTimeout允许核心线程超时|----|
+|rejectedExecutionHandler任务拒绝处理器|1. 当线程数已经达到maxPoolSize且队列已满，会拒绝新任务。<br>2. 当线程池被调用shutdown()后，会等待线程池里的任务执行完毕再shutdown。如果在调用shutdown()和线程池真正shutdown之间提交任务，会拒绝新任务。<br>线程池会调用rejectedExecutionHandler来处理这个任务。如果没有设置默认是AbortPolicy，会抛出异常。ThreadPoolExecutor采用了策略的设计模式来处理拒绝任务的几种场景。这几种策略模式都实现了RejectedExecutionHandler接口。|
+
+
+| 拒绝策略 | 解释 | 
+| :----- | :----- | 
+|AbortPolicy|丢弃任务，抛运行时异常。|
+|CallerRunsPolicy|执行任务。|
+|DiscardPolicy|忽视，什么都不会发生。|
+|DiscardOldestPolicy|从队列中踢出最先进入队列(最后一个执行)的任务。|
 
 
 #### Mysql存储引擎、索引结构、分库分表
-// todo
+![](/images/ReviewV/StorageEngine.png)
+
+
+| 存储引擎 | 使用场景 | 
+| :----- | :----- | 
+|InnoDB|适合要提供提交、回滚和崩溃后的安全恢复的事务安全能力，并要求实现并发控制。|
+|MyISAM|适合于只读的数据，或者表比较小、可以忍受修复操作数据库。|
+|Memory|适用于快速查找数据，用于数据分析中产生的中间数据。|
+
+
+👉 [MySQL数据存储/索引/事务隔离级别/主从复制/分库分表](https://blog.csdn.net/weixin_51393513/article/details/121247919)
 
 
 #### 场景题: 设计一个抢红包系统
