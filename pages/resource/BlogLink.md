@@ -27,6 +27,9 @@
 👉 [什么是零拷贝](https://blog.csdn.net/a745233700/article/details/122660332)
 
 
+👉 [比雪花算法更好用的ID生成算法](https://www.cnblogs.com/WuLiAKun/p/14623109.html)
+
+
 #### WINDOW
 // todo
 
