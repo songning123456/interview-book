@@ -13,14 +13,14 @@
 #### happen-before原则？
 |原则|解释|
 | :----- | :----- |
-|单线程|在同一个线程中，书写在前面的操作happen-before后面的操作。|
-|锁|同一个锁的unlock操作happen-before此锁的lock操作。|
-|volatile|对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。|
-|传递性|如果A操作happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。|
-|线程启动|同一个线程的start方法happen-before此线程的其它方法。|
-|线程中断|对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。|
-|线程终结|线程中的所有操作都happen-before线程的终止检测。|
-|对象创建|一个对象的初始化完成先于他的finalize方法调用。|
+|<div style='width: 80px'>单线程</div>|在同一个线程中，书写在前面的操作happen-before后面的操作。|
+|<div style='width: 80px'>锁</div>|同一个锁的unlock操作happen-before此锁的lock操作。|
+|<div style='width: 80px'>volatile</div>|对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。|
+|<div style='width: 80px'>传递性</div>|如果A操作happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。|
+|<div style='width: 80px'>线程启动</div>|同一个线程的start方法happen-before此线程的其它方法。|
+|<div style='width: 80px'>线程中断</div>|对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。|
+|<div style='width: 80px'>线程终结</div>|线程中的所有操作都happen-before线程的终止检测。|
+|<div style='width: 80px'>对象创建</div>|一个对象的初始化完成先于他的finalize方法调用。|
 
 
 #### JVM调优的实践？
