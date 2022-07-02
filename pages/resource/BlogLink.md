@@ -46,4 +46,5 @@
 
 
 #### GIT
-// todo
+👉 [git同时推送到github和gitee](https://blog.csdn.net/Create_future/article/details/118567508)
+
