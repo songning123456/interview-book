@@ -4,14 +4,14 @@
 ### 阿里巴巴
 
 
-#### 对象如何进行深拷⻉，除了clone？
+#### 对象如何进行深拷贝，除了clone？
 1. 构造函数
 2. Apache Commons Lang序列化
 3. Gson序列化
 
 
 #### happen-before原则？
-|happen-before原则|解释|
+|原则|解释|
 | :----- | :----- |
 |单线程|在同一个线程中，书写在前面的操作happen-before后面的操作。|
 |锁|同一个锁的unlock操作happen-before此锁的lock操作。|
