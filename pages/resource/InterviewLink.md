@@ -15,7 +15,7 @@
 👉 [JAVA核心面试知识整理](http://pdf.sonin.cn)
 
 
-👉 [v3.0-JavaGuide面试突击版](http://pdf.sonin.cn?file=JavaGuide面试突击版v3.pdf)
+👉 [JavaGuide面试突击版v3](http://pdf.sonin.cn?file=JavaGuide面试突击版v3.pdf)
 
 
 👉 [advanced-java](http://pdf.sonin.cn?file=advanced-java.pdf)
@@ -45,10 +45,10 @@
 👉 [MyBatis面试专题](http://pdf.sonin.cn?file=MyBatis面试专题.pdf)
 
 
-👉 [mysql面试专题](http://pdf.sonin.cn?file=Mysql面试专题.pdf)
+👉 [Mysql面试专题](http://pdf.sonin.cn?file=Mysql面试专题.pdf)
 
 
-👉 [redis面试专题](http://pdf.sonin.cn?file=Redis面试专题.pdf)
+👉 [Redis面试专题](http://pdf.sonin.cn?file=Redis面试专题.pdf)
 
 
 👉 [Spring面试专题及答案](http://pdf.sonin.cn?file=Spring面试专题及答案.pdf)
@@ -66,4 +66,4 @@
 👉 [我想进大厂](http://pdf.sonin.cn?file=我想进大厂.pdf)
 
 
-👉 [socket常用API详解](http://pdf.sonin.cn?file=Socket常用API详解.pdf)
+👉 [Socket常用API详解](http://pdf.sonin.cn?file=Socket常用API详解.pdf)
