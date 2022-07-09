@@ -467,49 +467,658 @@ abstract class Cat {
 ### 反射
 
 
+#### 什么是反射？
+// todo
+
+
+#### 什么是Java序列化？什么情况下需要序列化？
+// todo
+
+
+#### 动态代理是什么？有哪些应用？
+// todo
+
+
+#### 怎么实现动态代理？
+// todo
+
+
 ### 对象拷贝
+
+
+#### 为什么要使用克隆？
+// todo
+
+
+#### 如何实现对象克隆？
+// todo
+
+
+#### 深拷贝和浅拷贝区别是什么？
+// todo
 
 
 ### Java Web模块
 
 
+#### JSP和servlet有什么区别？
+// todo
+
+
+#### JSP有哪些内置对象？作用分别是什么？
+// todo
+
+
+#### 说一下JSP的4种作用域？
+// todo
+
+
+#### session和cookie有什么区别？
+// todo
+
+
+#### 说一下session的工作原理？
+// todo
+
+
+#### 如果客户端禁止cookie能实现session还能用吗？
+// todo
+
+
+#### springMVC和struts的区别是什么？
+// todo
+
+
+#### 如何避免sql注入？
+// todo
+
+
+#### 什么是XSS攻击？如何避免？
+// todo
+
+
+#### 什么是CSRF攻击？如何避免？
+// todo
+
+
 ### 异常模块
+
+
+#### throw和throws的区别？
+// todo
+
+
+#### final、finally、finalize有什么区别？
+// todo
+
+
+#### try-catch-finally中哪个部分可以省略？
+// todo
+
+
+#### try-catch-finally中，如果catch中return了，finally还会执行吗？
+// todo
+
+
+#### 常见的异常类有哪些？
+// todo
 
 
 ### 网络模块
 
 
+#### http响应码301和302代表的是什么？有什么区别？
+// todo
+
+
+#### forward和redirect的区别？
+// todo
+
+
+#### 简述TCP和UDP的区别？
+// todo
+
+
+#### TCP为什么要三次握手，两次不行吗？为什么？
+// todo
+
+
+#### 说一下TCP粘包是怎么产生的？
+// todo
+
+
+#### OSI的七层模型都有哪些？
+// todo
+
+
+#### get和post请求有哪些区别？
+// todo
+
+
+#### 如何实现跨域？
+// todo
+
+
+#### 说一下JSONP实现原理？
+// todo
+
+
 ### 设计模式
+
+
+#### 说一下你熟悉的设计模式？
+// todo
+
+
+#### 简单工厂和抽象工厂有什么区别？
+// todo
 
 
 ### Spring MVC
 
 
-### Spring Boot
+#### 为什么要使用Spring？
+// todo
 
 
-### Spring Cloud
+#### 解释一下什么是AOP？
+// todo
+
+
+#### 解释一下什么是IOC？
+// todo
+
+
+#### Spring有哪些主要模块？
+// todo
+
+
+#### Spring常用的注入方式有哪些？
+// todo
+
+
+#### Spring中的bean是线程安全的吗？
+// todo
+
+
+#### Spring支持几种bean的作用域？
+// todo
+
+
+#### Spring自动装配bean有哪些方式？
+// todo
+
+
+#### Spring事务实现方式有哪些？
+// todo
+
+
+#### 说一下Spring的事务隔离？
+// todo
+
+
+#### 说一下SpringMVC运行流程？
+// todo
+
+
+#### SpringMVC有哪些组件？
+// todo
+
+
+#### @RequestMapping的作用是什么？
+// todo
+
+
+#### @Autowired的作用是什么？
+// todo
+
+
+### Spring Boot/Spring Cloud
+
+
+#### 什么是Spring Boot？
+// todo
+
+
+#### 为什么要用Spring Boot？
+// todo
+
+
+#### Spring Boot核心配置文件是什么？
+// todo
+
+
+#### Spring Boot配置文件有哪几种类型？它们有什么区别？
+// todo
+
+
+#### Spring Boot有哪些方式可以实现热部署？
+// todo
+
+
+#### JPA和Hibernate有什么区别？
+// todo
+
+
+#### 什么是Spring Cloud？
+// todo
+
+
+#### Spring Cloud断路器的作用是什么？
+// todo
+
+
+#### Spring Cloud的核心组件有哪些？
+// todo
 
 
 ### Hibernate
 
 
+#### 为什么要使用Hibernate？
+// todo
+
+
+#### 什么是ORM框架？
+// todo
+
+
+#### Hibernate中如何在控制台查看打印的sql语句？
+// todo
+
+
+#### Hibernate有几种查询方式？
+// todo
+
+
+#### Hibernate实体类可以被定义为final吗？
+// todo
+
+
+#### 在Hibernate中使用Integer和int做映射有什么区别？
+// todo
+
+
+#### hibernate是如何工作的？
+// todo
+
+
+#### get()和load()的区别？
+// todo
+
+
+#### 说一下Hibernate的缓存机制？
+// todo
+
+
+#### Hibernate对象有哪些状态？
+// todo
+
+
+#### 在Hibernate中getCurrentSession和openSession的区别是什么？
+// todo
+
+
+#### hibernate实体类必须要有无参构造函数吗？为什么？
+// todo
+
+
 ### Mybatis
+
+
+#### Mybatis中#{}和${}的区别是什么？
+// todo
+
+
+#### Mybatis有几种分页方式？
+// todo
+
+
+#### RowBounds是一次性查询全部结果吗？为什么？
+// todo
+
+
+#### Mybatis逻辑分页和物理分页的区别是什么？
+// todo
+
+
+#### Mybatis是否支持延迟加载？延迟加载的原理是什么？
+// todo
+
+
+#### 说一下Mybatis的一级缓存和二级缓存？
+// todo
+
+
+#### Mybatis和Hibernate的区别有哪些？
+// todo
+
+
+#### Mybatis有哪些执行器(Executor)？
+// todo
+
+
+#### Mybatis分页插件的实现原理是什么？
+// todo
+
+
+#### Mybatis如何编写一个自定义插件？
+// todo
 
 
 ### RabbitMQ
 
 
+#### RabbitMQ的使用场景有哪些？
+// todo
+
+
+#### RabbitMQ有哪些重要的角色？
+// todo
+
+
+#### RabbitMQ有哪些重要的组件？
+// todo
+
+
+#### RabbitMQ中vhost的作用是什么？
+// todo
+
+
+#### RabbitMQ的消息是怎么发送的？
+// todo
+
+
+#### RabbitMQ怎么保证消息的稳定性？
+// todo
+
+
+#### RabbitMQ怎么避免消息丢失？
+// todo
+
+
+#### 要保证消息持久化成功的条件有哪些？
+// todo
+
+
+#### RabbitMQ持久化有什么缺点？
+// todo
+
+
+#### RabbitMQ有几种广播类型？
+// todo
+
+
+#### RabbitMQ怎么实现延迟消息队列？
+// todo
+
+
+#### RabbitMQ集群有什么用？
+// todo
+
+
+#### RabbitMQ节点的类型有哪些？
+// todo
+
+
+#### RabbitMQ集群搭建需要注意哪些问题？
+// todo
+
+
+#### RabbitMQ每个节点是其他节点的完整拷贝吗？为什么？
+// todo
+
+
+#### RabbitMQ集群中唯一一个磁盘节点崩溃了会发生什么情况？
+// todo
+
+
+#### RabbitMQ对集群节点停止顺序有要求吗？
+// todo
+
+
 ### Kafka
+
+
+#### Kafka可以脱离zookeeper单独使用吗？为什么？
+// todo
+
+
+#### Kafka有几种数据保留的策略？
+// todo
+
+
+#### Kafka同时设置了7天和10G清除数据，到第五天的时候消息达到了10G，这个时候Kafka将如何处理？
+// todo
+
+
+#### 什么情况会导致Kafka运行变慢？
+// todo
+
+
+#### 使用Kafka集群需要注意什么？
+// todo
 
 
 ### Zookeeper
 
 
+#### Zookeeper是什么？
+// todo
+
+
+#### Zookeeper都有哪些功能？
+// todo
+
+
+#### Zookeeper有几种部署模式？
+// todo
+
+
+#### Zookeeper怎么保证主从节点的状态同步？
+// todo
+
+
+#### 集群中为什么要有主节点？
+// todo
+
+
+#### 集群中有3台服务器，其中一个节点宕机，这个时候Zookeeper还可以使用吗？
+// todo
+
+
+#### 说一下Zookeeper的通知机制？
+// todo
+
+
+####
+// todo
+
+
 ### Mysql
+
+
+#### 数据库的三范式是什么？
+// todo
+
+
+#### 一张自增表里面总共有7条数据，删除了最后2条数据，重启Mysql数据库，又插入了一条数据，此时ID是多少？
+// todo
+
+
+#### 如何获取当前数据库版本？
+// todo
+
+
+#### 说一下ACID是什么？
+// todo
+
+
+#### char和varchar的区别是什么？
+// todo
+
+
+#### float和double的区别是什么？
+// todo
+
+
+#### Mysql的内连接、左连接、右连接有什么区别？
+// todo
+
+
+#### Mysql索引是怎么实现的？
+// todo
+
+
+#### 怎么验证Mysql的索引是否满足需求？
+// todo
+
+
+#### 说一下数据库的事务隔离？
+// todo
+
+
+#### 说一下Mysql常用的引擎？
+// todo
+
+
+#### 说一下Mysql的行锁和表锁？
+// todo
+
+
+#### 说一下乐观锁和悲观锁？
+// todo
+
+
+#### Mysql问题排查都有哪些手段？
+// todo
+
+
+#### 如何做Mysql的性能优化？
+// todo
 
 
 ### Redis
 
 
+#### Redis是什么？都有哪些使用场景？
+// todo
+
+
+#### Redis有哪些功能？
+// todo
+
+
+#### Redis和memcache有什么区别？
+// todo
+
+
+#### Redis为什么是单线程的？
+// todo
+
+
+#### 什么是缓存穿透？怎么解决？
+// todo
+
+
+#### Redis支持的数据类型有哪些？
+// todo
+
+
+#### Redis支持的Java客户端都有哪些？
+// todo
+
+
+#### jedis和redisson有哪些区别？
+// todo
+
+
+#### 怎么保证缓存和数据库数据的一致性？
+// todo
+
+
+#### Redis持久化有几种方式？
+// todo
+
+
+#### Redis怎么实现分布式锁？
+// todo
+
+
+#### Redis分布式锁有什么缺陷？
+// todo
+
+
+#### Redis如何做内存优化？
+// todo
+
+
+#### Redis淘汰策略有哪些？
+// todo
+
+
+#### Redis常见的性能问题有哪些？该如何解决？
+// todo
+
+
 ### JVM
+
+
+#### 说一下JVM的主要组成部分？及其作用？
+// todo
+
+
+#### 说一下JVM运行时数据区？
+// todo
+
+
+#### 说一下堆栈的区别？
+// todo
+
+
+#### 队列和栈是什么？有什么区别？
+// todo
+
+
+#### 什么是双亲委派模型？
+// todo
+
+
+#### 说一下类装载的执行过程？
+// todo
+
+
+#### 怎么判断对象是否可以被回收？
+// todo
+
+
+#### Java中都有哪些引用类型？
+// todo
+
+
+#### 说一下JVM有哪些垃圾回收算法？
+// todo
+
+
+#### 说一下JVM有哪些垃圾回收器？
+// todo
+
+
+#### 详细介绍一下CMS垃圾回收器？
+// todo
+
+
+#### 新生代垃圾回收器和老生代垃圾回收器都有哪些？有什么区别？
+// todo
+
+
+#### 简述分代垃圾回收器是怎么工作的？
+// todo
+
+
+#### 说一下JVM调优的工具？
+// todo
+
+
+#### 常用的JVM调优的参数都有哪些？
+// todo
