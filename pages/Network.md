@@ -591,3 +591,55 @@ if(request){
 
 
 至此，整个SSL/TLS的握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全使用普通的HTTP协议，只不过用会话秘钥加密内容。
+
+
+#### 浏览器建立TCP连接之后，完成一次HTTP请求，是否会断开？
+HTTP协议Header中的Connection属性决定了连接是否持久，不同HTTP协议版本有所不同。
+
+
+HTTP/1.0中Connection默认为close，即每次请求都会重新建立和断开TCP连接。缺点是建立和断开TCP连接，代价过大。
+
+
+HTTP/1.1中Connection默认为keep-alive，即连接可以复用，不用每次都重新建立和断开TCP连接。超时之后没有连接则主动断开。可以通过声明Connection为close进行关闭。优点是TCP连接可被重复利用，减少建立连接的损耗，SSL的开销也可以避免。刷新页面时也可以复用，从而不再建立SSL连接等。
+
+
+默认情况下(HTTP/1.1)建立TCP连接不会断开，只有在请求报头中声明Connection: close才会请求完成之后关闭连接。不断开的最终目的是减少建立连接所导致的性能损耗。
+
+
+#### 一个TCP连接可以对应几个HTTP请求？
+1. 如果`Connection: close`，则一个TCP连接只对应一个HTTP请求。
+2. 如果`Connection: Keep-alive`，则一个TCP连接可对应一个到多个HTTP请求。
+
+
+#### 一个TCP连接中，可以同时发送多个HTTP请求吗？
+TTP/1.1中单个TCP连接在同一时刻只能处理一个请求。HTTP/1.1在RFC 2616中规定了Pipelining来解决这个问题，但浏览器默认是关闭的。
+
+
+RFC 2616中规定一个支持持久连接的客户端可以在一个连接中发送多个请求(不需要等待任意请求的响应)。收到请求的服务器必须按照请求收到的顺序发送响应。
+
+
+Pipelining本身存在一些问题，比如代理服务器不能正确处理HTTP Pipelining、Head-of-line Blocking连接头阻塞(首个请求耗时过长，阻塞其他请求)。所以浏览器默认关闭该功能。
+
+
+HTTP/2.0提供了多路复用技术Multiplexing，一个TCP可以并发多个HTTP请求(理论无上限，但是一般浏览器会有TCP并发数的限制)。
+
+
+HTTP/1.1中为了提升性能，通常会采用连接复用和同时建立多个TCP连接的方式提升性能。
+
+
+HTTP/1.1中存在Pipelining技术支持一个连接发送多个请求，但存在弊端，浏览器默认关闭。HTTP/2.0中通过多路复用技术支持一个TCP连接中并发请求HTTP。
+
+
+#### 浏览器对同一Host建立TCP连接的数量有没限制？
+不同浏览器限制不同，比如Chrome最多允许同一个Host可建立6个TCP连接。
+
+
+如果服务器只支持HTTP/1.1，浏览器会采用在同一个Host下建立多个TCP连接来进行效率提升。如果是基于HTTPS传输，在SSL握手之后，还会尝试协商是否可以采用HTTP/2.0的Multiplexing功能。
+
+
+#### keep-alive使用场景及优缺点？
+开启keep-alive对内存要求高，关闭keep-alive对CPU要求高；如果内存和CPU都足够，开启和关闭keep-alive对性能影响不大；如果考虑服务器压力，如果是静态页面，大量的调用js或者图片的话，建议开启keep-alive；如果是动态网页，建议关闭keep-alive。
+
+
+注意事项: 如果需要使用keep-alive功能，服务器端如果使用nginx中keepalive_timeout值要大于0。
+
