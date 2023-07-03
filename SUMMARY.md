@@ -43,6 +43,7 @@
  * [题卷IV](/pages/review/ReviewIV.md)
  * [题卷V](/pages/review/ReviewV.md)
  * [题卷VI](/pages/review/ReviewVI.md)
+ * [题卷VII](/pages/review/ReviewVII.md)
 * [实战问题](/pages/Question.md)
  * [问题I](/pages/question/QuestionI.md)
 * [其他资源](/pages/Resource.md)
