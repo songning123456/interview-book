@@ -117,14 +117,14 @@ TCP是面向连接的传输协议，TCP传输的数据是以流的形式 ，而�
 | API | 解释 |
 | :----- | :----- |
 |socket()|创建socket|
-|bind()|绑定socket到本地地址和端⼝，通常由服务端调⽤|
-|listen()|TCP专⽤，开启监听模式|
-|accept()|TCP专⽤，服务器等待客户端连接，⼀般是阻塞态|
-|connect()|TCP专⽤，客户端主动连接服务器|
-|send()|TCP专⽤，发送数据|
-|recv()|TCP专⽤，接收数据|
-|sendto()|UDP专⽤，发送数据到指定的IP地址和端⼝|
-|recvfrom()|UDP专⽤，接收数据，返回数据远端的IP地址和端⼝|
+|bind()|绑定socket到本地地址和端口，通常由服务端调用|
+|listen()|TCP专用，开启监听模式|
+|accept()|TCP专用，服务器等待客户端连接，⼀般是阻塞态|
+|connect()|TCP专用，客户端主动连接服务器|
+|send()|TCP专用，发送数据|
+|recv()|TCP专用，接收数据|
+|sendto()|UDP专用，发送数据到指定的IP地址和端口|
+|recvfrom()|UDP专用，接收数据，返回数据远端的IP地址和端口|
 |closesocket()|关闭socket|
 
 
@@ -202,7 +202,7 @@ Netty是一个基于JAVA NIO类库的异步通信框架，它的架构特点是�
 |Permgen space|该错误表示永久代(Permanent Generation)已用满，通常是因为加载的class数目太多或体积太大。|永久代存储对象主要包括以下几类: <br>1. 加载/缓存到内存中的Class定义，包括类的名称、字段、方法和字节码；<br>2. 常量池；<br>3. 对象数组/类型数组所关联的class；<br>4. JIT编译器优化后的class信息。<br>PermGen的使用量与加载到内存的Class的数量/大小正相关。|1. 程序启动报错，修改-XX:MaxPermSize启动参数，调大永久代空间。<br>2. 应用重新部署时报错，很可能是没有应用没有重启，导致加载了多份class信息，只需重启JVM即可解决。<br>3. 运行时报错，应用程序可能会动态创建大量class，而这些class的生命周期很短暂，但是JVM默认不会卸载class，可以设置-XX:+CMSClassUnloadingEnabled和-XX:+UseConcMarkSweepGC这两个参数允许JVM卸载class。|
 |Metaspace|JDK1.8使用Metaspace替换了永久代(Permanent Generation)，该错误表示Metaspace已被用满，通常是因为加载的class数目太多或体积太大。|同Permgen space|同Permgen space。注意的是调整Metaspace空间大小的启动参数为-XX:MaxMetaspaceSize。|
 |Unable to create new native thread|每个Java线程都需要占用一定的内存空间，当JVM向底层操作系统请求创建一个新的native线程时，如果没有足够的资源分配就会报此类错误。|JVM向OS请求创建native线程失败，就会抛出Unable to create new native thread，常见的原因包括以下几类:<br>1. 线程数超过操作系统最大线程数ulimit限制；<br>2. 线程数超过kernel.pid_max(只能重启)；<br>3. native内存不足。|1. JVM内部的应用程序请求创建⼀个新的Java线程；<br>2. JVM native方法代理了该次请求，并向操作系统请求创建一个native线程；<br>3. 操作系统尝试创建一个新的native线程，并为其分配内存；<br>4. 如果操作系统的虚拟内存已耗尽或是受到32位进程的地址空间限制，操作系统就会拒绝本次native内存分配；<br>5. JVM将抛出java.lang.OutOfMemoryError: Unable to create new native thread错误。|
-|Out of swap space|该错误表示所有可用的虚拟内存已被耗尽。虚拟内存(Virtual Memory)由物理内存(Physical Memory)和交换空间(Swap Space)两部分组成。当运⾏时程序请求的虚拟内存溢出时就会报Out of swap space错误。|1. 地址空间不⾜；<br>2. 物理内存已耗光；<br>3. 应用程序的本地内存泄漏(native leak)，例如不断申请本地内存，却不释放。<br>4. 执行jmap-histo:live<pid>命令，强制执行Full GC；如果几次执行后内存明显下降，则基本确认为Direct ByteBuffer问题。|1. 升级地址空间为64bit。<br>2. 使用Arthas检查是否为Inflater/Deflater解压缩问题，如果是则显式调用end方法。<br>3. Direct ByteBuffer问题可以通过启动参数-XX:MaxDirectMemorySize调低阈值。<br>4. 升级服务器配置/隔离部署，避免争用。|
+|Out of swap space|该错误表示所有可用的虚拟内存已被耗尽。虚拟内存(Virtual Memory)由物理内存(Physical Memory)和交换空间(Swap Space)两部分组成。当运⾏时程序请求的虚拟内存溢出时就会报Out of swap space错误。|1. 地址空间不足；<br>2. 物理内存已耗光；<br>3. 应用程序的本地内存泄漏(native leak)，例如不断申请本地内存，却不释放。<br>4. 执行jmap-histo:live<pid>命令，强制执行Full GC；如果几次执行后内存明显下降，则基本确认为Direct ByteBuffer问题。|1. 升级地址空间为64bit。<br>2. 使用Arthas检查是否为Inflater/Deflater解压缩问题，如果是则显式调用end方法。<br>3. Direct ByteBuffer问题可以通过启动参数-XX:MaxDirectMemorySize调低阈值。<br>4. 升级服务器配置/隔离部署，避免争用。|
 |Kill process or sacrifice child|有一种内核作业(Kernel Job)名为Out of Memory Killer，它会在可用内存极低的情况下杀死(kill)某些进程。OOM Killer会对所有进程进行打分，然后将评分较低的进程“杀死”，具体的评分规则可以参考Surviving the Linux OOM Killer。不同于其他的OOM错误，Kill processor sacrifice child错误不是由JVM层面触发的，而是由操作系统层面触发的。|默认情况下，Linux内核允许进程申请的内存总量大于系统可用内存，通过这种“错峰复用”的方式可以更有效的利用系统资源。然而这种方式也会无可避免地带来一定的“超卖”风险。例如某些进程持续占用系统内存，然后导致其他进程没有可用内存。此时系统将自动激活OOM Killer，寻找评分低的进程，并将其“杀死”，释放内存资源。|1. 升级服务器配置/隔离部署，避免争用。<br>2. OOM Killer调优。|
 |Requested array size exceeds VM limit|JVM限制了数组的最大长度，该错误表示程序请求创建的数组超过最大长度限制。JVM在为数组分配内存前，会检查要分配的数据结构在系统中是否可寻址，通常为Integer.MAX_VALUE-2。此类问题比较罕见，通常需要检查代码，确认业务是否需要创建如此大的数组，是否可以拆分为多个块，分批执行。|----|----|
 |Direct buffer memory|Java允许应用程序通过Direct ByteBuffer直接访问堆外内存，许多高性能程序通过Direct ByteBuffer结合内存映射文件(MemoryMapped File)实现高速IO。|Direct ByteBuffer的默认大小为64MB，一旦使用超出限制就会抛出Direct buffer memory错误。|1. Java只能通过ByteBuffer.allocateDirect方法使用Direct ByteBuffer，因此可以通过Arthas等在线诊断工具拦截该方法进行排查。<br>2. 检查是否直接或间接使用了NIO，如netty、jetty等。<br>3. 通过启动参数-XX:MaxDirectMemorySize调整Direct ByteBuffer的上限值。<br>4. 检查JVM参数是否有-XX:+DisableExplicitGC选项，如果有就去掉，因为该参数会使System.gc()失效。<br>5. 检查堆外内存使用代码，确认是否存在内存泄漏；或者通过反射调用sun.misc.Cleaner的clean()方法来主动释放被Direct ByteBuffer持有的内存空间。<br>6. 内存容量确实不足，升级配置。|
@@ -221,7 +221,7 @@ Netty是一个基于JAVA NIO类库的异步通信框架，它的架构特点是�
 跳跃表以有序的方式在层次化的链表中保存元素，在大多数情况下，跳跃表的效率可以和平衡树媲美，查找、删除、添加等操作都可以在对数期望时间下完成，并且比起平衡树来说，跳跃表的实现要简单直观得多。所以在Redis中没有使用平衡树，而是使用了跳跃表。
 
 
-跳跃表的结构是多层的，通过从最高维度的表进行检索再逐渐降低维度从而达到对任何元素的检索接近线性时间的目的O(logn)。理想的跳表是每一层是下一层元素的1/2，即每个元素跳过2个元素，这样共有log2N层。但是这样插入删除元素就会很复杂，ex插入一个元素需要更新所有层相关的节点。所以通常的做法：没次向跳表加入一个元素时，用扔硬币的方式决定要不要向上增长一层。
+跳跃表的结构是多层的，通过从最高维度的表进行检索再逐渐降低维度从而达到对任何元素的检索接近线性时间的目的O(logn)。理想的跳表是每一层是下一层元素的1/2，即每个元素跳过2个元素，这样共有log2N层。但是这样插入删除元素就会很复杂，ex插入一个元素需要更新所有层相关的节点。所以通常的做法：每次向跳表加入一个元素时，用扔硬币的方式决定要不要向上增长一层。
 
 
 ![](/images/ReviewIV/skiplist.png)
